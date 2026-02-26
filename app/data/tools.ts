@@ -51,8 +51,8 @@ export const tools: Tool[] = [
     name: "Rate My Red Flags",
     description: "Check all the red flags that apply to you. Get a brutal dateability score and a card to prove it.",
     accent: "orange",
-    badge: "soon",
-    active: false,
+    badge: "hot",
+    active: true,
   },
   {
     slug: "dna",
