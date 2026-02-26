@@ -5,10 +5,36 @@ import { Footer } from "~/components/Footer";
 import { getDB, CATEGORIES, readingTime } from "~/lib/db";
 import type { Post } from "~/lib/db";
 
-export const meta: MetaFunction = () => [
-  { title: "Blog — DaFuqBro" },
-  { name: "description", content: "Guides, memes, and updates from the DaFuqBro team." },
-];
+const SITE_URL = "https://dafuqbro.com";
+const SITE_NAME = "DaFuqBro";
+
+export const meta: MetaFunction = () => {
+  const description =
+    "Guides, memes, and updates from the DaFuqBro team. Unhinged internet tools explained.";
+  const url = `${SITE_URL}/blog`;
+
+  return [
+    { title: `Blog — ${SITE_NAME}` },
+    { name: "description", content: description },
+    { tagName: "link", rel: "canonical", href: url },
+
+    // Open Graph
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:title", content: `Blog — ${SITE_NAME}` },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:locale", content: "en_US" },
+
+    // Twitter
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:title", content: `Blog — ${SITE_NAME}` },
+    { name: "twitter:description", content: description },
+
+    // Robots
+    { name: "robots", content: "index, follow" },
+  ];
+};
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const db = getDB(context);
@@ -27,11 +53,39 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   const stmt = binds.length > 0 ? db.prepare(query).bind(...binds) : db.prepare(query);
   const { results } = await stmt.all<Post>();
-  return { posts: results || [], activeCategory: cat || "all" };
+  const posts = results || [];
+
+  // JSON-LD: Blog + CollectionPage
+  const blogLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: `${SITE_NAME} Blog`,
+    description: "Guides, memes, and updates from the DaFuqBro team.",
+    url: `${SITE_URL}/blog`,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    inLanguage: "en-US",
+    blogPost: posts.slice(0, 10).map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.excerpt || p.title,
+      url: `${SITE_URL}/blog/${p.slug}`,
+      datePublished: p.published_at || p.created_at,
+    })),
+  };
+
+  return {
+    posts,
+    activeCategory: cat || "all",
+    blogLd: JSON.stringify(blogLd),
+  };
 }
 
 export default function BlogIndex() {
-  const { posts, activeCategory } = useLoaderData<typeof loader>();
+  const { posts, activeCategory, blogLd } = useLoaderData<typeof loader>();
   const [, setSearchParams] = useSearchParams();
 
   const catMap = Object.fromEntries(CATEGORIES.map((c) => [c.value, c]));
@@ -41,6 +95,10 @@ export default function BlogIndex() {
   return (
     <>
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: blogLd }}
+      />
       <main className="relative z-1">
         <div className="max-w-[840px] mx-auto px-5 py-12">
           {/* Header */}
