@@ -1,0 +1,27 @@
+{
+  "name": "dafuqbro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "react-router build",
+    "deploy": "npm run build && npx wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/vite-plugin": "^1.25.5",
+    "@react-router/cloudflare": "^7.13.1",
+    "@react-router/dev": "^7.13.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "html2canvas": "^1.4.1",
+    "isbot": "^5.1.35",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router": "^7.13.1",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "wrangler": "^4.68.1"
+  }
+}
