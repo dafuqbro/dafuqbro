@@ -5,17 +5,55 @@ import { Footer } from "~/components/Footer";
 import { getDB, markdownToHtml, readingTime, CATEGORIES } from "~/lib/db";
 import type { Post } from "~/lib/db";
 
+const SITE_URL = "https://dafuqbro.com";
+const SITE_NAME = "DaFuqBro";
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data?.post) return [{ title: "Post Not Found — DaFuqBro" }];
+
+  const { post, url } = data;
+  const description = post.excerpt || post.title;
+  const ogImage = `${SITE_URL}/og-blog.png`;
+
   return [
-    { title: `${data.post.title} — DaFuqBro Blog` },
-    { name: "description", content: data.post.excerpt || data.post.title },
-    { property: "og:title", content: data.post.title },
-    { property: "og:description", content: data.post.excerpt },
+    // Basic
+    { title: `${post.title} — ${SITE_NAME} Blog` },
+    { name: "description", content: description },
+
+    // Canonical
+    { tagName: "link", rel: "canonical", href: url },
+
+    // Open Graph
+    { property: "og:type", content: "article" },
+    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:title", content: post.title },
+    { property: "og:description", content: description },
+    { property: "og:url", content: url },
+    { property: "og:image", content: ogImage },
+    { property: "og:locale", content: "en_US" },
+
+    // Article meta
+    ...(post.published_at
+      ? [{ property: "article:published_time", content: post.published_at }]
+      : []),
+    ...(post.updated_at
+      ? [{ property: "article:modified_time", content: post.updated_at }]
+      : []),
+    { property: "article:section", content: post.category },
+    { property: "article:author", content: SITE_URL },
+
+    // Twitter Card
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: post.title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: ogImage },
+
+    // Robots
+    { name: "robots", content: "index, follow" },
   ];
 };
 
-export async function loader({ params, context }: LoaderFunctionArgs) {
+export async function loader({ params, request, context }: LoaderFunctionArgs) {
   const db = getDB(context);
   const post = await db
     .prepare("SELECT * FROM posts WHERE slug = ? AND status = 'published'")
@@ -26,31 +64,109 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  return { post, html: markdownToHtml(post.content) };
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const rt = readingTime(post.content);
+  const catMap = Object.fromEntries(CATEGORIES.map((c) => [c.value, c]));
+  const cat = catMap[post.category];
+
+  // JSON-LD: BlogPosting schema
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || post.title,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    datePublished: post.published_at || post.created_at,
+    dateModified: post.updated_at || post.published_at || post.created_at,
+    author: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.ico` },
+    },
+    articleSection: cat?.label || post.category,
+    wordCount: post.content.split(/\s+/).length,
+    timeRequired: `PT${rt}M`,
+    inLanguage: "en-US",
+    isAccessibleForFree: true,
+  };
+
+  // JSON-LD: BreadcrumbList
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
+  };
+
+  return {
+    post,
+    html: markdownToHtml(post.content),
+    url,
+    rt,
+    articleLd: JSON.stringify(articleLd),
+    breadcrumbLd: JSON.stringify(breadcrumbLd),
+  };
 }
 
 export default function BlogPost() {
-  const { post, html } = useLoaderData<typeof loader>();
+  const { post, html, url, rt, articleLd, breadcrumbLd } =
+    useLoaderData<typeof loader>();
   const catMap = Object.fromEntries(CATEGORIES.map((c) => [c.value, c]));
   const cat = catMap[post.category];
-  const rt = readingTime(post.content);
 
   return (
     <>
       <Header />
+
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: articleLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbLd }}
+      />
+
       <main className="relative z-1">
         <article className="max-w-[720px] mx-auto px-5 py-12">
-          {/* Back link */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-1.5 text-[#71717a] text-[0.82rem] hover:text-[#a1a1aa] transition-colors mb-8"
+          {/* Breadcrumb nav (visible + semantic) */}
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-1.5 text-[#71717a] text-[0.82rem] mb-8 flex-wrap"
           >
-            ← Back to Blog
-          </Link>
+            <Link to="/" className="hover:text-[#a1a1aa] transition-colors">
+              Home
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link to="/blog" className="hover:text-[#a1a1aa] transition-colors">
+              Blog
+            </Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-[#a1a1aa] truncate max-w-[240px]">
+              {post.title}
+            </span>
+          </nav>
 
-          {/* Header */}
-          <div className="mb-10">
-            <span className="text-[3.5rem] block mb-4">{post.cover_emoji}</span>
+          {/* Post header */}
+          <header className="mb-10">
+            <span
+              className="text-[3.5rem] block mb-4"
+              role="img"
+              aria-label="post cover"
+            >
+              {post.cover_emoji}
+            </span>
 
             <div className="flex items-center gap-2 mb-4 flex-wrap">
               <span
@@ -59,7 +175,10 @@ export default function BlogPost() {
               >
                 {cat?.emoji} {cat?.label || post.category}
               </span>
-              <span className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']">
+              <time
+                dateTime={post.published_at || ""}
+                className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']"
+              >
                 {post.published_at
                   ? new Date(post.published_at).toLocaleDateString("en-US", {
                       month: "long",
@@ -67,9 +186,13 @@ export default function BlogPost() {
                       year: "numeric",
                     })
                   : ""}
+              </time>
+              <span className="text-[#71717a] text-[0.75rem]" aria-hidden="true">
+                ·
               </span>
-              <span className="text-[#71717a] text-[0.75rem]">·</span>
-              <span className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']">{rt} min read</span>
+              <span className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']">
+                {rt} min read
+              </span>
             </div>
 
             <h1 className="font-['Outfit'] font-extrabold text-[clamp(1.8rem,5vw,2.5rem)] tracking-tight leading-tight mb-4">
@@ -77,12 +200,14 @@ export default function BlogPost() {
             </h1>
 
             {post.excerpt && (
-              <p className="text-[#a1a1aa] text-[1.1rem] leading-relaxed italic">{post.excerpt}</p>
+              <p className="text-[#a1a1aa] text-[1.1rem] leading-relaxed italic">
+                {post.excerpt}
+              </p>
             )}
-          </div>
+          </header>
 
           {/* Divider */}
-          <div className="h-px bg-white/[0.06] mb-10" />
+          <div className="h-px bg-white/[0.06] mb-10" role="separator" />
 
           {/* Content */}
           <div
@@ -106,6 +231,48 @@ export default function BlogPost() {
             "
             dangerouslySetInnerHTML={{ __html: html }}
           />
+
+          {/* Share section */}
+          <div className="mt-12 p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
+            <p className="text-[#71717a] text-[0.88rem] mb-3">
+              Enjoyed this? Share it with someone who needs it.
+            </p>
+            <div className="flex justify-center gap-3 flex-wrap">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+              >
+                𝕏 Post
+              </a>
+              <a
+                href={`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+              >
+                Telegram
+              </a>
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(post.title + " " + url)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+              >
+                WhatsApp
+              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(url);
+                }}
+                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all cursor-pointer"
+              >
+                Copy Link
+              </button>
+            </div>
+          </div>
 
           {/* Footer nav */}
           <div className="h-px bg-white/[0.06] my-10" />
