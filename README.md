@@ -1,6 +1,6 @@
 # DaFuqBro.com
 
-Unhinged quizzes and generators that expose who you really are...
+Unhinged quizzes and generators that expose who you really are.
 
 ## Stack
 
