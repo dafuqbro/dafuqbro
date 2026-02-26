@@ -5,5 +5,16 @@
   "main": "./workers/app.ts",
   "assets": {
     "directory": "./build/client"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dafuqbro-blog",
+      "database_id": "REPLACE_WITH_YOUR_D1_ID"
+    }
+  ],
+  "vars": {
+    "ADMIN_USERNAME": "admin",
+    "ADMIN_PASSWORD": "changeme"
   }
 }
