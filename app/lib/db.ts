@@ -81,8 +81,34 @@ export function getSessionFromCookie(request: Request): string {
   return match ? match[1] : "";
 }
 
+// Tool card data for embeds
+const toolCards: Record<string, { emoji: string; name: string; description: string; color: string; slug: string }> = {
+  shitcoin: { emoji: "💩", name: "Shitcoin Pitch Deck", description: "Generate a hilariously legit listing for your fake meme coin. Complete with tokenomics & degen score.", color: "#facc15", slug: "shitcoin" },
+  roast: { emoji: "🔥", name: "Roast My Year", description: "Your year in review, but make it brutally honest. A Wrapped-style roast with a Life Score.", color: "#f472b6", slug: "roast" },
+  redflags: { emoji: "🚨", name: "Rate My Red Flags", description: "Check all the red flags that apply to you. Get a brutal dateability score and a card to prove it.", color: "#fb923c", slug: "redflags" },
+  flags: { emoji: "🚩", name: "Flag Detector", description: "Describe any situation. We'll tell you if it's a red flag or green flag with zero mercy.", color: "#f87171", slug: "flags" },
+  horror: { emoji: "🪓", name: "Horror Movie Death", description: "How would you die in a horror movie? Get your death scene, survival odds & \"first to go\" rating.", color: "#a78bfa", slug: "horror" },
+  dna: { emoji: "🧬", name: "Internet DNA", description: "Your internet personality broken down into a chart. Are you more doomscroller or shitposter?", color: "#22d3ee", slug: "dna" },
+  startup: { emoji: "🦄", name: "Startup or Scam", description: "Pitch any business idea. We'll rate it from \"$4.2B Unicorn\" to \"Straight to Jail.\"", color: "#4ade80", slug: "startup" },
+  villain: { emoji: "🦹", name: "Villain Origin Story", description: "Answer 5 questions. Get your villain name, superpower, weakness & evil lair.", color: "#60a5fa", slug: "villain" },
+};
+
+function renderToolCard(slug: string): string {
+  const tool = toolCards[slug];
+  if (!tool) return "";
+  return `<div style="background: linear-gradient(135deg, ${tool.color}08, ${tool.color}04); border: 1px solid ${tool.color}25; border-radius: 20px; padding: 32px; margin: 32px 0; text-align: center;">
+    <div style="font-size: 3.5rem; margin-bottom: 12px;">${tool.emoji}</div>
+    <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.4rem; color: #f4f4f5; margin-bottom: 8px; letter-spacing: -0.02em;">${tool.name}</div>
+    <div style="color: #a1a1aa; font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px; max-width: 380px; margin-left: auto; margin-right: auto;">${tool.description}</div>
+    <a href="/${tool.slug}" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, ${tool.color}, ${tool.color}cc); color: #09090b; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 12px; text-decoration: none; transition: all 0.2s;">Try It Now →</a>
+  </div>`;
+}
+
 // Simple markdown to HTML (basic but covers most blog needs)
 export function markdownToHtml(md: string): string {
+  // First, handle tool embeds before other processing
+  md = md.replace(/\[tool:(\w+)\]/g, (_, slug) => renderToolCard(slug));
+
   let html = md
     // Code blocks (must be before other rules)
     .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
@@ -121,7 +147,8 @@ export function markdownToHtml(md: string): string {
         block.startsWith("<ol") ||
         block.startsWith("<blockquote") ||
         block.startsWith("<hr") ||
-        block.startsWith("<li")
+        block.startsWith("<li") ||
+        block.startsWith("<div")
       ) {
         return block;
       }
