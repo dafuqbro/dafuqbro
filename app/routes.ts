@@ -5,6 +5,8 @@ export default [
   route("shitcoin", "routes/shitcoin.tsx"),
   route("roast", "routes/roast.tsx"),
   route("redflags", "routes/redflags.tsx"),
+  route("food", "routes/food.tsx"),
+  route("energy", "routes/energy.tsx"),
   // Blog
   route("blog", "routes/blog._index.tsx"),
   route("blog/:slug", "routes/blog.$slug.tsx"),
