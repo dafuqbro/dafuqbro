@@ -14,6 +14,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#09090b]/80 border-b border-white/[0.06]">
       <div className="max-w-[1120px] mx-auto px-5 py-5 flex justify-between items-center">
+        <script src="https://analytics.ahrefs.com/analytics.js" data-key="w3Z5+XSd5d8cJksLKAodzQ" async></script>
         <Link
           to="/"
           className="font-['Outfit'] font-black text-[1.6rem] tracking-tight bg-gradient-to-br from-[#facc15] to-[#f472b6] bg-clip-text text-transparent"
