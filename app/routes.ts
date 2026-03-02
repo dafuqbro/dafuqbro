@@ -17,4 +17,6 @@ export default [
   // SEO
   route("sitemap.xml", "routes/sitemap[.]xml.tsx"),
   route("robots.txt", "routes/robots[.]txt.tsx"),
+  // API
+  route("api/track", "routes/api.track.tsx"),
 ] satisfies RouteConfig;
