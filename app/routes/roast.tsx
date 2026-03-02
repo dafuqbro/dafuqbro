@@ -298,7 +298,7 @@ export default function RoastTool() {
     if (!result) return;
     const total = result.categories.length + 1;
     if (revIdx < total - 1) { setRevVis(false); setTimeout(() => { setRevIdx(i=>i+1); setRevVis(true); }, 300); }
-    else { setPhase("result"); setTimeout(() => setScoreActive(true), 500); }
+    else { setPhase("result"); setTimeout(() => setScoreActive(true), 500); fetch("/api/track", { method: "POST" }).catch(() => {}); }
   };
 
   const retry = () => {
