@@ -475,6 +475,7 @@ export default function RedFlagsTool() {
 
       setPhase("result");
       setTimeout(() => setMeterActive(true), 400);
+      fetch("/api/track", { method: "POST" }).catch(() => {});
     }, 3500);
 
     return () => {
