@@ -24,9 +24,12 @@ export function Header() {
             .com
           </span>
         </Link>
-        <div className="flex items-center gap-4">
-          <Link to="/blog" className="text-[#a1a1aa] text-[0.85rem] font-medium hover:text-white transition-colors hidden sm:block">
-            Blog
+        <div className="flex items-center gap-3">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[0.82rem] font-semibold text-[#facc15] bg-[#facc15]/10 border border-[#facc15]/20 hover:bg-[#facc15]/15 transition-all"
+          >
+            📝 Blog
           </Link>
           <div className="hidden sm:flex items-center gap-1.5 font-['JetBrains_Mono'] text-[0.78rem] text-[#71717a] bg-white/[0.04] px-3.5 py-1.5 rounded-full border border-white/[0.06]">
             <div className="w-1.5 h-1.5 bg-[#4ade80] rounded-full animate-pulse-dot" />
