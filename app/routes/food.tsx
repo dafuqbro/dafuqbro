@@ -487,6 +487,7 @@ export default function FoodQuiz() {
       setResult(food);
       setMatchPct(72 + Math.floor(Math.random() * 24)); // 72-95%
       setPhase("result");
+      fetch("/api/track", { method: "POST" }).catch(() => {});
     }, 3500);
     return () => {
       clearInterval(msgInterval);
