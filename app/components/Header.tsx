@@ -2,13 +2,13 @@ import { Link } from "react-router";
 import { useState, useEffect } from "react";
 
 export function Header() {
-  const [count, setCount] = useState(42069);
+  const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((c) => c + Math.floor(Math.random() * 3) + 1);
-    }, 3000 + Math.random() * 4000);
-    return () => clearInterval(interval);
+    fetch("/api/track")
+      .then((r) => r.json())
+      .then((d) => setCount(d.count))
+      .catch(() => setCount(0));
   }, []);
 
   return (
@@ -33,7 +33,10 @@ export function Header() {
           </Link>
           <div className="hidden sm:flex items-center gap-1.5 font-['JetBrains_Mono'] text-[0.78rem] text-[#71717a] bg-white/[0.04] px-3.5 py-1.5 rounded-full border border-white/[0.06]">
             <div className="w-1.5 h-1.5 bg-[#4ade80] rounded-full animate-pulse-dot" />
-            <span>{count.toLocaleString()}</span> cards generated
+            <span>
+              {count !== null ? count.toLocaleString() : "—"}
+            </span>{" "}
+            cards generated
           </div>
         </div>
       </div>
