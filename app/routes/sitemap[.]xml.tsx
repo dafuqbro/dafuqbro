@@ -44,7 +44,8 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
   // Blog posts
   for (const post of posts) {
-    const lastmod = (post.updated_at || post.published_at || now).split("T")[0];
+    const raw = post.updated_at || post.published_at || now;
+    const lastmod = raw.substring(0, 10); // Grab YYYY-MM-DD regardless of format
     xml += `  <url>
     <loc>${SITE_URL}/blog/${post.slug}</loc>
     <lastmod>${lastmod}</lastmod>
