@@ -117,6 +117,46 @@ export default function Home() {
             })}
           </div>
         </section>
+        {/* Blog Promo */}
+        <section className="px-5 pb-24 max-w-[1120px] mx-auto">
+          <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
+            From the blog
+            <span className="flex-1 h-px bg-white/[0.06]" />
+          </div>
+
+          <Link
+            to="/blog"
+            className="group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-[#131316] hover:border-[#facc15]/20 transition-all block"
+          >
+            {/* Ambient glow */}
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(250,204,21,0.06),transparent_70%)]" />
+
+            <div className="relative z-10 p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              {/* Left: content */}
+              <div className="flex-1 min-w-0">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.72rem] font-semibold bg-[#facc15]/10 text-[#facc15] border border-[#facc15]/15 mb-4 font-['JetBrains_Mono'] uppercase tracking-wider">
+                  📝 New
+                </div>
+                <h3 className="font-['Outfit'] font-extrabold text-[clamp(1.3rem,3vw,1.7rem)] tracking-tight text-[#f4f4f5] mb-2 leading-tight">
+                  Guides, Memes &amp; Tool Updates
+                </h3>
+                <p className="text-[#a1a1aa] text-[0.92rem] leading-relaxed max-w-lg">
+                  Trendy foods explained, energy types decoded, and brutally honest takes on everything the internet is asking about. New posts every week.
+                </p>
+              </div>
+
+              {/* Right: CTA + emoji stack */}
+              <div className="flex flex-col items-center gap-3 flex-shrink-0">
+                <div className="flex -space-x-2 text-[1.8rem]">
+                  <span>🍵</span><span>⚡</span><span>🚨</span><span>💩</span>
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-['Outfit'] font-bold text-[0.88rem] text-[#09090b] bg-gradient-to-br from-[#facc15] to-[#f59e0b] group-hover:shadow-[0_4px_20px_rgba(250,204,21,0.25)] transition-all">
+                  Read the Blog →
+                </span>
+              </div>
+            </div>
+          </Link>
+        </section>
       </main>
       <Footer />
     </>
