@@ -14,4 +14,7 @@ export default [
   route("admin/login", "routes/admin.login.tsx"),
   route("admin", "routes/admin._index.tsx"),
   route("admin/edit/:id", "routes/admin.edit.$id.tsx"),
+  // SEO
+  route("sitemap.xml", "routes/sitemap[.]xml.tsx"),
+  route("robots.txt", "routes/robots[.]txt.tsx"),
 ] satisfies RouteConfig;
