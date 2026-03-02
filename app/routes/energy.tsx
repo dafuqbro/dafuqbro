@@ -453,6 +453,7 @@ export default function EnergyQuiz() {
       setResult(energy);
       setPowerLevel(65 + Math.floor(Math.random() * 30)); // 65-94%
       setPhase("result");
+      fetch("/api/track", { method: "POST" }).catch(() => {});
     }, 3500);
     return () => {
       clearInterval(msgInterval);
