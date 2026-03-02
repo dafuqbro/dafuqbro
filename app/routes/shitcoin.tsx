@@ -116,6 +116,7 @@ export default function ShitcoinTool() {
         mascot: pick(mascots[vibe] || mascots.meme),
       });
       setGenerating(false);
+      fetch("/api/track", { method: "POST" }).catch(() => {});
     }, 2500);
   };
 
