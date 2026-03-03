@@ -1,31 +1,39 @@
 @import "tailwindcss";
 
-/* ═══ CUSTOM PROPERTIES ═══ */
+/* ═══ CUSTOM PROPERTIES — Mascot Brand ═══ */
 :root {
   --bg-primary: #09090b;
-  --bg-card: #131316;
-  --bg-card-hover: #1a1a1f;
-  --bg-input: #1a1a1f;
-  --border-subtle: rgba(255,255,255,0.06);
-  --border-hover: rgba(255,255,255,0.12);
-  --text-primary: #f4f4f5;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --accent-yellow: #facc15;
-  --accent-pink: #f472b6;
+  --bg-card: #1E1A35;
+  --bg-card-hover: #2A2640;
+  --bg-input: #2A2640;
+  --border-subtle: rgba(139,126,168,0.15);
+  --border-hover: rgba(139,126,168,0.3);
+  --text-primary: #F5F5F7;
+  --text-secondary: #9B95A8;
+  --text-muted: #6B6580;
+  --accent-yellow: #F5C518;
+  --accent-pink: #8B7EA8;
   --accent-cyan: #22d3ee;
   --accent-green: #4ade80;
-  --accent-purple: #a78bfa;
+  --accent-purple: #A89BC0;
   --accent-orange: #fb923c;
-  --accent-red: #f87171;
+  --accent-red: #E05544;
   --accent-blue: #60a5fa;
+  /* Mascot tokens */
+  --hood-deep: #1E1A35;
+  --hood-mid: #2A2640;
+  --hood-light: #3A3555;
+  --gremlin: #8B7EA8;
+  --dfb-yellow: #F5C518;
+  --fang: #F5F5F7;
+  --warm-grey: #9B95A8;
 }
 
 /* ═══ BASE ═══ */
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
+  font-family: 'DM Sans', 'Outfit', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -42,8 +50,8 @@ body::before {
 /* ═══ SCROLLBAR ═══ */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+::-webkit-scrollbar-thumb { background: #3A3555; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #8B7EA8; }
 
 /* ═══ ANIMATIONS ═══ */
 @keyframes fadeInUp {
