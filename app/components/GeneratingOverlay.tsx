@@ -6,7 +6,7 @@ interface GeneratingOverlayProps {
   accentColor?: string;
 }
 
-export function GeneratingOverlay({ active, messages, accentColor = "#facc15" }: GeneratingOverlayProps) {
+export function GeneratingOverlay({ active, messages, accentColor = "#F5C518" }: GeneratingOverlayProps) {
   const [msgIdx, setMsgIdx] = useState(0);
 
   useEffect(() => {
@@ -25,11 +25,11 @@ export function GeneratingOverlay({ active, messages, accentColor = "#facc15" }:
   return (
     <div className="fixed inset-0 bg-[#09090b]/92 backdrop-blur-lg z-[200] flex flex-col items-center justify-center gap-6">
       <div
-        className="w-[60px] h-[60px] border-[3px] border-white/[0.06] rounded-full animate-spin"
+        className="w-[60px] h-[60px] border-[3px] border-[#3A3555]/50 rounded-full animate-spin"
         style={{ borderTopColor: accentColor }}
       />
-      <div className="text-[1.1rem] font-semibold text-[#a1a1aa]">{messages[msgIdx]}</div>
-      <div className="font-['JetBrains_Mono'] text-[0.78rem] text-[#71717a] text-center max-w-[280px]">
+      <div className="text-[1.1rem] font-semibold text-[#9B95A8]">{messages[msgIdx]}</div>
+      <div className="font-['JetBrains_Mono'] text-[0.78rem] text-[#6B6580] text-center max-w-[280px]">
         just kidding, we're making up numbers
       </div>
     </div>
