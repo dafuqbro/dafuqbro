@@ -1,14 +1,39 @@
-import { Link } from "react-router";
-import type { MetaFunction } from "react-router";
+import { Link, useLoaderData } from "react-router";
+import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { Header } from "~/components/Header";
 import { Footer } from "~/components/Footer";
 import { tools, accentColors } from "~/data/tools";
 
+const SITE_URL = "https://dafuqbro.com";
+const SITE_NAME = "DaFuqBro";
+
 export const meta: MetaFunction = () => [
+  // Basic
   { title: "DaFuqBro — Find Out What's Wrong With You" },
   { name: "description", content: "Unhinged quizzes and generators that expose who you really are. Get shareable, screenshot-worthy results you'll actually want to post." },
+  { name: "robots", content: "index, follow" },
+
+  // Canonical
+  { tagName: "link", rel: "canonical", href: SITE_URL },
+
+  // Open Graph
+  { property: "og:type", content: "website" },
+  { property: "og:site_name", content: SITE_NAME },
   { property: "og:title", content: "DaFuqBro — Find Out What's Wrong With You" },
-  { property: "og:description", content: "Unhinged quizzes. Brutal results. Zero chill." },
+  { property: "og:description", content: "Unhinged quizzes. Brutal results. Zero chill. Find out what's wrong with you." },
+  { property: "og:url", content: SITE_URL },
+  { property: "og:image", content: `${SITE_URL}/og/home.png` },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:alt", content: "DaFuqBro — Find Out What's Wrong With You" },
+  { property: "og:locale", content: "en_US" },
+
+  // Twitter Card
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:title", content: "DaFuqBro — Find Out What's Wrong With You" },
+  { name: "twitter:description", content: "Unhinged quizzes. Brutal results. Zero chill." },
+  { name: "twitter:image", content: `${SITE_URL}/og/home.png` },
+  { name: "twitter:image:alt", content: "DaFuqBro — Find Out What's Wrong With You" },
 ];
 
 const badgeStyles: Record<string, string> = {
@@ -30,8 +55,57 @@ export default function Home() {
     if (random) window.location.href = `/${random.slug}`;
   };
 
+  // JSON-LD structured data: WebSite + Organization
+  const websiteLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: SITE_NAME,
+        description: "Unhinged quizzes and generators that expose who you really are.",
+        inLanguage: "en-US",
+        publisher: { "@id": `${SITE_URL}/#org` },
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#org`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: `${SITE_URL}/favicon-512.png`,
+          width: 512,
+          height: 512,
+        },
+        sameAs: [],
+      },
+      {
+        "@type": "ItemList",
+        name: "DaFuqBro Quiz Tools",
+        description: "Interactive personality quizzes and generators",
+        url: SITE_URL,
+        numberOfItems: tools.filter((t) => t.active).length,
+        itemListElement: tools
+          .filter((t) => t.active)
+          .map((tool, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: tool.name,
+            description: tool.description,
+            url: `${SITE_URL}/${tool.slug}`,
+          })),
+      },
+    ],
+  });
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: websiteLd }}
+      />
       <Header />
       <main className="relative z-1">
         {/* Ambient glows */}
@@ -42,7 +116,7 @@ export default function Home() {
         {/* Hero */}
         <section className="text-center py-20 sm:py-20 px-5">
           <div className="animate-fadeInDown inline-flex items-center gap-2 bg-[#F5C518]/8 border border-[#F5C518]/15 text-[#F5C518] text-[0.82rem] font-semibold px-4.5 py-2 rounded-full mb-7 tracking-wide">
-            ⚡ Hundreds of ways to expose yourself
+            ⚡ 8 ways to expose yourself
           </div>
           <h1 className="font-['Outfit'] font-black text-[clamp(2.8rem,7vw,4.8rem)] leading-[1.05] tracking-tight mb-5 animate-fadeInUp [animation-delay:0.1s] [animation-fill-mode:both]">
             Find out what's
@@ -86,9 +160,9 @@ export default function Home() {
                     </span>
                   )}
                   <span className="text-[2.2rem] mb-4 block">{tool.emoji}</span>
-                  <h3 className="font-['Outfit'] font-bold text-[1.15rem] tracking-tight mb-2 text-[#F5F5F7]">
+                  <h2 className="font-['Outfit'] font-bold text-[1.15rem] tracking-tight mb-2 text-[#F5F5F7]">
                     {tool.name}
-                  </h3>
+                  </h2>
                   <p className="text-[#9B95A8] text-[0.88rem] leading-relaxed">{tool.description}</p>
                 </>
               );
@@ -117,6 +191,7 @@ export default function Home() {
             })}
           </div>
         </section>
+
         {/* Blog Promo */}
         <section className="px-5 pb-24 max-w-[1120px] mx-auto">
           <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
@@ -137,9 +212,9 @@ export default function Home() {
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.72rem] font-semibold bg-[#F5C518]/10 text-[#F5C518] border border-[#F5C518]/15 mb-4 font-['JetBrains_Mono'] uppercase tracking-wider">
                   📝 New
                 </div>
-                <h3 className="font-['Outfit'] font-extrabold text-[clamp(1.3rem,3vw,1.7rem)] tracking-tight text-[#F5F5F7] mb-2 leading-tight">
+                <h2 className="font-['Outfit'] font-extrabold text-[clamp(1.3rem,3vw,1.7rem)] tracking-tight text-[#F5F5F7] mb-2 leading-tight">
                   Guides, Memes &amp; Tool Updates
-                </h3>
+                </h2>
                 <p className="text-[#9B95A8] text-[0.92rem] leading-relaxed max-w-lg">
                   Trendy foods explained, energy types decoded, and brutally honest takes on everything the internet is asking about. New posts every week.
                 </p>
