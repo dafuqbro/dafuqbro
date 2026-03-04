@@ -42,7 +42,7 @@ export default function Home() {
         {/* Hero */}
         <section className="text-center py-20 sm:py-20 px-5">
           <div className="animate-fadeInDown inline-flex items-center gap-2 bg-[#F5C518]/8 border border-[#F5C518]/15 text-[#F5C518] text-[0.82rem] font-semibold px-4.5 py-2 rounded-full mb-7 tracking-wide">
-            ⚡ 8 ways to expose yourself
+            ⚡ Hundreds of ways to expose yourself
           </div>
           <h1 className="font-['Outfit'] font-black text-[clamp(2.8rem,7vw,4.8rem)] leading-[1.05] tracking-tight mb-5 animate-fadeInUp [animation-delay:0.1s] [animation-fill-mode:both]">
             Find out what's
