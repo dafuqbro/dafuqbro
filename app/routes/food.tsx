@@ -218,7 +218,7 @@ const foodResults: FoodResult[] = [
     tagline: "Controversial, weirdly effective, impossible to ignore.",
     description:
       "You don't follow trends — you start arguments about them. While everyone was using seed oils, you went full ancestral and haven't shut up since. You're polarizing, passionate, and probably right about more things than people want to admit.",
-    color: "#f87171",
+    color: "#E05544",
     colorDark: "#7f1d1d",
     stats: [
       { label: "Controversy Level", value: "Maximum" },
@@ -237,7 +237,7 @@ const foodResults: FoodResult[] = [
     tagline: "Aesthetic queen. Substance optional.",
     description:
       "You exist to be photographed. Your entire life is optimized for visual appeal — your food, your outfits, your apartment, your emotional vulnerability. Everything is purple-tinted and Instagram-ready.",
-    color: "#a78bfa",
+    color: "#A89BC0",
     colorDark: "#4c1d95",
     stats: [
       { label: "Photo-Worthiness", value: "100%" },
@@ -439,10 +439,10 @@ function MatchRing({ percentage, color }: { percentage: number; color: string })
         transform="rotate(-90 64 64)"
         style={{ filter: `drop-shadow(0 0 8px ${color}60)` }}
       />
-      <text x="64" y="58" textAnchor="middle" fill="#f4f4f5" fontSize="28" fontWeight="800" fontFamily="Outfit">
+      <text x="64" y="58" textAnchor="middle" fill="#F5F5F7" fontSize="28" fontWeight="800" fontFamily="Outfit">
         {Math.round(progress)}%
       </text>
-      <text x="64" y="78" textAnchor="middle" fill="#71717a" fontSize="10" fontWeight="500" fontFamily="Outfit">
+      <text x="64" y="78" textAnchor="middle" fill="#6B6580" fontSize="10" fontWeight="500" fontFamily="Outfit">
         MATCH
       </text>
     </svg>
@@ -531,12 +531,12 @@ export default function FoodQuiz() {
 
         {/* Header */}
         <header className="relative z-10 flex items-center justify-between px-5 py-4 max-w-3xl mx-auto">
-          <Link to="/" className="font-['Outfit'] font-extrabold text-[1.1rem] tracking-tight text-[#f4f4f5]">
+          <Link to="/" className="font-['Outfit'] font-extrabold text-[1.1rem] tracking-tight text-[#F5F5F7]">
             DaFuqBro<span className="text-[#fbbf24]">.</span>
           </Link>
           <Link
             to="/"
-            className="text-[#71717a] text-[0.78rem] font-medium hover:text-[#a1a1aa] transition-colors"
+            className="text-[#6B6580] text-[0.78rem] font-medium hover:text-[#9B95A8] transition-colors"
           >
             ← All Tools
           </Link>
@@ -552,7 +552,7 @@ export default function FoodQuiz() {
                 <br />
                 <span className="text-[#fbbf24]">Are You?</span>
               </h1>
-              <p className="text-[#a1a1aa] text-[1.05rem] leading-relaxed max-w-md mx-auto mb-8">
+              <p className="text-[#9B95A8] text-[1.05rem] leading-relaxed max-w-md mx-auto mb-8">
                 8 questions. 1 trendy food that perfectly captures your personality. Prepare to feel seen (and roasted).
               </p>
 
@@ -561,7 +561,7 @@ export default function FoodQuiz() {
                 {foodResults.map((f) => (
                   <span
                     key={f.id}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.75rem] font-medium border border-white/[0.06] bg-white/[0.03]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.75rem] font-medium border border-[#3A3555]/50 bg-white/[0.03]"
                     style={{ color: f.color }}
                   >
                     {f.emoji} {f.name}
@@ -572,7 +572,7 @@ export default function FoodQuiz() {
               <button
                 onClick={() => setPhase("quiz")}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-['Outfit'] font-bold text-[1rem] text-[#09090b] transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                style={{ background: "linear-gradient(135deg, #fbbf24, #f59e0b)" }}
+                style={{ background: "linear-gradient(135deg, #fbbf24, #D4A816)" }}
               >
                 Take the Quiz 🍽️
               </button>
@@ -584,15 +584,15 @@ export default function FoodQuiz() {
             <div className="pt-6">
               {/* Progress bar */}
               <div className="flex items-center gap-3 mb-8">
-                <span className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono'] font-semibold">
+                <span className="text-[#6B6580] text-[0.75rem] font-['JetBrains_Mono'] font-semibold">
                   {currentQ + 1}/{questions.length}
                 </span>
-                <div className="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-[#2A2640]/40 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{
                       width: `${((currentQ + 1) / questions.length) * 100}%`,
-                      background: "linear-gradient(90deg, #fbbf24, #f59e0b)",
+                      background: "linear-gradient(90deg, #fbbf24, #D4A816)",
                     }}
                   />
                 </div>
@@ -605,7 +605,7 @@ export default function FoodQuiz() {
               >
                 <div className="text-center mb-8">
                   <span className="text-[2.5rem] block mb-3">{questions[currentQ].emoji}</span>
-                  <h2 className="font-['Outfit'] font-bold text-[1.4rem] text-[#f4f4f5] tracking-tight">
+                  <h2 className="font-['Outfit'] font-bold text-[1.4rem] text-[#F5F5F7] tracking-tight">
                     {questions[currentQ].question}
                   </h2>
                 </div>
@@ -615,9 +615,9 @@ export default function FoodQuiz() {
                     <button
                       key={opt.value}
                       onClick={() => handleAnswer(opt.value)}
-                      className="text-left px-5 py-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all cursor-pointer group"
+                      className="text-left px-5 py-4 rounded-2xl border border-[#3A3555]/50 bg-[#2A2640]/30 hover:bg-[#2A2640]/40 hover:border-[#3A3555] transition-all cursor-pointer group"
                     >
-                      <span className="text-[#e4e4e7] text-[0.95rem] font-medium group-hover:text-[#f4f4f5] transition-colors">
+                      <span className="text-[#e4e4e7] text-[0.95rem] font-medium group-hover:text-[#F5F5F7] transition-colors">
                         {opt.label}
                       </span>
                     </button>
@@ -631,9 +631,9 @@ export default function FoodQuiz() {
           {phase === "calculating" && (
             <div className="flex flex-col items-center justify-center min-h-[60vh] text-center animate-[fadeInUp_0.4s_ease]">
               <div className="relative mb-8">
-                <div className="w-16 h-16 border-[3px] border-white/[0.08] border-t-[#fbbf24] rounded-full animate-spin" />
+                <div className="w-16 h-16 border-[3px] border-[#3A3555]/50 border-t-[#fbbf24] rounded-full animate-spin" />
               </div>
-              <p className="text-[#a1a1aa] text-[0.95rem] font-medium animate-pulse min-h-[1.5em]">
+              <p className="text-[#9B95A8] text-[0.95rem] font-medium animate-pulse min-h-[1.5em]">
                 {calcMessages[calcMsg]}
               </p>
             </div>
@@ -643,10 +643,10 @@ export default function FoodQuiz() {
           {phase === "result" && result && (
             <div className="pt-4 animate-[fadeInUp_0.5s_ease]">
               <div className="text-center mb-6">
-                <p className="text-[#71717a] text-[0.82rem] font-['JetBrains_Mono'] font-semibold uppercase tracking-wider mb-2">
+                <p className="text-[#6B6580] text-[0.82rem] font-['JetBrains_Mono'] font-semibold uppercase tracking-wider mb-2">
                   Your result
                 </p>
-                <h2 className="font-['Outfit'] font-extrabold text-[1.8rem] text-[#f4f4f5] tracking-tight">
+                <h2 className="font-['Outfit'] font-extrabold text-[1.8rem] text-[#F5F5F7] tracking-tight">
                   You are...
                 </h2>
               </div>
@@ -678,7 +678,7 @@ export default function FoodQuiz() {
                     >
                       {result.name}
                     </h3>
-                    <p className="text-[#a1a1aa] text-[1rem] italic mt-1">{result.tagline}</p>
+                    <p className="text-[#9B95A8] text-[1rem] italic mt-1">{result.tagline}</p>
                   </div>
 
                   {/* Match ring */}
@@ -687,7 +687,7 @@ export default function FoodQuiz() {
                   </div>
 
                   {/* Description */}
-                  <p className="text-[#a1a1aa] text-[0.92rem] leading-relaxed text-center max-w-md mx-auto mb-6">
+                  <p className="text-[#9B95A8] text-[0.92rem] leading-relaxed text-center max-w-md mx-auto mb-6">
                     {result.description}
                   </p>
 
@@ -696,12 +696,12 @@ export default function FoodQuiz() {
                     {result.stats.map((s) => (
                       <div
                         key={s.label}
-                        className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center"
+                        className="bg-white/[0.03] border border-[#3A3555]/50 rounded-xl p-3 text-center"
                       >
-                        <div className="text-[#71717a] text-[0.68rem] font-['JetBrains_Mono'] font-semibold uppercase tracking-wider mb-1">
+                        <div className="text-[#6B6580] text-[0.68rem] font-['JetBrains_Mono'] font-semibold uppercase tracking-wider mb-1">
                           {s.label}
                         </div>
-                        <div className="text-[#f4f4f5] text-[0.95rem] font-['Outfit'] font-bold">
+                        <div className="text-[#F5F5F7] text-[0.95rem] font-['Outfit'] font-bold">
                           {s.value}
                         </div>
                       </div>
@@ -747,7 +747,7 @@ export default function FoodQuiz() {
                     setAnswers({});
                     setResult(null);
                   }}
-                  className="text-[#71717a] text-[0.88rem] hover:text-[#a1a1aa] transition-colors cursor-pointer"
+                  className="text-[#6B6580] text-[0.88rem] hover:text-[#9B95A8] transition-colors cursor-pointer"
                 >
                   ← Take it again
                 </button>
