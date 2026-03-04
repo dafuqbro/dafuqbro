@@ -375,6 +375,7 @@ export default function MemeWarsPage() {
   const [hovNode, setHovNode] = useState<number|null>(null);
   const [hovZone, setHovZone] = useState<string|null>(null);
   const [dragging, setDragging] = useState<{ type: BuildType }|null>(null);
+  const draggingRef = useRef<BuildType|null>(null);
   const [dropTarget, setDropTarget] = useState<number|null>(null);
   const [pipelineStart, setPipelineStart] = useState<number|null>(null);
   const [showTrade, setShowTrade] = useState(false);
@@ -387,6 +388,7 @@ export default function MemeWarsPage() {
   const addLog = useCallback((msg: string) => setLog(l => [...l.slice(-40), msg]), []);
 
   const onPieceDragStart = (e: React.DragEvent, type: BuildType) => {
+    draggingRef.current = type;
     setDragging({ type });
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("pieceType", type);
@@ -409,8 +411,9 @@ export default function MemeWarsPage() {
   const onSVGDragOver = (e: React.DragEvent) => { e.preventDefault(); setDropTarget(nearestNode(getSVGCoords(e))); e.dataTransfer.dropEffect = "move"; };
   const onSVGDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const type = (e.dataTransfer.getData("pieceType") || dragging?.type) as BuildType;
+    const type = (e.dataTransfer.getData("pieceType") || draggingRef.current) as BuildType;
     const nodeId = nearestNode(getSVGCoords(e));
+    draggingRef.current = null;
     setDragging(null); setDropTarget(null);
     if (nodeId !== null && type) handleBuild(type, nodeId);
   };
@@ -855,6 +858,14 @@ export default function MemeWarsPage() {
                 })}
 
                 {dragging && dropTarget !== null && (() => { const n = NODES[dropTarget]; if (!n) return null; const p = PIECES.find(p => p.type===dragging.type); return <text x={n.x} y={n.y-18} textAnchor="middle" fontSize="20" opacity="0.7">{p?.emoji}</text>; })()}
+
+                {/* Transparent overlay to reliably catch drag events over all SVG children */}
+                {dragging && (
+                  <rect x="0" y="0" width={W} height={H} fill="transparent"
+                    onDragOver={onSVGDragOver} onDrop={onSVGDrop} onDragLeave={() => setDropTarget(null)}
+                    style={{ cursor: "crosshair" }}
+                  />
+                )}
               </svg>
 
               {/* Zone legend */}
