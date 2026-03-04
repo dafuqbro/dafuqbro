@@ -12,9 +12,9 @@ export const meta: MetaFunction = () => [
 ];
 
 const badgeStyles: Record<string, string> = {
-  hot: "bg-[#f87171]/12 text-[#f87171] border-[#f87171]/20",
-  new: "bg-[#facc15]/12 text-[#facc15] border-[#facc15]/20",
-  soon: "bg-[#71717a]/15 text-[#71717a] border-[#71717a]/20",
+  hot: "bg-[#E05544]/12 text-[#E05544] border-[#E05544]/20",
+  new: "bg-[#F5C518]/12 text-[#F5C518] border-[#F5C518]/20",
+  soon: "bg-[#6B6580]/15 text-[#6B6580] border-[#6B6580]/20",
 };
 
 const badgeLabels: Record<string, string> = {
@@ -35,35 +35,35 @@ export default function Home() {
       <Header />
       <main className="relative z-1">
         {/* Ambient glows */}
-        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07] pointer-events-none -top-[200px] -left-[100px] bg-[#22d3ee]" />
-        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07] pointer-events-none top-[30%] -right-[200px] bg-[#f472b6]" />
-        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07] pointer-events-none -bottom-[100px] left-[30%] bg-[#facc15]" />
+        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.06] pointer-events-none -top-[200px] -left-[100px] bg-[#8B7EA8]" />
+        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07] pointer-events-none top-[30%] -right-[200px] bg-[#8B7EA8]" />
+        <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.07] pointer-events-none -bottom-[100px] left-[30%] bg-[#F5C518]" />
 
         {/* Hero */}
         <section className="text-center py-20 sm:py-20 px-5">
-          <div className="animate-fadeInDown inline-flex items-center gap-2 bg-[#facc15]/8 border border-[#facc15]/15 text-[#facc15] text-[0.82rem] font-semibold px-4.5 py-2 rounded-full mb-7 tracking-wide">
+          <div className="animate-fadeInDown inline-flex items-center gap-2 bg-[#F5C518]/8 border border-[#F5C518]/15 text-[#F5C518] text-[0.82rem] font-semibold px-4.5 py-2 rounded-full mb-7 tracking-wide">
             ⚡ 8 ways to expose yourself
           </div>
           <h1 className="font-['Outfit'] font-black text-[clamp(2.8rem,7vw,4.8rem)] leading-[1.05] tracking-tight mb-5 animate-fadeInUp [animation-delay:0.1s] [animation-fill-mode:both]">
             Find out what's
             <br />
-            <span className="bg-gradient-to-br from-[#22d3ee] via-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-[#F5C518] via-[#A89BC0] to-[#8B7EA8] bg-clip-text text-transparent">
               wrong with you
             </span>
           </h1>
-          <p className="text-[#a1a1aa] text-[clamp(1rem,2.5vw,1.2rem)] max-w-[540px] mx-auto mb-9 leading-relaxed animate-fadeInUp [animation-delay:0.2s] [animation-fill-mode:both]">
+          <p className="text-[#9B95A8] text-[clamp(1rem,2.5vw,1.2rem)] max-w-[540px] mx-auto mb-9 leading-relaxed animate-fadeInUp [animation-delay:0.2s] [animation-fill-mode:both]">
             Answer a few unhinged questions. Get a brutally honest result. Screenshot it. Post it. Watch your friends lose it.
           </p>
           <div className="flex gap-3.5 justify-center flex-wrap animate-fadeInUp [animation-delay:0.3s] [animation-fill-mode:both]">
             <button
               onClick={handleSurprise}
-              className="inline-flex items-center gap-2.5 bg-gradient-to-br from-[#facc15] to-[#f59e0b] text-[#09090b] font-['Outfit'] font-bold text-base px-8 py-3.5 rounded-full cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(250,204,21,0.3)]"
+              className="inline-flex items-center gap-2.5 bg-[#F5C518] hover:bg-[#FFD84D] text-[#09090b] font-['Outfit'] font-bold text-base px-8 py-3.5 rounded-full cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(245,197,24,0.25)]"
             >
               <span className="text-xl">🎲</span> Surprise Me
             </button>
             <button
               onClick={() => document.getElementById("tools")?.scrollIntoView({ behavior: "smooth" })}
-              className="inline-flex items-center gap-2 bg-white/5 text-[#f4f4f5] font-['Outfit'] font-semibold text-base px-7 py-3.5 rounded-full border border-white/[0.12] cursor-pointer transition-all hover:bg-white/[0.08] hover:border-white/[0.2]"
+              className="inline-flex items-center gap-2 bg-[#2A2640]/50 text-[#F5F5F7] font-['Outfit'] font-semibold text-base px-7 py-3.5 rounded-full border border-[#3A3555] cursor-pointer transition-all hover:bg-[#2A2640]/60 hover:border-[#8B7EA8]/30"
             >
               Browse all tools ↓
             </button>
@@ -72,9 +72,9 @@ export default function Home() {
 
         {/* Tools Grid */}
         <section id="tools" className="px-5 pb-24 max-w-[1120px] mx-auto">
-          <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
+          <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
             Pick your poison
-            <span className="flex-1 h-px bg-white/[0.06]" />
+            <span className="flex-1 h-px bg-[#2A2640]/40" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {tools.map((tool, i) => {
@@ -86,14 +86,14 @@ export default function Home() {
                     </span>
                   )}
                   <span className="text-[2.2rem] mb-4 block">{tool.emoji}</span>
-                  <h3 className="font-['Outfit'] font-bold text-[1.15rem] tracking-tight mb-2 text-[#f4f4f5]">
+                  <h3 className="font-['Outfit'] font-bold text-[1.15rem] tracking-tight mb-2 text-[#F5F5F7]">
                     {tool.name}
                   </h3>
-                  <p className="text-[#a1a1aa] text-[0.88rem] leading-relaxed">{tool.description}</p>
+                  <p className="text-[#9B95A8] text-[0.88rem] leading-relaxed">{tool.description}</p>
                 </>
               );
 
-              const baseClass = `relative bg-[#131316] border border-white/[0.06] rounded-2xl p-7 transition-all animate-fadeInUp block`;
+              const baseClass = `relative bg-gradient-to-b from-[#2A2640] to-[#1E1A35] border border-[#3A3555]/50 rounded-2xl p-7 transition-all animate-fadeInUp block`;
               const delay = { animationDelay: `${0.05 * (i + 1)}s` };
 
               if (!tool.active) {
@@ -108,7 +108,7 @@ export default function Home() {
                 <Link
                   key={tool.slug}
                   to={`/${tool.slug}`}
-                  className={`${baseClass} cursor-pointer hover:border-white/[0.12] hover:-translate-y-1 hover:bg-[#1a1a1f]`}
+                  className={`${baseClass} cursor-pointer hover:border-[#F5C518]/25 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(245,197,24,0.06)]`}
                   style={delay}
                 >
                   {inner}
@@ -119,28 +119,28 @@ export default function Home() {
         </section>
         {/* Blog Promo */}
         <section className="px-5 pb-24 max-w-[1120px] mx-auto">
-          <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
+          <div className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580] uppercase tracking-[0.15em] mb-6 flex items-center gap-3">
             From the blog
-            <span className="flex-1 h-px bg-white/[0.06]" />
+            <span className="flex-1 h-px bg-[#2A2640]/40" />
           </div>
 
           <Link
             to="/blog"
-            className="group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-[#131316] hover:border-[#facc15]/20 transition-all block"
+            className="group relative overflow-hidden rounded-3xl border border-[#3A3555]/50 bg-gradient-to-b from-[#2A2640] to-[#1E1A35] hover:border-[#F5C518]/20 transition-all block"
           >
             {/* Ambient glow */}
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(250,204,21,0.06),transparent_70%)]" />
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(245,197,24,0.06),transparent_70%)]" />
 
             <div className="relative z-10 p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
               {/* Left: content */}
               <div className="flex-1 min-w-0">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.72rem] font-semibold bg-[#facc15]/10 text-[#facc15] border border-[#facc15]/15 mb-4 font-['JetBrains_Mono'] uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.72rem] font-semibold bg-[#F5C518]/10 text-[#F5C518] border border-[#F5C518]/15 mb-4 font-['JetBrains_Mono'] uppercase tracking-wider">
                   📝 New
                 </div>
-                <h3 className="font-['Outfit'] font-extrabold text-[clamp(1.3rem,3vw,1.7rem)] tracking-tight text-[#f4f4f5] mb-2 leading-tight">
+                <h3 className="font-['Outfit'] font-extrabold text-[clamp(1.3rem,3vw,1.7rem)] tracking-tight text-[#F5F5F7] mb-2 leading-tight">
                   Guides, Memes &amp; Tool Updates
                 </h3>
-                <p className="text-[#a1a1aa] text-[0.92rem] leading-relaxed max-w-lg">
+                <p className="text-[#9B95A8] text-[0.92rem] leading-relaxed max-w-lg">
                   Trendy foods explained, energy types decoded, and brutally honest takes on everything the internet is asking about. New posts every week.
                 </p>
               </div>
@@ -150,7 +150,7 @@ export default function Home() {
                 <div className="flex -space-x-2 text-[1.8rem]">
                   <span>🍵</span><span>⚡</span><span>🚨</span><span>💩</span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-['Outfit'] font-bold text-[0.88rem] text-[#09090b] bg-gradient-to-br from-[#facc15] to-[#f59e0b] group-hover:shadow-[0_4px_20px_rgba(250,204,21,0.25)] transition-all">
+                <span className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full font-['Outfit'] font-bold text-[0.88rem] text-[#09090b] bg-[#F5C518] group-hover:bg-[#FFD84D] group-hover:shadow-[0_4px_20px_rgba(245,197,24,0.2)] transition-all">
                   Read the Blog →
                 </span>
               </div>
