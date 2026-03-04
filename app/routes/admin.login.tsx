@@ -47,41 +47,41 @@ export default function AdminLogin() {
           <h1 className="font-['Outfit'] font-extrabold text-[1.8rem] tracking-tight mb-2">
             Admin Panel
           </h1>
-          <p className="text-[#71717a] text-[0.85rem]">DaFuqBro Content Management</p>
+          <p className="text-[#6B6580] text-[0.85rem]">DaFuqBro Content Management</p>
         </div>
 
         <form method="post" className="flex flex-col gap-4">
           {actionData?.error && (
-            <div className="bg-[#f87171]/10 border border-[#f87171]/20 text-[#f87171] text-[0.85rem] p-3 rounded-xl text-center">
+            <div className="bg-[#E05544]/10 border border-[#E05544]/20 text-[#E05544] text-[0.85rem] p-3 rounded-xl text-center">
               {actionData.error}
             </div>
           )}
 
           <div>
-            <label className="block text-[0.82rem] font-medium text-[#a1a1aa] mb-1.5">Username</label>
+            <label className="block text-[0.82rem] font-medium text-[#9B95A8] mb-1.5">Username</label>
             <input
               type="text"
               name="username"
               required
               autoComplete="username"
-              className="w-full bg-[#1a1a1f] border border-white/[0.06] rounded-xl py-3 px-4 text-[#f4f4f5] text-[0.95rem] outline-none focus:border-[#facc15]/40"
+              className="w-full bg-[#2A2640] border border-[#3A3555]/50 rounded-xl py-3 px-4 text-[#F5F5F7] text-[0.95rem] outline-none focus:border-[#F5C518]/40"
             />
           </div>
 
           <div>
-            <label className="block text-[0.82rem] font-medium text-[#a1a1aa] mb-1.5">Password</label>
+            <label className="block text-[0.82rem] font-medium text-[#9B95A8] mb-1.5">Password</label>
             <input
               type="password"
               name="password"
               required
               autoComplete="current-password"
-              className="w-full bg-[#1a1a1f] border border-white/[0.06] rounded-xl py-3 px-4 text-[#f4f4f5] text-[0.95rem] outline-none focus:border-[#facc15]/40"
+              className="w-full bg-[#2A2640] border border-[#3A3555]/50 rounded-xl py-3 px-4 text-[#F5F5F7] text-[0.95rem] outline-none focus:border-[#F5C518]/40"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3.5 rounded-xl bg-gradient-to-br from-[#facc15] to-[#f59e0b] text-[#09090b] font-['Outfit'] font-bold text-[0.95rem] cursor-pointer transition-all hover:-translate-y-0.5 mt-2"
+            className="w-full py-3.5 rounded-xl bg-[#F5C518] hover:bg-[#FFD84D] text-[#09090b] font-['Outfit'] font-bold text-[0.95rem] cursor-pointer transition-all hover:-translate-y-0.5 mt-2"
           >
             Log In
           </button>
