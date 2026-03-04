@@ -374,8 +374,10 @@ export default function MemeWarsPage() {
   const [winner, setWinner] = useState<{ name: string; points: number; xp: number } | null>(null);
   const [hovNode, setHovNode] = useState<number|null>(null);
   const [hovZone, setHovZone] = useState<string|null>(null);
-  const [dragging, setDragging] = useState<{ type: BuildType }|null>(null);
-  const draggingRef = useRef<BuildType|null>(null);
+  const [selected, setSelected] = useState<BuildType|null>(null);
+  const selectedRef = useRef<BuildType|null>(null);
+  // legacy aliases so the rest of the render code stays the same
+  const dragging = selected ? { type: selected } : null;
   const [dropTarget, setDropTarget] = useState<number|null>(null);
   const [pipelineStart, setPipelineStart] = useState<number|null>(null);
   const [showTrade, setShowTrade] = useState(false);
@@ -387,14 +389,14 @@ export default function MemeWarsPage() {
   useEffect(() => { if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight; }, [log]);
   const addLog = useCallback((msg: string) => setLog(l => [...l.slice(-40), msg]), []);
 
-  const onPieceDragStart = (e: React.DragEvent, type: BuildType) => {
-    draggingRef.current = type;
-    setDragging({ type });
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("pieceType", type);
+  const selectPiece = (type: BuildType) => {
+    const next = selectedRef.current === type ? null : type;
+    selectedRef.current = next;
+    setSelected(next);
+    setDropTarget(null);
   };
 
-  const getSVGCoords = (e: React.DragEvent | React.MouseEvent) => {
+  const getSVGCoords = (e: React.MouseEvent) => {
     const svg = svgRef.current; if (!svg) return null;
     const pt = svg.createSVGPoint();
     pt.x = e.clientX; pt.y = e.clientY;
@@ -408,13 +410,37 @@ export default function MemeWarsPage() {
     return bestDist <= threshold ? best : null;
   };
 
-  const onSVGDragOver = (e: React.DragEvent) => { e.preventDefault(); setDropTarget(nearestNode(getSVGCoords(e))); e.dataTransfer.dropEffect = "move"; };
+  const onSVGMouseMove = (e: React.MouseEvent) => {
+    if (!selected) return;
+    setDropTarget(nearestNode(getSVGCoords(e)));
+  };
+
+  const onSVGClick = (e: React.MouseEvent) => {
+    if (!selected) return;
+    const nodeId = nearestNode(getSVGCoords(e));
+    if (nodeId !== null) {
+      handleBuild(selected, nodeId);
+      // keep piece selected for multi-place, deselect after use
+      selectedRef.current = null;
+      setSelected(null);
+      setDropTarget(null);
+    }
+  };
+
+  // keep legacy drag-and-drop working as a bonus on desktop
+  const onPieceDragStart = (e: React.DragEvent, type: BuildType) => {
+    selectedRef.current = type;
+    setSelected(type);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("pieceType", type);
+  };
+  const onSVGDragOver = (e: React.DragEvent) => { e.preventDefault(); setDropTarget(nearestNode(getSVGCoords(e as unknown as React.MouseEvent))); e.dataTransfer.dropEffect = "move"; };
   const onSVGDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const type = (e.dataTransfer.getData("pieceType") || draggingRef.current) as BuildType;
-    const nodeId = nearestNode(getSVGCoords(e));
-    draggingRef.current = null;
-    setDragging(null); setDropTarget(null);
+    const type = (e.dataTransfer.getData("pieceType") || selectedRef.current) as BuildType;
+    const nodeId = nearestNode(getSVGCoords(e as unknown as React.MouseEvent));
+    selectedRef.current = null;
+    setSelected(null); setDropTarget(null);
     if (nodeId !== null && type) handleBuild(type, nodeId);
   };
 
@@ -445,7 +471,8 @@ export default function MemeWarsPage() {
       if (phase === "PLAY" && !diceRolled) { addLog("❌ Roll dice first!"); return; }
       if (pipelineStart === null) {
         if (!player.bases.includes(nodeId) && !player.viralHubs.includes(nodeId)) { addLog("❌ Start from YOUR Base or Hub!"); return; }
-        setPipelineStart(nodeId); addLog(`⚡ Pipeline from "${node.label}" — click a connected node`); return;
+        setPipelineStart(nodeId); setSelected(null); selectedRef.current = null;
+        addLog(`⚡ Pipeline from "${node.label}" — click a connected node`); return;
       }
       if (pipelineStart === nodeId) { setPipelineStart(null); return; }
       const edgeOk = EDGES.some(([a, b]) => (a === pipelineStart && b === nodeId) || (b === pipelineStart && a === nodeId));
@@ -533,13 +560,13 @@ export default function MemeWarsPage() {
       if (free && Math.random() > 0.35) return { ...cpu, bases: [...cpu.bases, free.id], points: cpu.bases.length + 2 + cpu.viralHubs.length * 2 };
       return cpu;
     }));
-    setDiceRolled(false); setDice([null, null]); setDiceDisplay(["🎲","🎲"]); setPipelineStart(null); setTurn(t => t+1);
+    setDiceRolled(false); setDice([null, null]); setDiceDisplay(["🎲","🎲"]); setPipelineStart(null); setSelected(null); selectedRef.current = null; setTurn(t => t+1);
     addLog(`─── Turn ${turn+1} ───`);
   };
 
   const reset = () => {
     setPhase("SETUP"); setSetupCount(0); setTurn(1); setWinner(null); setRatioNode(null);
-    setDice([null, null]); setDiceDisplay(["🎲","🎲"]); setDiceRolled(false); setPipelineStart(null);
+    setDice([null, null]); setDiceDisplay(["🎲","🎲"]); setDiceRolled(false); setPipelineStart(null); setSelected(null); selectedRef.current = null;
     setPlayer(initPlayer());
     setCpuState([
       { id: 1, name: "CPU Sigma", color: T.green, emoji: "🤖", bases: [], viralHubs: [], glazers: 0, points: 0 },
@@ -579,21 +606,33 @@ export default function MemeWarsPage() {
   const BuildTray = ({ mobile = false }: { mobile?: boolean }) => (
     <div style={cs()}>
       <div style={{ fontSize: "9px", letterSpacing: "3px", color: T.textMut, marginBottom: "6px", fontWeight: 700 }}>🏗 BUILD TRAY</div>
-      <div style={{ fontSize: "10px", color: T.textMut, marginBottom: "8px" }}>Drag pieces onto the map</div>
+      <div style={{ fontSize: "10px", color: T.textMut, marginBottom: "8px" }}>
+        {selected ? `✅ "${PIECES.find(p=>p.type===selected)?.label}" selected — click a node` : "Click a piece, then click a node"}
+      </div>
       <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "1fr", gap: "6px" }}>
         {PIECES.map(piece => {
           const affordable = canAffordCost(player.resources, BUILD_COSTS[piece.type]);
           const isSetupBase = phase === "SETUP" && piece.type === "BASE";
           const available = isSetupBase || (phase === "PLAY" && affordable);
+          const isSel = selected === piece.type;
           return (
-            <div key={piece.type} draggable={available} onDragStart={available ? (e) => onPieceDragStart(e, piece.type) : undefined}
-              style={{ padding: mobile ? "10px" : "8px 10px", borderRadius: "10px", border: `1px solid ${available ? piece.color + "55" : T.borderSub}`, background: available ? piece.color + "12" : T.bgPrimary, cursor: available ? "grab" : "not-allowed", opacity: available ? 1 : 0.4, transition: "all 0.2s", userSelect: "none" }}
-              onMouseEnter={e => { if (available) (e.currentTarget as HTMLElement).style.background = piece.color + "22"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = available ? piece.color + "12" : T.bgPrimary; }}>
+            <div key={piece.type}
+              draggable={available} onDragStart={available ? (e) => onPieceDragStart(e, piece.type) : undefined}
+              onClick={() => available && selectPiece(piece.type)}
+              style={{ padding: mobile ? "10px" : "8px 10px", borderRadius: "10px",
+                border: `${isSel ? 2 : 1}px solid ${isSel ? piece.color : available ? piece.color + "55" : T.borderSub}`,
+                background: isSel ? piece.color + "33" : available ? piece.color + "12" : T.bgPrimary,
+                cursor: available ? "pointer" : "not-allowed", opacity: available ? 1 : 0.4,
+                transition: "all 0.15s", userSelect: "none",
+                boxShadow: isSel ? `0 0 12px ${piece.color}44` : "none" }}
+              onMouseEnter={e => { if (available && !isSel) (e.currentTarget as HTMLElement).style.background = piece.color + "22"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = isSel ? piece.color + "33" : available ? piece.color + "12" : T.bgPrimary; }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <span style={{ fontSize: mobile ? "20px" : "18px" }}>{piece.emoji}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "11px", color: available ? piece.color : T.textMut, fontWeight: 700 }}>{piece.label}</div>
+                  <div style={{ fontSize: "11px", color: isSel ? piece.color : available ? piece.color : T.textMut, fontWeight: 700 }}>
+                    {isSel ? `✓ ${piece.label}` : piece.label}
+                  </div>
                   {!mobile && <div style={{ fontSize: "9px", color: T.textMut, lineHeight: "1.4", marginTop: "1px" }}>{piece.desc}</div>}
                 </div>
               </div>
@@ -602,6 +641,11 @@ export default function MemeWarsPage() {
           );
         })}
       </div>
+      {selected && (
+        <button onClick={() => selectPiece(selected)} style={{ width: "100%", marginTop: "6px", padding: "6px", borderRadius: "8px", background: "none", border: `1px solid ${T.borderSub}`, color: T.textMut, cursor: "pointer", fontSize: "10px" }}>
+          ✕ Cancel selection
+        </button>
+      )}
       {pipelineStart !== null && (
         <div style={{ padding: "8px 10px", background: T.yellow + "11", border: `1px solid ${T.yellow}44`, borderRadius: "10px", fontSize: "10px", color: T.yellow, marginTop: "6px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span>⚡ From "{NODES[pipelineStart].label}" — click connected node</span>
@@ -760,7 +804,8 @@ export default function MemeWarsPage() {
             {/* SVG MAP */}
             <div style={{ background: T.bgPrimary, border: `1px solid ${T.borderSub}`, borderRadius: "16px", overflow: "hidden", boxShadow: `inset 0 0 60px rgba(0,0,0,0.5)` }}>
               <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`}
-                style={{ display: "block", cursor: dragging ? "crosshair" : "default" }}
+                style={{ display: "block", cursor: selected ? "crosshair" : "default" }}
+                onMouseMove={onSVGMouseMove} onClick={onSVGClick}
                 onDragOver={onSVGDragOver} onDrop={onSVGDrop} onDragLeave={() => setDropTarget(null)}
                 role="application" aria-label="Meme Wars game map">
                 <defs>
@@ -826,7 +871,16 @@ export default function MemeWarsPage() {
                   return (
                     <g key={node.id}
                       onMouseEnter={() => setHovNode(node.id)} onMouseLeave={() => setHovNode(null)}
-                      onClick={() => { if (isPipeDest) handleBuild("PIPELINE", node.id); else if (isMyBase && !isMyHub) addLog(`💡 Drag 🔥 Viral Hub to "${node.label}" to upgrade.`); }}
+                      onClick={(e) => {
+                        if (isPipeDest) {
+                          e.stopPropagation();
+                          handleBuild("PIPELINE", node.id);
+                        } else if (selected) {
+                          // let onSVGClick handle it
+                        } else if (isMyBase && !isMyHub) {
+                          addLog(`💡 Select 🔥 Viral Hub from the tray to upgrade "${node.label}".`);
+                        }
+                      }}
                       style={{ cursor: (isPipeDest||isMyBase) ? "pointer" : "default" }}
                       role="button" aria-label={`${node.label}, roll ${node.roll}`}>
                       {(isMyBase||isMyHub) && <circle cx={node.x} cy={node.y} r={r+8} fill={T.red} opacity="0.07"/>}
@@ -858,14 +912,6 @@ export default function MemeWarsPage() {
                 })}
 
                 {dragging && dropTarget !== null && (() => { const n = NODES[dropTarget]; if (!n) return null; const p = PIECES.find(p => p.type===dragging.type); return <text x={n.x} y={n.y-18} textAnchor="middle" fontSize="20" opacity="0.7">{p?.emoji}</text>; })()}
-
-                {/* Transparent overlay to reliably catch drag events over all SVG children */}
-                {dragging && (
-                  <rect x="0" y="0" width={W} height={H} fill="transparent"
-                    onDragOver={onSVGDragOver} onDrop={onSVGDrop} onDragLeave={() => setDropTarget(null)}
-                    style={{ cursor: "crosshair" }}
-                  />
-                )}
               </svg>
 
               {/* Zone legend */}
