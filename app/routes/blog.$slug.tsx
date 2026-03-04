@@ -143,17 +143,17 @@ export default function BlogPost() {
           {/* Breadcrumb nav (visible + semantic) */}
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-[#71717a] text-[0.82rem] mb-8 flex-wrap"
+            className="flex items-center gap-1.5 text-[#6B6580] text-[0.82rem] mb-8 flex-wrap"
           >
-            <Link to="/" className="hover:text-[#a1a1aa] transition-colors">
+            <Link to="/" className="hover:text-[#9B95A8] transition-colors">
               Home
             </Link>
             <span aria-hidden="true">/</span>
-            <Link to="/blog" className="hover:text-[#a1a1aa] transition-colors">
+            <Link to="/blog" className="hover:text-[#9B95A8] transition-colors">
               Blog
             </Link>
             <span aria-hidden="true">/</span>
-            <span className="text-[#a1a1aa] truncate max-w-[240px]">
+            <span className="text-[#9B95A8] truncate max-w-[240px]">
               {post.title}
             </span>
           </nav>
@@ -171,13 +171,13 @@ export default function BlogPost() {
             <div className="flex items-center gap-2 mb-4 flex-wrap">
               <span
                 className="font-['JetBrains_Mono'] text-[0.7rem] font-semibold px-2.5 py-1 rounded-full"
-                style={{ background: "#facc15" + "15", color: "#facc15" }}
+                style={{ background: "#F5C518" + "15", color: "#F5C518" }}
               >
                 {cat?.emoji} {cat?.label || post.category}
               </span>
               <time
                 dateTime={post.published_at || ""}
-                className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']"
+                className="text-[#6B6580] text-[0.75rem] font-['JetBrains_Mono']"
               >
                 {post.published_at
                   ? new Date(post.published_at).toLocaleDateString("en-US", {
@@ -187,10 +187,10 @@ export default function BlogPost() {
                     })
                   : ""}
               </time>
-              <span className="text-[#71717a] text-[0.75rem]" aria-hidden="true">
+              <span className="text-[#6B6580] text-[0.75rem]" aria-hidden="true">
                 ·
               </span>
-              <span className="text-[#71717a] text-[0.75rem] font-['JetBrains_Mono']">
+              <span className="text-[#6B6580] text-[0.75rem] font-['JetBrains_Mono']">
                 {rt} min read
               </span>
             </div>
@@ -200,41 +200,41 @@ export default function BlogPost() {
             </h1>
 
             {post.excerpt && (
-              <p className="text-[#a1a1aa] text-[1.1rem] leading-relaxed italic">
+              <p className="text-[#9B95A8] text-[1.1rem] leading-relaxed italic">
                 {post.excerpt}
               </p>
             )}
           </header>
 
           {/* Divider */}
-          <div className="h-px bg-white/[0.06] mb-10" role="separator" />
+          <div className="h-px bg-[#2A2640]/40 mb-10" role="separator" />
 
           {/* Content */}
           <div
             className="
-              [&_h1]:font-['Outfit'] [&_h1]:font-bold [&_h1]:text-[1.6rem] [&_h1]:mt-10 [&_h1]:mb-4 [&_h1]:text-[#f4f4f5]
-              [&_h2]:font-['Outfit'] [&_h2]:font-bold [&_h2]:text-[1.35rem] [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-[#f4f4f5]
-              [&_h3]:font-['Outfit'] [&_h3]:font-semibold [&_h3]:text-[1.1rem] [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-[#f4f4f5]
-              [&_p]:text-[#a1a1aa] [&_p]:text-[1rem] [&_p]:leading-[1.8] [&_p]:mb-5
-              [&_a]:text-[#facc15] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-[#fde047]
-              [&_strong]:text-[#f4f4f5] [&_strong]:font-semibold
-              [&_em]:text-[#a1a1aa]
-              [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[0.88rem] [&_code]:font-['JetBrains_Mono'] [&_code]:text-[#facc15]
-              [&_pre]:bg-[#0a0a0f] [&_pre]:p-5 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_pre]:mb-6 [&_pre]:border [&_pre]:border-white/[0.06]
-              [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-[#a1a1aa]
-              [&_blockquote]:border-l-[3px] [&_blockquote]:border-[#facc15]/40 [&_blockquote]:pl-5 [&_blockquote]:text-[#71717a] [&_blockquote]:italic [&_blockquote]:my-6
-              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:text-[#a1a1aa]
-              [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol]:text-[#a1a1aa]
+              [&_h1]:font-['Outfit'] [&_h1]:font-bold [&_h1]:text-[1.6rem] [&_h1]:mt-10 [&_h1]:mb-4 [&_h1]:text-[#F5F5F7]
+              [&_h2]:font-['Outfit'] [&_h2]:font-bold [&_h2]:text-[1.35rem] [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-[#F5F5F7]
+              [&_h3]:font-['Outfit'] [&_h3]:font-semibold [&_h3]:text-[1.1rem] [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-[#F5F5F7]
+              [&_p]:text-[#9B95A8] [&_p]:text-[1rem] [&_p]:leading-[1.8] [&_p]:mb-5
+              [&_a]:text-[#F5C518] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-[#fde047]
+              [&_strong]:text-[#F5F5F7] [&_strong]:font-semibold
+              [&_em]:text-[#9B95A8]
+              [&_code]:bg-[#2A2640]/40 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[0.88rem] [&_code]:font-['JetBrains_Mono'] [&_code]:text-[#F5C518]
+              [&_pre]:bg-[#0a0a0f] [&_pre]:p-5 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_pre]:mb-6 [&_pre]:border [&_pre]:border-[#3A3555]/50
+              [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-[#9B95A8]
+              [&_blockquote]:border-l-[3px] [&_blockquote]:border-[#F5C518]/40 [&_blockquote]:pl-5 [&_blockquote]:text-[#6B6580] [&_blockquote]:italic [&_blockquote]:my-6
+              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:text-[#9B95A8]
+              [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol]:text-[#9B95A8]
               [&_li]:mb-2 [&_li]:text-[1rem] [&_li]:leading-[1.7]
-              [&_hr]:border-white/[0.06] [&_hr]:my-8
+              [&_hr]:border-[#3A3555]/50 [&_hr]:my-8
               [&_img]:rounded-xl [&_img]:my-6 [&_img]:max-w-full
             "
             dangerouslySetInnerHTML={{ __html: html }}
           />
 
           {/* Share section */}
-          <div className="mt-12 p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center">
-            <p className="text-[#71717a] text-[0.88rem] mb-3">
+          <div className="mt-12 p-6 rounded-2xl bg-[#2A2640]/30 border border-[#3A3555]/50 text-center">
+            <p className="text-[#6B6580] text-[0.88rem] mb-3">
               Enjoyed this? Share it with someone who needs it.
             </p>
             <div className="flex justify-center gap-3 flex-wrap">
@@ -242,7 +242,7 @@ export default function BlogPost() {
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+                className="px-4 py-2 rounded-xl bg-[#2A2640]/40 text-[0.82rem] text-[#9B95A8] hover:bg-[#2A2640]/60 hover:text-[#F5F5F7] transition-all"
               >
                 𝕏 Post
               </a>
@@ -250,7 +250,7 @@ export default function BlogPost() {
                 href={`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+                className="px-4 py-2 rounded-xl bg-[#2A2640]/40 text-[0.82rem] text-[#9B95A8] hover:bg-[#2A2640]/60 hover:text-[#F5F5F7] transition-all"
               >
                 Telegram
               </a>
@@ -258,7 +258,7 @@ export default function BlogPost() {
                 href={`https://wa.me/?text=${encodeURIComponent(post.title + " " + url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all"
+                className="px-4 py-2 rounded-xl bg-[#2A2640]/40 text-[0.82rem] text-[#9B95A8] hover:bg-[#2A2640]/60 hover:text-[#F5F5F7] transition-all"
               >
                 WhatsApp
               </a>
@@ -267,7 +267,7 @@ export default function BlogPost() {
                 onClick={() => {
                   navigator.clipboard.writeText(url);
                 }}
-                className="px-4 py-2 rounded-xl bg-white/[0.06] text-[0.82rem] text-[#a1a1aa] hover:bg-white/[0.1] hover:text-[#f4f4f5] transition-all cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#2A2640]/40 text-[0.82rem] text-[#9B95A8] hover:bg-[#2A2640]/60 hover:text-[#F5F5F7] transition-all cursor-pointer"
               >
                 Copy Link
               </button>
@@ -275,17 +275,17 @@ export default function BlogPost() {
           </div>
 
           {/* Footer nav */}
-          <div className="h-px bg-white/[0.06] my-10" />
+          <div className="h-px bg-[#2A2640]/40 my-10" />
           <div className="flex justify-between items-center">
             <Link
               to="/blog"
-              className="text-[#71717a] text-[0.88rem] hover:text-[#a1a1aa] transition-colors"
+              className="text-[#6B6580] text-[0.88rem] hover:text-[#9B95A8] transition-colors"
             >
               ← All Posts
             </Link>
             <Link
               to="/"
-              className="text-[#71717a] text-[0.88rem] hover:text-[#a1a1aa] transition-colors"
+              className="text-[#6B6580] text-[0.88rem] hover:text-[#9B95A8] transition-colors"
             >
               Try Our Tools →
             </Link>
