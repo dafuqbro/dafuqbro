@@ -37,13 +37,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#1E1A35]/80 border-b border-[#3A3555]/60">
-      <div className="max-w-[1120px] mx-auto px-5 py-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <MascotHead className="w-9 h-9 transition-transform group-hover:scale-110 group-hover:-rotate-6" />
-          <span className="font-['Outfit'] font-black text-[1.5rem] tracking-tight">
-            <span className="text-[#F5C518]">DaFuq</span>
-            <span className="text-[#F5F5F7]">Bro</span>
-          </span>
+      <div className="max-w-[1120px] mx-auto px-5 py-3 flex justify-between items-center">
+        <Link to="/" className="flex items-center group">
+          <img
+            src="/logotype.png"
+            alt="DaFuqBro"
+            className="h-10 sm:h-11 w-auto transition-transform group-hover:scale-105"
+          />
         </Link>
         <div className="flex items-center gap-3">
           <Link
