@@ -102,9 +102,9 @@ interface RoastResult {
 const gradeFromWeight = (w: number) => {
   if (w >= 5) return { grade: "A+", color: "#4ade80" };
   if (w >= 4) return { grade: "A", color: "#a3e635" };
-  if (w >= 3) return { grade: "B", color: "#facc15" };
+  if (w >= 3) return { grade: "B", color: "#F5C518" };
   if (w >= 2) return { grade: "C", color: "#fb923c" };
-  if (w >= 1) return { grade: "D", color: "#f87171" };
+  if (w >= 1) return { grade: "D", color: "#E05544" };
   return { grade: "F", color: "#dc2626" };
 };
 
@@ -113,11 +113,11 @@ const overallTier = (score: number) => {
     verdicts: ["Disgusting. You actually had a good year.", "Annoyingly well-adjusted. Reported.", "Your year was so good it's giving the rest of us anxiety."] };
   if (score >= 70) return { grade: "A", color: "#a3e635", tier: "Quietly Winning", emoji: "✨",
     verdicts: ["Not bad. Suspiciously not bad.", "You had a solid year. Don't let it go to your head.", "Above average in a below-average world."] };
-  if (score >= 55) return { grade: "B", color: "#facc15", tier: "Painfully Average", emoji: "😐",
+  if (score >= 55) return { grade: "B", color: "#F5C518", tier: "Painfully Average", emoji: "😐",
     verdicts: ["The human equivalent of room temperature water.", "Survived the year. Not thrived. Survived.", "Your year was a 5/10. And you know it."] };
   if (score >= 40) return { grade: "C", color: "#fb923c", tier: "Struggling Gracefully", emoji: "🫠",
     verdicts: ["Held it together with duct tape and delusion.", "Your year was a controlled crash landing.", "Points for showing up. That's about it."] };
-  if (score >= 25) return { grade: "D", color: "#f87171", tier: "Emotional Wreckage", emoji: "💀",
+  if (score >= 25) return { grade: "D", color: "#E05544", tier: "Emotional Wreckage", emoji: "💀",
     verdicts: ["Your year needs a trigger warning.", "This year tested you and you failed.", "Rock bottom? You brought a shovel."] };
   return { grade: "F", color: "#dc2626", tier: "Certified Disaster", emoji: "☠️",
     verdicts: ["Your year should be studied as a cautionary tale.", "God tested you and you demanded extra credit.", "Honestly iconic. Terrible, but iconic."] };
@@ -166,7 +166,7 @@ function RainbowConfetti({ active }: { active: boolean }) {
     const c = ref.current; if (!c) return;
     const ctx = c.getContext("2d"); if (!ctx) return;
     c.width = c.offsetWidth * 2; c.height = c.offsetHeight * 2; ctx.scale(2, 2);
-    const colors = ["#f87171","#fb923c","#facc15","#4ade80","#22d3ee","#a78bfa","#f472b6"];
+    const colors = ["#E05544","#fb923c","#F5C518","#4ade80","#22d3ee","#A89BC0","#8B7EA8"];
     interface C { x:number;y:number;vx:number;vy:number;size:number;rot:number;rs:number;color:string;rect:boolean; }
     const ps: C[] = [];
     const w = c.offsetWidth, h = c.offsetHeight;
@@ -215,7 +215,7 @@ function ScoreRing({ score, color, active }: { score: number; color: string; act
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="font-['Outfit'] font-black text-[3rem] leading-none" style={{ color }}>{d}</span>
-        <span className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-widest mt-1">Life Score</span>
+        <span className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-widest mt-1">Life Score</span>
       </div>
     </div>
   );
@@ -226,8 +226,8 @@ function RevealSlide({ children, bgColor, flames, flameIntensity, confetti }: {
   children: React.ReactNode; bgColor?: string; flames?: boolean; flameIntensity?: number; confetti?: boolean;
 }) {
   return (
-    <div className="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden rounded-3xl border border-white/[0.06]"
-      style={{ background: bgColor || "linear-gradient(180deg, #131316 0%, #0f0f1a 100%)" }}>
+    <div className="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden rounded-3xl border border-[#3A3555]/50"
+      style={{ background: bgColor || "linear-gradient(180deg, #1E1A35 0%, #0f0f1a 100%)" }}>
       {flames && <FlameParticles intensity={flameIntensity || 1} />}
       {confetti && <RainbowConfetti active />}
       <div className="relative z-5">{children}</div>
@@ -310,10 +310,10 @@ export default function RoastTool() {
 
   return (
     <>
-      <div className="py-4 px-5 flex items-center gap-3 border-b border-white/[0.06] relative z-10">
-        <Link to="/" className="text-[#71717a] text-[0.85rem] hover:text-white transition-colors">DaFuqBro</Link>
-        <span className="text-[#71717a] text-[0.75rem]">›</span>
-        <span className="text-[#a1a1aa] font-semibold text-[0.85rem]">🔥 Roast My Year</span>
+      <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
+        <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">DaFuqBro</Link>
+        <span className="text-[#6B6580] text-[0.75rem]">›</span>
+        <span className="text-[#9B95A8] font-semibold text-[0.85rem]">🔥 Roast My Year</span>
       </div>
 
       <div className="max-w-[640px] mx-auto px-5 py-10 pb-24 relative z-1">
@@ -326,19 +326,19 @@ export default function RoastTool() {
               <div className="absolute -inset-8 bg-[radial-gradient(circle,rgba(251,146,60,0.15)_0%,transparent_70%)] pointer-events-none" />
             </div>
             <h1 className="font-['Outfit'] font-extrabold text-[2.2rem] tracking-tight mb-3">Roast My Year</h1>
-            <p className="text-[#a1a1aa] text-[1rem] leading-relaxed max-w-[440px] mx-auto mb-3">
+            <p className="text-[#9B95A8] text-[1rem] leading-relaxed max-w-[440px] mx-auto mb-3">
               Answer 6 questions about your year. Get a Wrapped-style roast with animated reveals, brutal grades, and a Life Score.
             </p>
-            <p className="text-[#71717a] text-[0.82rem] mb-10">Spoiler: it probably wasn't your year either.</p>
+            <p className="text-[#6B6580] text-[0.82rem] mb-10">Spoiler: it probably wasn't your year either.</p>
             <div className="flex flex-wrap justify-center gap-2 mb-10 max-w-[420px] mx-auto">
               {questions.map(q => (
-                <span key={q.id} className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1.5 text-[0.78rem] text-[#a1a1aa]">
+                <span key={q.id} className="inline-flex items-center gap-1.5 bg-[#2A2640]/40 border border-[#3A3555]/50 rounded-full px-3 py-1.5 text-[0.78rem] text-[#9B95A8]">
                   {q.emoji} {q.id.charAt(0).toUpperCase()+q.id.slice(1)}
                 </span>
               ))}
             </div>
             <button onClick={() => setPhase("quiz")}
-              className="w-full max-w-[400px] py-4 rounded-[14px] bg-gradient-to-br from-[#f472b6] to-[#fb923c] text-white font-['Outfit'] text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(244,114,182,0.3)]">
+              className="w-full max-w-[400px] py-4 rounded-[14px] bg-gradient-to-br from-[#8B7EA8] to-[#fb923c] text-[#F5F5F7] font-['Outfit'] text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(244,114,182,0.3)]">
               Roast Me 🔥
             </button>
           </div>
@@ -348,12 +348,12 @@ export default function RoastTool() {
         {phase === "quiz" && (
           <div>
             <div className="w-full max-w-[480px] mx-auto mb-8">
-              <div className="flex justify-between text-[0.7rem] font-['JetBrains_Mono'] text-[#71717a] mb-2">
+              <div className="flex justify-between text-[0.7rem] font-['JetBrains_Mono'] text-[#6B6580] mb-2">
                 <span>Question {qIdx+1} of {questions.length}</span><span>{Math.round(pPct)}%</span>
               </div>
-              <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#2A2640]/40 rounded-full overflow-hidden">
                 <div className="h-full rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${pPct}%`, background: "linear-gradient(90deg, #f472b6, #fb923c)" }} />
+                  style={{ width: `${pPct}%`, background: "linear-gradient(90deg, #8B7EA8, #fb923c)" }} />
               </div>
             </div>
             <div className={`transition-all duration-300 ${transitioning ? (slideDir==="left" ? "translate-x-[-30px] opacity-0" : "translate-x-[30px] opacity-0") : "translate-x-0 opacity-100"}`}>
@@ -365,14 +365,14 @@ export default function RoastTool() {
                 {curQ.options.map((opt, i) => (
                   <button key={opt.value} onClick={() => selectAnswer(opt.value)}
                     className={`w-full text-left p-5 rounded-2xl border transition-all duration-200 animate-fadeInUp ${
-                      answers[curQ.id]===opt.value ? "bg-[#f472b6]/15 border-[#f472b6]/40 scale-[1.02]"
-                      : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1] hover:scale-[1.01]"}`}
+                      answers[curQ.id]===opt.value ? "bg-[#8B7EA8]/15 border-[#8B7EA8]/40 scale-[1.02]"
+                      : "bg-[#2A2640]/30 border-[#3A3555]/50 hover:bg-[#2A2640]/50 hover:border-[#3A3555]/60 hover:scale-[1.01]"}`}
                     style={{ animationDelay: `${0.05*i}s`, animationFillMode: "both" }}>
-                    <span className={`text-[1rem] font-medium ${answers[curQ.id]===opt.value ? "text-white" : "text-[#a1a1aa]"}`}>{opt.label}</span>
+                    <span className={`text-[1rem] font-medium ${answers[curQ.id]===opt.value ? "text-[#F5F5F7]" : "text-[#9B95A8]"}`}>{opt.label}</span>
                   </button>
                 ))}
               </div>
-              {qIdx > 0 && <button onClick={prevQ} className="mt-6 text-[#71717a] text-[0.85rem] hover:text-[#a1a1aa] transition-colors mx-auto block">← Previous question</button>}
+              {qIdx > 0 && <button onClick={prevQ} className="mt-6 text-[#6B6580] text-[0.85rem] hover:text-[#9B95A8] transition-colors mx-auto block">← Previous question</button>}
             </div>
           </div>
         )}
@@ -381,12 +381,12 @@ export default function RoastTool() {
         {phase === "calculating" && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 animate-fadeInUp">
             <div className="relative">
-              <div className="w-[80px] h-[80px] rounded-full border-[3px] border-white/[0.06] border-t-[#f472b6] animate-spin" />
+              <div className="w-[80px] h-[80px] rounded-full border-[3px] border-[#3A3555]/50 border-t-[#8B7EA8] animate-spin" />
               <span className="absolute inset-0 flex items-center justify-center text-3xl">🔥</span>
             </div>
-            <div className="text-[1.1rem] font-semibold text-[#a1a1aa] text-center">{calcMsgs[calcMsg]}</div>
+            <div className="text-[1.1rem] font-semibold text-[#9B95A8] text-center">{calcMsgs[calcMsg]}</div>
             <div className="flex gap-1.5">
-              {[0,1,2].map(i => <div key={i} className="w-2 h-2 rounded-full bg-[#f472b6] animate-pulse-dot" style={{ animationDelay: `${i*0.3}s` }} />)}
+              {[0,1,2].map(i => <div key={i} className="w-2 h-2 rounded-full bg-[#8B7EA8] animate-pulse-dot" style={{ animationDelay: `${i*0.3}s` }} />)}
             </div>
           </div>
         )}
@@ -402,27 +402,27 @@ export default function RoastTool() {
                 return (
                   <RevealSlide flames={isBad} flameIntensity={cat.grade==="F"?2:1} confetti={isGood}
                     bgColor={isBad ? "linear-gradient(180deg, #1a0a0a 0%, #0f0f1a 100%)" : isGood ? "linear-gradient(180deg, #0a1a10 0%, #0f0f1a 100%)" : undefined}>
-                    <span className="text-[0.7rem] font-['JetBrains_Mono'] text-[#71717a] uppercase tracking-widest mb-4 block">{revIdx+1} / {result.categories.length}</span>
+                    <span className="text-[0.7rem] font-['JetBrains_Mono'] text-[#6B6580] uppercase tracking-widest mb-4 block">{revIdx+1} / {result.categories.length}</span>
                     <span className="text-[4rem] block mb-3">{cat.emoji}</span>
-                    <h2 className="font-['Outfit'] font-bold text-[1.4rem] text-[#a1a1aa] mb-2">{cat.name}</h2>
+                    <h2 className="font-['Outfit'] font-bold text-[1.4rem] text-[#9B95A8] mb-2">{cat.name}</h2>
                     <div className="font-['Outfit'] font-black text-[5rem] leading-none mb-4 animate-mascotIn"
                       style={{ color: cat.gradeColor, filter: `drop-shadow(0 0 30px ${cat.gradeColor}40)` }}>{cat.grade}</div>
-                    <p className="text-[#a1a1aa] text-[1.05rem] italic leading-relaxed max-w-[380px] mx-auto mb-6">"{cat.roast}"</p>
+                    <p className="text-[#9B95A8] text-[1.05rem] italic leading-relaxed max-w-[380px] mx-auto mb-6">"{cat.roast}"</p>
                   </RevealSlide>
                 );
               })() : (
                 <RevealSlide flames={result.score<40} flameIntensity={result.score<25?2.5:1.5} confetti={result.score>=70}
                   bgColor={result.score<40 ? "linear-gradient(180deg, #1a0505 0%, #0f0f1a 100%)" : result.score>=70 ? "linear-gradient(180deg, #051a0a 0%, #0f0f1a 100%)" : undefined}>
-                  <span className="text-[0.7rem] font-['JetBrains_Mono'] text-[#71717a] uppercase tracking-widest mb-4 block">Final Verdict</span>
+                  <span className="text-[0.7rem] font-['JetBrains_Mono'] text-[#6B6580] uppercase tracking-widest mb-4 block">Final Verdict</span>
                   <div className="text-[5rem] mb-2 animate-mascotIn">{result.tierEmoji}</div>
                   <div className="font-['Outfit'] font-black text-[2.2rem] tracking-tight mb-2" style={{ color: result.gradeColor }}>{result.tier}</div>
-                  <p className="text-[#a1a1aa] text-[1.05rem] italic leading-relaxed max-w-[400px] mx-auto mb-4">"{result.verdict}"</p>
+                  <p className="text-[#9B95A8] text-[1.05rem] italic leading-relaxed max-w-[400px] mx-auto mb-4">"{result.verdict}"</p>
                   <div className="font-['Outfit'] font-black text-[3.5rem] leading-none" style={{ color: result.gradeColor }}>{result.score}/100</div>
                 </RevealSlide>
               )}
             </div>
             <button onClick={nextReveal}
-              className="w-full mt-5 py-4 rounded-[14px] bg-white/[0.06] border border-white/[0.08] text-white font-['Outfit'] font-semibold text-[1rem] cursor-pointer hover:bg-white/[0.1] transition-all">
+              className="w-full mt-5 py-4 rounded-[14px] bg-[#2A2640]/40 border border-[#3A3555]/50 text-[#F5F5F7] font-['Outfit'] font-semibold text-[1rem] cursor-pointer hover:bg-[#2A2640]/60 transition-all">
               {revIdx < result.categories.length ? "Next →" : "See Full Results →"}
             </button>
           </div>
@@ -438,40 +438,40 @@ export default function RoastTool() {
               <div className="flex justify-between items-center p-6 pb-0">
                 <span className="font-['JetBrains_Mono'] text-[0.72rem] px-3 py-1 rounded-full font-semibold border"
                   style={{ color: result.gradeColor, borderColor: result.gradeColor+"30", background: result.gradeColor+"15" }}>LIFE SCORE</span>
-                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a]">2025</span>
+                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580]">2025</span>
               </div>
               <div className="px-6 pt-5 pb-2"><ScoreRing score={result.score} color={result.gradeColor} active={scoreActive} /></div>
               <div className="text-center px-6 pb-4">
                 <div className="text-[2.5rem] mb-1 animate-mascotIn">{result.tierEmoji}</div>
                 <div className="font-['Outfit'] font-extrabold text-[1.5rem] tracking-tight mb-1" style={{ color: result.gradeColor }}>{result.tier}</div>
-                <div className="text-[#a1a1aa] text-[0.85rem] italic max-w-[360px] mx-auto">"{result.verdict}"</div>
+                <div className="text-[#9B95A8] text-[0.85rem] italic max-w-[360px] mx-auto">"{result.verdict}"</div>
               </div>
               <div className="px-6 pb-5">
-                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-[0.15em] mb-3">Category Breakdown</div>
+                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-[0.15em] mb-3">Category Breakdown</div>
                 <div className="grid grid-cols-2 gap-2">
                   {result.categories.map((cat, i) => (
                     <div key={cat.id} className="bg-white/[0.03] rounded-xl p-3 flex items-center gap-3 animate-fadeInUp"
                       style={{ animationDelay: `${0.5+i*0.1}s`, animationFillMode: "both" }}>
                       <span className="text-lg">{cat.emoji}</span>
                       <div className="flex-1 min-w-0">
-                        <div className="text-[0.72rem] text-[#71717a] truncate">{cat.name}</div>
+                        <div className="text-[0.72rem] text-[#6B6580] truncate">{cat.name}</div>
                         <div className="font-['Outfit'] font-bold text-[1.1rem]" style={{ color: cat.gradeColor }}>{cat.grade}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="flex justify-between items-center px-6 py-4 border-t border-white/[0.04]">
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">dafuqbro.com</span>
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">{new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
+              <div className="flex justify-between items-center px-6 py-4 border-t border-[#3A3555]/30">
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">dafuqbro.com</span>
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">{new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
               </div>
             </div>
             <ShareButtons shareUrl="https://dafuqbro.com/roast"
               shareText={`My Life Score is ${result.score}/100 🔥 — "${result.tier}"\n\nGet roasted 👇`}
               cardId="resultCard" accentColor={result.gradeColor} />
             <div className="flex gap-3 w-full max-w-[480px]">
-              <button onClick={retry} className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all">🔄 Try Again</button>
-              <Link to="/" className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all text-center">← All Tools</Link>
+              <button onClick={retry} className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all">🔄 Try Again</button>
+              <Link to="/" className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all text-center">← All Tools</Link>
             </div>
           </div>
         )}
