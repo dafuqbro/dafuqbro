@@ -6,6 +6,9 @@ export interface Tool {
   accent: string;
   badge: "hot" | "new" | "soon" | null;
   active: boolean;
+  ogImage: string; // path relative to public/, e.g. "/og/shitcoin.png"
+  metaTitle: string;
+  metaDescription: string;
 }
 
 export const tools: Tool[] = [
@@ -17,6 +20,9 @@ export const tools: Tool[] = [
     accent: "yellow",
     badge: "hot",
     active: true,
+    ogImage: "/og/shitcoin.png",
+    metaTitle: "Shitcoin Pitch Deck Generator — DaFuqBro",
+    metaDescription: "Generate a hilariously legit pitch deck for your fake meme coin. Tokenomics, roadmap, degen score — all the vibes, none of the utility.",
   },
   {
     slug: "roast",
@@ -26,6 +32,9 @@ export const tools: Tool[] = [
     accent: "pink",
     badge: "hot",
     active: true,
+    ogImage: "/og/roast.png",
+    metaTitle: "Roast My Year — Get Brutally Honest Results | DaFuqBro",
+    metaDescription: "Your year in review, brutally honest. Get a Wrapped-style roast with an animated reveal, a Life Score, and a card that proves how bad it really was.",
   },
   {
     slug: "food",
@@ -35,6 +44,9 @@ export const tools: Tool[] = [
     accent: "yellow",
     badge: "new",
     active: true,
+    ogImage: "/og/food.png",
+    metaTitle: "What Trendy Food Are You? Personality Quiz — DaFuqBro",
+    metaDescription: "Take the quiz to find out which trendy food matches your personality. Are you matcha, boba, Dubai chocolate, or something worse? Find out now.",
   },
   {
     slug: "energy",
@@ -44,6 +56,9 @@ export const tools: Tool[] = [
     accent: "purple",
     badge: "new",
     active: true,
+    ogImage: "/og/energy.png",
+    metaTitle: "What's Your Vibe Energy? Physics Personality Quiz — DaFuqBro",
+    metaDescription: "Are you kinetic energy, potential energy, or a walking nuclear meltdown? Take the quiz to find your energy type. Physics meets personality.",
   },
   {
     slug: "brainrot",
@@ -53,6 +68,9 @@ export const tools: Tool[] = [
     accent: "red",
     badge: "new",
     active: true,
+    ogImage: "/og/brainrot.png",
+    metaTitle: "Brainrot Pandemic — How Bad Is Your Brainrot? | DaFuqBro",
+    metaDescription: "Your brainrot is spreading. Mutate it, evolve it, and watch it infect the world. Plague Inc meets chronically online internet culture.",
   },
   {
     slug: "horror",
@@ -62,6 +80,9 @@ export const tools: Tool[] = [
     accent: "purple",
     badge: "soon",
     active: false,
+    ogImage: "/og/horror.png",
+    metaTitle: "Horror Movie Death Quiz — How Would You Die? | DaFuqBro",
+    metaDescription: "How would you die in a horror movie? Get your personalized death scene, survival odds, and 'first to go' rating. Zero mercy.",
   },
   {
     slug: "redflags",
@@ -71,6 +92,9 @@ export const tools: Tool[] = [
     accent: "orange",
     badge: "hot",
     active: true,
+    ogImage: "/og/redflags.png",
+    metaTitle: "Rate My Red Flags Quiz — What's Your Dateability Score? | DaFuqBro",
+    metaDescription: "Check all your red flags and get a brutal dateability score. Get a shareable card that proves exactly how undateable you really are.",
   },
   {
     slug: "dna",
@@ -80,6 +104,9 @@ export const tools: Tool[] = [
     accent: "cyan",
     badge: "soon",
     active: false,
+    ogImage: "/og/dna.png",
+    metaTitle: "Internet DNA Quiz — What's Your Online Personality? | DaFuqBro",
+    metaDescription: "Your internet personality broken down into a DNA chart. Are you more doomscroller or shitposter? Find out your exact internet composition.",
   },
   {
     slug: "startup",
@@ -89,6 +116,9 @@ export const tools: Tool[] = [
     accent: "green",
     badge: "soon",
     active: false,
+    ogImage: "/og/startup.png",
+    metaTitle: "Startup or Scam? Rate My Business Idea — DaFuqBro",
+    metaDescription: "Pitch any business idea and we'll rate it from '$4.2B Unicorn' to 'Straight to Jail.' Zero mercy, maximum chaos.",
   },
   {
     slug: "villain",
@@ -98,6 +128,9 @@ export const tools: Tool[] = [
     accent: "blue",
     badge: "soon",
     active: false,
+    ogImage: "/og/villain.png",
+    metaTitle: "What's Your Villain Origin Story? Quiz — DaFuqBro",
+    metaDescription: "Answer 5 questions and get your villain name, superpower, weakness, and evil lair. Every hero needs an origin story — so does every villain.",
   },
 ];
 
