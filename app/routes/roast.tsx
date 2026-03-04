@@ -3,10 +3,13 @@ import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
 
-export const meta: MetaFunction = () => [
-  { title: "Roast My Year — DaFuqBro" },
-  { name: "description", content: "Your year in review, but brutally honest. Get a Wrapped-style roast with animated reveals, a Life Score, and a card that proves how bad it really was." },
-];
+import { toolMeta, toolJsonLd } from "~/lib/seo";
+const TOOL_SLUG = "roast";
+const TOOL_NAME = "Roast My Year — Get Brutally Honest Results | DaFuqBro";
+const TOOL_DESC = "Your year in review, brutally honest. Get a Wrapped-style roast with an animated reveal, a Life Score, and a card that proves how bad it really was.";
+const TOOL_OG   = "/og/roast.png";
+const _roastJsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "Roast My Year", description: TOOL_DESC, emoji: "🔥" });
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
@@ -310,6 +313,7 @@ export default function RoastTool() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _roastJsonLd }} />
       <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
         <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">DaFuqBro</Link>
         <span className="text-[#6B6580] text-[0.75rem]">›</span>
