@@ -13,7 +13,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
   const { post, url } = data;
   const description = post.excerpt || post.title;
-  const ogImage = `${SITE_URL}/og-blog.png`;
+  const ogImage = post.og_image ? `${SITE_URL}${post.og_image}` : `${SITE_URL}/og-blog.png`;
 
   return [
     // Basic
@@ -30,14 +30,17 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { property: "og:description", content: description },
     { property: "og:url", content: url },
     { property: "og:image", content: ogImage },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:image:alt", content: post.title },
     { property: "og:locale", content: "en_US" },
 
     // Article meta
     ...(post.published_at
-      ? [{ property: "article:published_time", content: post.published_at }]
+      ? [{ property: "article:published_time", content: post.published_at.replace(" ", "T") + (post.published_at.includes("Z") ? "" : "Z") }]
       : []),
     ...(post.updated_at
-      ? [{ property: "article:modified_time", content: post.updated_at }]
+      ? [{ property: "article:modified_time", content: post.updated_at.replace(" ", "T") + (post.updated_at.includes("Z") ? "" : "Z") }]
       : []),
     { property: "article:section", content: post.category },
     { property: "article:author", content: SITE_URL },
@@ -77,8 +80,8 @@ export async function loader({ params, request, context }: LoaderFunctionArgs) {
     description: post.excerpt || post.title,
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    datePublished: post.published_at || post.created_at,
-    dateModified: post.updated_at || post.published_at || post.created_at,
+    datePublished: (post.published_at || post.created_at).replace(" ", "T").replace(/Z?$/, "Z"),
+    dateModified: (post.updated_at || post.published_at || post.created_at).replace(" ", "T").replace(/Z?$/, "Z"),
     author: {
       "@type": "Organization",
       name: SITE_NAME,
