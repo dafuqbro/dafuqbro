@@ -36,7 +36,7 @@ const categories: Category[] = [
     key: "dating",
     emoji: "💔",
     name: "Dating & Romance",
-    color: "#f87171",
+    color: "#E05544",
     flags: [
       { id: "d1", emoji: "📱", text: "Still follows all their exes on Instagram", severity: 2 },
       { id: "d2", emoji: "🚗", text: "\"I'll pick you up\" means you're driving", severity: 2 },
@@ -56,7 +56,7 @@ const categories: Category[] = [
     key: "social",
     emoji: "🎭",
     name: "Social & Friendship",
-    color: "#a78bfa",
+    color: "#A89BC0",
     flags: [
       { id: "s1", emoji: "📸", text: "Posts everything on social media before telling you", severity: 2 },
       { id: "s2", emoji: "🎤", text: "Makes everything about themselves", severity: 3 },
@@ -142,7 +142,7 @@ const tiers: Tier[] = [
     ],
   },
   {
-    min: 26, max: 45, emoji: "😬", label: "Proceed With Caution", color: "#facc15",
+    min: 26, max: 45, emoji: "😬", label: "Proceed With Caution", color: "#F5C518",
     verdicts: [
       "You're the person people date when they're \"working on themselves.\"",
       "Your dating profile should come with a terms of service.",
@@ -158,7 +158,7 @@ const tiers: Tier[] = [
     ],
   },
   {
-    min: 66, max: 80, emoji: "🚨", label: "Certified Menace", color: "#f87171",
+    min: 66, max: 80, emoji: "🚨", label: "Certified Menace", color: "#E05544",
     verdicts: [
       "You don't date. You create origin stories for future therapy patients.",
       "You're not a red flag — you're the entire flag factory.",
@@ -186,16 +186,16 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
   const pct = ((step) / total) * 100;
   return (
     <div className="w-full max-w-[480px] mx-auto mb-8">
-      <div className="flex justify-between text-[0.7rem] font-['JetBrains_Mono'] text-[#71717a] mb-2">
+      <div className="flex justify-between text-[0.7rem] font-['JetBrains_Mono'] text-[#6B6580] mb-2">
         <span>Step {step} of {total}</span>
         <span>{Math.round(pct)}%</span>
       </div>
-      <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+      <div className="h-1.5 bg-[#2A2640]/40 rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-500 ease-out"
           style={{
             width: `${pct}%`,
-            background: "linear-gradient(90deg, #f87171, #fb923c, #facc15)",
+            background: "linear-gradient(90deg, #E05544, #fb923c, #F5C518)",
           }}
         />
       </div>
@@ -221,7 +221,7 @@ function FlagChip({
       className={`flex items-start gap-3 w-full text-left p-4 rounded-2xl border transition-all duration-200 ${
         selected
           ? "bg-[var(--sel-bg)] border-[var(--sel-border)] scale-[1.02] shadow-[0_0_20px_var(--sel-glow)]"
-          : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.05] hover:border-white/[0.1]"
+          : "bg-[#2A2640]/30 border-[#3A3555]/50 hover:bg-[#2A2640]/50 hover:border-[#3A3555]/60"
       }`}
       style={{
         "--sel-bg": color + "15",
@@ -230,14 +230,14 @@ function FlagChip({
       } as React.CSSProperties}
     >
       <span className="text-xl flex-shrink-0 mt-0.5">{flag.emoji}</span>
-      <span className={`text-[0.9rem] leading-snug font-medium ${selected ? "text-white" : "text-[#a1a1aa]"}`}>
+      <span className={`text-[0.9rem] leading-snug font-medium ${selected ? "text-[#F5F5F7]" : "text-[#9B95A8]"}`}>
         {flag.text}
       </span>
       <span className="ml-auto flex-shrink-0 mt-0.5">
         {selected ? (
           <span className="w-6 h-6 rounded-full flex items-center justify-center text-[0.75rem] font-bold" style={{ background: color, color: "#09090b" }}>✓</span>
         ) : (
-          <span className="w-6 h-6 rounded-full border border-white/[0.12] flex items-center justify-center" />
+          <span className="w-6 h-6 rounded-full border border-[#3A3555] flex items-center justify-center" />
         )}
       </span>
     </button>
@@ -298,7 +298,7 @@ function ScoreMeter({ score, color, active }: { score: number; color: string; ac
         >
           {display}
         </span>
-        <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] uppercase tracking-widest mt-1">
+        <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] uppercase tracking-widest mt-1">
           / 100
         </span>
       </div>
@@ -333,14 +333,14 @@ function CategoryBar({
   return (
     <div className="animate-fadeInUp" style={{ animationDelay: `${delay}s`, animationFillMode: "both" }}>
       <div className="flex justify-between items-center mb-1.5">
-        <span className="text-[0.82rem] font-medium text-[#a1a1aa]">
+        <span className="text-[0.82rem] font-medium text-[#9B95A8]">
           {emoji} {name}
         </span>
         <span className="font-['JetBrains_Mono'] text-[0.72rem] font-semibold" style={{ color }}>
           {count}/{total}
         </span>
       </div>
-      <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
+      <div className="h-2 bg-[#2A2640]/40 rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-1000 ease-out"
           style={{
@@ -497,12 +497,12 @@ export default function RedFlagsTool() {
   return (
     <>
       {/* Top bar */}
-      <div className="py-4 px-5 flex items-center gap-3 border-b border-white/[0.06] relative z-10">
-        <Link to="/" className="text-[#71717a] text-[0.85rem] hover:text-white transition-colors">
+      <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
+        <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">
           DaFuqBro
         </Link>
-        <span className="text-[#71717a] text-[0.75rem]">›</span>
-        <span className="text-[#a1a1aa] font-semibold text-[0.85rem]">🚨 Rate My Red Flags</span>
+        <span className="text-[#6B6580] text-[0.75rem]">›</span>
+        <span className="text-[#9B95A8] font-semibold text-[0.85rem]">🚨 Rate My Red Flags</span>
       </div>
 
       <div className="max-w-[640px] mx-auto px-5 py-10 pb-24 relative z-1">
@@ -513,10 +513,10 @@ export default function RedFlagsTool() {
             <h1 className="font-['Outfit'] font-extrabold text-[2.2rem] tracking-tight mb-3">
               Rate My Red Flags
             </h1>
-            <p className="text-[#a1a1aa] text-[1rem] leading-relaxed max-w-[440px] mx-auto mb-3">
+            <p className="text-[#9B95A8] text-[1rem] leading-relaxed max-w-[440px] mx-auto mb-3">
               Check every red flag that applies to you. Be honest — we already know you won't be.
             </p>
-            <p className="text-[#71717a] text-[0.82rem] mb-10">
+            <p className="text-[#6B6580] text-[0.82rem] mb-10">
               48 flags across 4 categories. Your score awaits.
             </p>
 
@@ -525,10 +525,10 @@ export default function RedFlagsTool() {
               {categories.map((cat) => (
                 <div
                   key={cat.key}
-                  className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-center"
+                  className="bg-white/[0.03] border border-[#3A3555]/50 rounded-xl p-4 text-center"
                 >
                   <span className="text-2xl block mb-1">{cat.emoji}</span>
-                  <span className="text-[0.82rem] font-medium text-[#a1a1aa]">{cat.name}</span>
+                  <span className="text-[0.82rem] font-medium text-[#9B95A8]">{cat.name}</span>
                   <span className="block font-['JetBrains_Mono'] text-[0.65rem] mt-1" style={{ color: cat.color }}>
                     {cat.flags.length} flags
                   </span>
@@ -538,7 +538,7 @@ export default function RedFlagsTool() {
 
             <button
               onClick={() => setPhase("quiz")}
-              className="w-full max-w-[400px] py-4 rounded-[14px] bg-gradient-to-br from-[#f87171] to-[#fb923c] text-white font-['Outfit'] text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(248,113,113,0.3)]"
+              className="w-full max-w-[400px] py-4 rounded-[14px] bg-gradient-to-br from-[#E05544] to-[#fb923c] text-[#F5F5F7] font-['Outfit'] text-[1.1rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(248,113,113,0.3)]"
             >
               Start the Assessment 🚩
             </button>
@@ -565,9 +565,9 @@ export default function RedFlagsTool() {
                 <h2 className="font-['Outfit'] font-bold text-[1.5rem] tracking-tight mb-1">
                   {currentCat.name}
                 </h2>
-                <p className="text-[#71717a] text-[0.82rem]">
+                <p className="text-[#6B6580] text-[0.82rem]">
                   Check all that apply. No judgment.{" "}
-                  <span className="text-[#a1a1aa]">(Total judgment.)</span>
+                  <span className="text-[#9B95A8]">(Total judgment.)</span>
                 </p>
               </div>
 
@@ -609,7 +609,7 @@ export default function RedFlagsTool() {
               {catIndex > 0 && (
                 <button
                   onClick={prevCat}
-                  className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all"
+                  className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all"
                 >
                   ← Back
                 </button>
@@ -633,17 +633,17 @@ export default function RedFlagsTool() {
         {phase === "calculating" && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 animate-fadeInUp">
             <div className="relative">
-              <div className="w-[80px] h-[80px] rounded-full border-[3px] border-white/[0.06] border-t-[#f87171] animate-spin" />
+              <div className="w-[80px] h-[80px] rounded-full border-[3px] border-[#3A3555]/50 border-t-[#E05544] animate-spin" />
               <span className="absolute inset-0 flex items-center justify-center text-3xl">🚩</span>
             </div>
-            <div className="text-[1.1rem] font-semibold text-[#a1a1aa] text-center transition-all">
+            <div className="text-[1.1rem] font-semibold text-[#9B95A8] text-center transition-all">
               {calcMessages[calcMsg]}
             </div>
             <div className="flex gap-1.5">
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className="w-2 h-2 rounded-full bg-[#f87171] animate-pulse-dot"
+                  className="w-2 h-2 rounded-full bg-[#E05544] animate-pulse-dot"
                   style={{ animationDelay: `${i * 0.3}s` }}
                 />
               ))}
@@ -686,7 +686,7 @@ export default function RedFlagsTool() {
                 >
                   {result.totalFlags} RED FLAGS
                 </span>
-                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a]">
+                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580]">
                   dafuqbro.com
                 </span>
               </div>
@@ -705,14 +705,14 @@ export default function RedFlagsTool() {
                 >
                   {result.tier.label}
                 </div>
-                <div className="text-[#a1a1aa] text-[0.88rem] italic leading-relaxed max-w-[380px] mx-auto">
+                <div className="text-[#9B95A8] text-[0.88rem] italic leading-relaxed max-w-[380px] mx-auto">
                   "{result.verdict}"
                 </div>
               </div>
 
               {/* Category Breakdown */}
               <div className="px-6 pb-5">
-                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-[0.15em] mb-3">
+                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-[0.15em] mb-3">
                   Damage Breakdown
                 </div>
                 <div className="flex flex-col gap-3">
@@ -731,8 +731,8 @@ export default function RedFlagsTool() {
               </div>
 
               {/* Worst category callout */}
-              <div className="mx-6 mb-5 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
-                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-[0.12em] mb-1.5">
+              <div className="mx-6 mb-5 p-4 rounded-xl bg-white/[0.03] border border-[#3A3555]/50 text-center">
+                <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-[0.12em] mb-1.5">
                   Biggest Problem Area
                 </div>
                 <div className="flex items-center justify-center gap-2">
@@ -744,11 +744,11 @@ export default function RedFlagsTool() {
               </div>
 
               {/* Footer */}
-              <div className="flex justify-between items-center px-6 py-4 border-t border-white/[0.04]">
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">
+              <div className="flex justify-between items-center px-6 py-4 border-t border-[#3A3555]/30">
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">
                   Rate My Red Flags
                 </span>
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">
                   {new Date().toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -770,13 +770,13 @@ export default function RedFlagsTool() {
             <div className="flex gap-3 w-full max-w-[480px]">
               <button
                 onClick={retry}
-                className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all"
+                className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all"
               >
                 🔄 Try Again
               </button>
               <Link
                 to="/"
-                className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all text-center"
+                className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all text-center"
               >
                 ← All Tools
               </Link>
