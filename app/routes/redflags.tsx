@@ -2,15 +2,14 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
+import { toolMeta, toolJsonLd } from "~/lib/seo";
 
-export const meta: MetaFunction = () => [
-  { title: "Rate My Red Flags — DaFuqBro" },
-  {
-    name: "description",
-    content:
-      "Check all the red flags that apply to you. Get a brutal dateability score and a shareable card to prove how undateable you are.",
-  },
-];
+const TOOL_SLUG = "redflags";
+const TOOL_NAME = "Rate My Red Flags Quiz — What's Your Dateability Score? | DaFuqBro";
+const TOOL_DESC = "Check all your red flags and get a brutal dateability score. Get a shareable card that proves exactly how undateable you really are.";
+const TOOL_OG   = "/og/redflags.png";
+
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 /* ═══════════════════════════════════════
    DATA
@@ -362,6 +361,7 @@ function CategoryBar({
 type Phase = "intro" | "quiz" | "calculating" | "result";
 
 export default function RedFlagsTool() {
+  const _jsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "Rate My Red Flags", description: TOOL_DESC, emoji: "🚨" });
   const [phase, setPhase] = useState<Phase>("intro");
   const [catIndex, setCatIndex] = useState(0);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -496,6 +496,7 @@ export default function RedFlagsTool() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _jsonLd }} />
       {/* Top bar */}
       <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
         <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">
