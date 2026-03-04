@@ -7,6 +7,7 @@ export interface Post {
   excerpt: string;
   category: string;
   cover_emoji: string;
+  og_image: string | null; // custom OG image path e.g. "/blog-images/my-post.png"
   status: "draft" | "published";
   created_at: string;
   updated_at: string;
@@ -88,7 +89,7 @@ const toolCards: Record<string, { emoji: string; name: string; description: stri
   redflags: { emoji: "🚨", name: "Rate My Red Flags", description: "Check all the red flags that apply to you. Get a brutal dateability score and a card to prove it.", color: "#fb923c", slug: "redflags" },
   food: { emoji: "🍵", name: "What Trendy Food Are You?", description: "8 questions to find which trendy food matches your personality. Matcha? Boba? Beef tallow? Let's find out.", color: "#fbbf24", slug: "food" },
   energy: { emoji: "⚡", name: "Your Vibe Energy", description: "Physics meets personality. Are you kinetic, potential, nuclear, or dark energy? Science will judge you.", color: "#6366f1", slug: "energy" },
-  flags: { emoji: "🚩", name: "Flag Detector", description: "Describe any situation. We'll tell you if it's a red flag or green flag with zero mercy.", color: "#f87171", slug: "flags" },
+  brainrot: { emoji: "🧠", name: "Brainrot Pandemic", description: "Your brainrot is Patient Zero. Watch it infect the world.", color: "#E05544", slug: "brainrot" },
   horror: { emoji: "🪓", name: "Horror Movie Death", description: "How would you die in a horror movie? Get your death scene, survival odds & \"first to go\" rating.", color: "#a78bfa", slug: "horror" },
   dna: { emoji: "🧬", name: "Internet DNA", description: "Your internet personality broken down into a chart. Are you more doomscroller or shitposter?", color: "#22d3ee", slug: "dna" },
   startup: { emoji: "🦄", name: "Startup or Scam", description: "Pitch any business idea. We'll rate it from \"$4.2B Unicorn\" to \"Straight to Jail.\"", color: "#4ade80", slug: "startup" },
