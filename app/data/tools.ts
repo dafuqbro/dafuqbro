@@ -46,6 +46,15 @@ export const tools: Tool[] = [
     active: true,
   },
   {
+    slug: "brainrot",
+    emoji: "🧠",
+    name: "Brainrot Pandemic",
+    description: "Your brainrot is Patient Zero. Mutate it with drag-and-drop cards and watch it infect the entire world. Plague Inc. but chronically online.",
+    accent: "red",
+    badge: "new",
+    active: true,
+  },
+  {
     slug: "horror",
     emoji: "🪓",
     name: "Horror Movie Death",
