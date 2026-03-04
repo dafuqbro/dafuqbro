@@ -3,17 +3,12 @@ import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
 
-export const meta: MetaFunction = () => [
-  { title: "What Trendy Food Are You? — DaFuqBro" },
-  {
-    name: "description",
-    content:
-      "Take the quiz to find out which trendy food matches your personality. Are you matcha, boba, Dubai chocolate, or something worse? Find out now.",
-  },
-  { property: "og:title", content: "What Trendy Food Are You? — DaFuqBro" },
-  { property: "og:description", content: "Take the quiz to find out which trendy food matches your personality." },
-  { name: "twitter:card", content: "summary_large_image" },
-];
+import { toolMeta, toolJsonLd } from "~/lib/seo";
+const TOOL_SLUG = "food";
+const TOOL_NAME = "What Trendy Food Are You? Personality Quiz — DaFuqBro";
+const TOOL_DESC = "Take the quiz to find out which trendy food matches your personality. Are you matcha, boba, Dubai chocolate, or something worse?";
+const TOOL_OG   = "/og/food.png";
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 /* ═══════════════════════════════════════
    DATA
@@ -468,6 +463,8 @@ const calcMessages = [
    MAIN COMPONENT
    ═══════════════════════════════════════ */
 
+const _foodJsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "What Trendy Food Are You?", description: TOOL_DESC, emoji: "🍵" });
+
 export default function FoodQuiz() {
   const [phase, setPhase] = useState<"intro" | "quiz" | "calculating" | "result">("intro");
   const [currentQ, setCurrentQ] = useState(0);
@@ -518,6 +515,7 @@ export default function FoodQuiz() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _foodJsonLd }} />
       <div className="min-h-screen relative overflow-hidden" style={{ background: "#09090b" }}>
         {/* Ambient glow */}
         <div
