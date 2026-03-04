@@ -93,10 +93,10 @@ export const tools: Tool[] = [
 ];
 
 export const accentColors: Record<string, string> = {
-  yellow: "#facc15",
-  pink: "#f472b6",
-  red: "#f87171",
-  purple: "#a78bfa",
+  yellow: "#F5C518",
+  pink: "#8B7EA8",
+  red: "#E05544",
+  purple: "#A89BC0",
   orange: "#fb923c",
   cyan: "#22d3ee",
   green: "#4ade80",
