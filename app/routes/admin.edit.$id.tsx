@@ -33,16 +33,24 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   const excerpt = (form.get("excerpt") as string) || "";
   const category = (form.get("category") as string) || "guides";
   const cover_emoji = (form.get("cover_emoji") as string) || "📝";
+  const og_image = (form.get("og_image") as string) || null;
   const status = (form.get("status") as string) || "draft";
   const id = params.id;
 
+  // Validate og_image: must start with / or be empty
+  const cleanOgImage = og_image && og_image.trim().startsWith("/")
+    ? og_image.trim()
+    : og_image && og_image.trim().length > 0
+    ? "/" + og_image.trim()
+    : null;
+
   if (id === "new") {
     const publishedAt = status === "published" ? new Date().toISOString() : null;
-    const result = await db
+    await db
       .prepare(
-        "INSERT INTO posts (title, slug, content, excerpt, category, cover_emoji, status, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO posts (title, slug, content, excerpt, category, cover_emoji, og_image, status, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
       )
-      .bind(title, slug, content, excerpt, category, cover_emoji, status, publishedAt)
+      .bind(title, slug, content, excerpt, category, cover_emoji, cleanOgImage, status, publishedAt)
       .run();
     return redirect("/admin");
   }
@@ -50,9 +58,9 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   const publishedAt = status === "published" ? new Date().toISOString() : null;
   await db
     .prepare(
-      "UPDATE posts SET title=?, slug=?, content=?, excerpt=?, category=?, cover_emoji=?, status=?, published_at=COALESCE(?, published_at), updated_at=datetime('now') WHERE id=?"
+      "UPDATE posts SET title=?, slug=?, content=?, excerpt=?, category=?, cover_emoji=?, og_image=?, status=?, published_at=COALESCE(?, published_at), updated_at=datetime('now') WHERE id=?"
     )
-    .bind(title, slug, content, excerpt, category, cover_emoji, status, publishedAt, id)
+    .bind(title, slug, content, excerpt, category, cover_emoji, cleanOgImage, status, publishedAt, id)
     .run();
 
   return redirect("/admin");
@@ -69,6 +77,7 @@ export default function AdminEditor() {
   const [excerpt, setExcerpt] = useState(post?.excerpt || "");
   const [category, setCategory] = useState(post?.category || "guides");
   const [coverEmoji, setCoverEmoji] = useState(post?.cover_emoji || "📝");
+  const [ogImage, setOgImage] = useState(post?.og_image || "");
   const [status, setStatus] = useState(post?.status || "draft");
   const [showPreview, setShowPreview] = useState(false);
 
@@ -109,6 +118,19 @@ export default function AdminEditor() {
           <div className="text-[3rem] mb-4">{coverEmoji}</div>
           <h1 className="font-['Outfit'] font-extrabold text-[2rem] tracking-tight mb-3">{title || "Untitled"}</h1>
           <p className="text-[#9B95A8] text-[0.88rem] mb-6 italic">{excerpt}</p>
+          {ogImage && (
+            <div className="mb-6">
+              <p className="text-[#6B6580] text-[0.75rem] mb-2 font-['JetBrains_Mono']">OG IMAGE PREVIEW</p>
+              <img
+                src={ogImage}
+                alt="OG preview"
+                className="rounded-xl border border-[#3A3555]/50 max-w-full h-auto max-h-[200px] object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
+          )}
           <div
             className="prose prose-invert max-w-none
               [&_h1]:font-['Outfit'] [&_h1]:font-bold [&_h1]:text-[1.6rem] [&_h1]:mt-8 [&_h1]:mb-3
@@ -129,6 +151,7 @@ export default function AdminEditor() {
       ) : (
         /* EDITOR */
         <Form method="post" className="flex flex-col gap-5">
+          {/* Row 1: Title + Emoji */}
           <div className="grid grid-cols-[1fr_auto] gap-4">
             <div>
               <label className={labelClass}>Title</label>
@@ -154,6 +177,7 @@ export default function AdminEditor() {
             </div>
           </div>
 
+          {/* Slug */}
           <div>
             <label className={labelClass}>Slug</label>
             <div className="flex items-center gap-2">
@@ -168,6 +192,7 @@ export default function AdminEditor() {
             </div>
           </div>
 
+          {/* Excerpt */}
           <div>
             <label className={labelClass}>Excerpt</label>
             <input
@@ -175,12 +200,40 @@ export default function AdminEditor() {
               name="excerpt"
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="Short description for listing pages"
+              placeholder="Short description for listing pages and meta description"
               className={inputClass}
               maxLength={200}
             />
           </div>
 
+          {/* OG Image */}
+          <div>
+            <label className={labelClass}>
+              Custom OG Image{" "}
+              <span className="text-[#6B6580] font-normal">
+                (optional — path like <code className="text-[#F5C518] font-['JetBrains_Mono'] text-[0.78rem]">/blog-images/my-post.png</code>)
+              </span>
+            </label>
+            <input
+              type="text"
+              name="og_image"
+              value={ogImage}
+              onChange={(e) => setOgImage(e.target.value)}
+              placeholder="/blog-images/your-post-name.png"
+              className={`${inputClass} font-['JetBrains_Mono'] text-[0.88rem]`}
+            />
+            {ogImage ? (
+              <p className="text-[#4ade80] text-[0.75rem] mt-1.5 font-['JetBrains_Mono']">
+                ✓ Custom OG image set — upload this file to <code>public{ogImage}</code>
+              </p>
+            ) : (
+              <p className="text-[#6B6580] text-[0.75rem] mt-1.5">
+                Leave blank to use the default blog OG image. Upload images to <code className="font-['JetBrains_Mono']">public/blog-images/</code> in your repo.
+              </p>
+            )}
+          </div>
+
+          {/* Category + Status */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Category</label>
@@ -211,6 +264,7 @@ export default function AdminEditor() {
             </div>
           </div>
 
+          {/* Content */}
           <div>
             <label className={labelClass}>
               Content <span className="text-[#6B6580] font-normal">(Markdown supported)</span>
@@ -220,11 +274,12 @@ export default function AdminEditor() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={20}
-              placeholder={"# Your Post Title\n\nWrite your content here using **Markdown**...\n\n## Section Header\n\nParagraph text goes here."}
+              placeholder={"# Your Post Title\n\nWrite your content here using **Markdown**...\n\n## Section Header\n\nParagraph text goes here.\n\n[tool:redflags] — embed a tool card with this shortcode"}
               className={`${inputClass} font-['JetBrains_Mono'] text-[0.85rem] leading-relaxed resize-y min-h-[300px]`}
             />
           </div>
 
+          {/* Actions */}
           <div className="flex gap-3 justify-end">
             <Link
               to="/admin"
