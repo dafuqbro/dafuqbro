@@ -104,7 +104,7 @@ export default function BlogIndex() {
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="font-['Outfit'] font-extrabold text-[2.5rem] tracking-tight mb-3">Blog</h1>
-            <p className="text-[#a1a1aa] text-[1rem]">Guides, memes, and updates from the DaFuqBro universe.</p>
+            <p className="text-[#9B95A8] text-[1rem]">Guides, memes, and updates from the DaFuqBro universe.</p>
           </div>
 
           {/* Category filter */}
@@ -115,8 +115,8 @@ export default function BlogIndex() {
                 onClick={() => setSearchParams(cat.value === "all" ? {} : { cat: cat.value })}
                 className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[0.82rem] font-medium transition-all ${
                   activeCategory === cat.value
-                    ? "bg-[#facc15]/15 text-[#facc15] border border-[#facc15]/30"
-                    : "bg-white/[0.04] text-[#a1a1aa] border border-white/[0.06] hover:bg-white/[0.08]"
+                    ? "bg-[#F5C518]/15 text-[#F5C518] border border-[#F5C518]/30"
+                    : "bg-[#2A2640]/40 text-[#9B95A8] border border-[#3A3555]/50 hover:bg-[#2A2640]/60"
                 }`}
               >
                 {cat.emoji} {cat.label}
@@ -128,7 +128,7 @@ export default function BlogIndex() {
           {posts.length === 0 ? (
             <div className="text-center py-16">
               <span className="text-[3rem] block mb-4">📭</span>
-              <p className="text-[#71717a] text-[1rem]">No posts yet. Check back soon!</p>
+              <p className="text-[#6B6580] text-[1rem]">No posts yet. Check back soon!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
@@ -139,7 +139,7 @@ export default function BlogIndex() {
                   <Link
                     key={post.id}
                     to={`/blog/${post.slug}`}
-                    className="bg-[#131316] border border-white/[0.06] rounded-2xl p-6 hover:border-white/[0.12] hover:-translate-y-0.5 transition-all block"
+                    className="bg-gradient-to-b from-[#2A2640] to-[#1E1A35] border border-[#3A3555]/50 rounded-2xl p-6 hover:border-[#F5C518]/20 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(245,197,24,0.05)] transition-all block"
                   >
                     <div className="flex items-start gap-4">
                       <span className="text-[2.2rem] flex-shrink-0">{post.cover_emoji}</span>
@@ -148,13 +148,13 @@ export default function BlogIndex() {
                           <span
                             className="font-['JetBrains_Mono'] text-[0.65rem] font-semibold px-2 py-0.5 rounded-full"
                             style={{
-                              background: "#facc15" + "15",
-                              color: "#facc15",
+                              background: "#F5C518" + "15",
+                              color: "#F5C518",
                             }}
                           >
                             {cat?.emoji} {cat?.label || post.category}
                           </span>
-                          <span className="text-[#71717a] text-[0.72rem] font-['JetBrains_Mono']">
+                          <span className="text-[#6B6580] text-[0.72rem] font-['JetBrains_Mono']">
                             {post.published_at
                               ? new Date(post.published_at).toLocaleDateString("en-US", {
                                   month: "short",
@@ -163,14 +163,14 @@ export default function BlogIndex() {
                                 })
                               : ""}
                           </span>
-                          <span className="text-[#71717a] text-[0.72rem]">·</span>
-                          <span className="text-[#71717a] text-[0.72rem] font-['JetBrains_Mono']">{rt} min read</span>
+                          <span className="text-[#6B6580] text-[0.72rem]">·</span>
+                          <span className="text-[#6B6580] text-[0.72rem] font-['JetBrains_Mono']">{rt} min read</span>
                         </div>
-                        <h2 className="font-['Outfit'] font-bold text-[1.15rem] text-[#f4f4f5] mb-1.5 tracking-tight">
+                        <h2 className="font-['Outfit'] font-bold text-[1.15rem] text-[#F5F5F7] mb-1.5 tracking-tight">
                           {post.title}
                         </h2>
                         {post.excerpt && (
-                          <p className="text-[#71717a] text-[0.88rem] leading-relaxed line-clamp-2">{post.excerpt}</p>
+                          <p className="text-[#6B6580] text-[0.88rem] leading-relaxed line-clamp-2">{post.excerpt}</p>
                         )}
                       </div>
                     </div>
