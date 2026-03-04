@@ -78,15 +78,15 @@ export default function AdminEditor() {
   };
 
   const inputClass =
-    "w-full bg-[#1a1a1f] border border-white/[0.06] rounded-xl py-3 px-4 text-[#f4f4f5] text-[0.92rem] outline-none focus:border-[#facc15]/40 font-['Outfit']";
-  const labelClass = "block text-[0.82rem] font-medium text-[#a1a1aa] mb-1.5";
+    "w-full bg-[#2A2640] border border-[#3A3555]/50 rounded-xl py-3 px-4 text-[#F5F5F7] text-[0.92rem] outline-none focus:border-[#F5C518]/40 font-['Outfit']";
+  const labelClass = "block text-[0.82rem] font-medium text-[#9B95A8] mb-1.5";
 
   return (
     <div className="max-w-[960px] mx-auto px-5 py-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-3">
-          <Link to="/admin" className="text-[#71717a] hover:text-white transition-colors text-[0.85rem]">
+          <Link to="/admin" className="text-[#6B6580] hover:text-[#F5F5F7] transition-colors text-[0.85rem]">
             ← Back
           </Link>
           <h1 className="font-['Outfit'] font-extrabold text-[1.5rem] tracking-tight">
@@ -96,7 +96,7 @@ export default function AdminEditor() {
         <div className="flex gap-2">
           <button
             onClick={() => setShowPreview(!showPreview)}
-            className="px-4 py-2 rounded-lg bg-white/[0.06] text-[#a1a1aa] text-[0.82rem] font-medium hover:bg-white/[0.1] transition-all"
+            className="px-4 py-2 rounded-lg bg-[#2A2640]/40 text-[#9B95A8] text-[0.82rem] font-medium hover:bg-[#2A2640]/60 transition-all"
           >
             {showPreview ? "Editor" : "Preview"}
           </button>
@@ -105,23 +105,23 @@ export default function AdminEditor() {
 
       {showPreview ? (
         /* PREVIEW */
-        <div className="bg-[#131316] border border-white/[0.06] rounded-2xl p-8">
+        <div className="bg-[#1E1A35] border border-[#3A3555]/50 rounded-2xl p-8">
           <div className="text-[3rem] mb-4">{coverEmoji}</div>
           <h1 className="font-['Outfit'] font-extrabold text-[2rem] tracking-tight mb-3">{title || "Untitled"}</h1>
-          <p className="text-[#a1a1aa] text-[0.88rem] mb-6 italic">{excerpt}</p>
+          <p className="text-[#9B95A8] text-[0.88rem] mb-6 italic">{excerpt}</p>
           <div
             className="prose prose-invert max-w-none
               [&_h1]:font-['Outfit'] [&_h1]:font-bold [&_h1]:text-[1.6rem] [&_h1]:mt-8 [&_h1]:mb-3
               [&_h2]:font-['Outfit'] [&_h2]:font-bold [&_h2]:text-[1.3rem] [&_h2]:mt-6 [&_h2]:mb-2
               [&_h3]:font-['Outfit'] [&_h3]:font-semibold [&_h3]:text-[1.1rem] [&_h3]:mt-5 [&_h3]:mb-2
-              [&_p]:text-[#a1a1aa] [&_p]:text-[0.92rem] [&_p]:leading-relaxed [&_p]:mb-4
-              [&_a]:text-[#facc15] [&_a]:underline
-              [&_strong]:text-[#f4f4f5]
-              [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[0.85rem] [&_code]:font-['JetBrains_Mono']
+              [&_p]:text-[#9B95A8] [&_p]:text-[0.92rem] [&_p]:leading-relaxed [&_p]:mb-4
+              [&_a]:text-[#F5C518] [&_a]:underline
+              [&_strong]:text-[#F5F5F7]
+              [&_code]:bg-[#2A2640]/40 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[0.85rem] [&_code]:font-['JetBrains_Mono']
               [&_pre]:bg-[#0a0a0f] [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:overflow-x-auto [&_pre]:mb-4
-              [&_blockquote]:border-l-2 [&_blockquote]:border-[#facc15]/40 [&_blockquote]:pl-4 [&_blockquote]:text-[#71717a] [&_blockquote]:italic
-              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:text-[#a1a1aa] [&_li]:mb-1
-              [&_hr]:border-white/[0.06] [&_hr]:my-6
+              [&_blockquote]:border-l-2 [&_blockquote]:border-[#F5C518]/40 [&_blockquote]:pl-4 [&_blockquote]:text-[#6B6580] [&_blockquote]:italic
+              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_li]:text-[#9B95A8] [&_li]:mb-1
+              [&_hr]:border-[#3A3555]/50 [&_hr]:my-6
               [&_img]:rounded-xl [&_img]:my-4"
             dangerouslySetInnerHTML={{ __html: markdownToHtml(content) }}
           />
@@ -157,7 +157,7 @@ export default function AdminEditor() {
           <div>
             <label className={labelClass}>Slug</label>
             <div className="flex items-center gap-2">
-              <span className="text-[#71717a] text-[0.82rem]">/blog/</span>
+              <span className="text-[#6B6580] text-[0.82rem]">/blog/</span>
               <input
                 type="text"
                 name="slug"
@@ -213,7 +213,7 @@ export default function AdminEditor() {
 
           <div>
             <label className={labelClass}>
-              Content <span className="text-[#71717a] font-normal">(Markdown supported)</span>
+              Content <span className="text-[#6B6580] font-normal">(Markdown supported)</span>
             </label>
             <textarea
               name="content"
@@ -228,14 +228,14 @@ export default function AdminEditor() {
           <div className="flex gap-3 justify-end">
             <Link
               to="/admin"
-              className="px-6 py-3 rounded-xl bg-white/[0.06] text-[#a1a1aa] font-['Outfit'] font-medium text-[0.88rem] border border-white/[0.06] hover:bg-white/[0.1] transition-all"
+              className="px-6 py-3 rounded-xl bg-[#2A2640]/40 text-[#9B95A8] font-['Outfit'] font-medium text-[0.88rem] border border-[#3A3555]/50 hover:bg-[#2A2640]/60 transition-all"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-3 rounded-xl bg-gradient-to-br from-[#facc15] to-[#f59e0b] text-[#09090b] font-['Outfit'] font-bold text-[0.92rem] cursor-pointer transition-all hover:-translate-y-0.5 disabled:opacity-50"
+              className="px-8 py-3 rounded-xl bg-[#F5C518] hover:bg-[#FFD84D] text-[#09090b] font-['Outfit'] font-bold text-[0.92rem] cursor-pointer transition-all hover:-translate-y-0.5 disabled:opacity-50"
             >
               {saving ? "Saving..." : post ? "Update Post" : "Create Post"}
             </button>
