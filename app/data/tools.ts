@@ -73,6 +73,18 @@ export const tools: Tool[] = [
     metaDescription: "Your brainrot is spreading. Mutate it, evolve it, and watch it infect the world. Plague Inc meets chronically online internet culture.",
   },
   {
+    slug: "memewars",           // ← NEW
+    emoji: "🎮",
+    name: "Meme Wars",
+    description: "Catan but make it chronically online. Build Bases on TikTok and Reddit, collect Clout and Degen, dominate the timeline. First to 10 VP wins.",
+    accent: "red",
+    badge: "new",
+    active: true,
+    ogImage: "/og/memewars.png",
+    metaTitle: "Meme Wars: Settle the Internet — DaFuqBro",
+    metaDescription: "A Catan-style strategy game across 8 internet zones. Collect Clout, Cope, Degen, Sigma & Rizz. Build Bases, Viral Hubs and Pipelines. First to 10 VP wins.",
+  },
+  {
     slug: "horror",
     emoji: "🪓",
     name: "Horror Movie Death",
@@ -136,11 +148,11 @@ export const tools: Tool[] = [
 
 export const accentColors: Record<string, string> = {
   yellow: "#F5C518",
-  pink: "#8B7EA8",
-  red: "#E05544",
+  pink:   "#8B7EA8",
+  red:    "#E05544",
   purple: "#A89BC0",
   orange: "#fb923c",
-  cyan: "#22d3ee",
-  green: "#4ade80",
-  blue: "#60a5fa",
+  cyan:   "#22d3ee",
+  green:  "#4ade80",
+  blue:   "#60a5fa",
 };
