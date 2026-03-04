@@ -5,10 +5,13 @@ import { OptionsGrid } from "~/components/OptionsGrid";
 import { ShareButtons } from "~/components/ShareButtons";
 import { GeneratingOverlay } from "~/components/GeneratingOverlay";
 
-export const meta: MetaFunction = () => [
-  { title: "Shitcoin Pitch Deck — DaFuqBro" },
-  { name: "description", content: "Generate a hilariously legit listing for your fake meme coin. Complete with tokenomics, roadmap & degen score." },
-];
+import { toolMeta, toolJsonLd } from "~/lib/seo";
+const TOOL_SLUG = "shitcoin";
+const TOOL_NAME = "Shitcoin Pitch Deck Generator — DaFuqBro";
+const TOOL_DESC = "Generate a hilariously legit pitch deck for your fake meme coin. Tokenomics, roadmap, degen score — all the vibes, none of the utility.";
+const TOOL_OG   = "/og/shitcoin.png";
+const _shitcoinJsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "Shitcoin Pitch Deck", description: TOOL_DESC, emoji: "💩" });
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 const randBetween = (a: number, b: number) => Math.floor(Math.random() * (b - a + 1)) + a;
@@ -124,6 +127,7 @@ export default function ShitcoinTool() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _shitcoinJsonLd }} />
       <GeneratingOverlay active={generating} messages={genMessages} accentColor="#F5C518" />
       
       {/* Top bar */}
