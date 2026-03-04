@@ -7,7 +7,7 @@ interface ShareButtonsProps {
   accentColor?: string;
 }
 
-export function ShareButtons({ shareUrl, shareText, cardId, accentColor = "#facc15" }: ShareButtonsProps) {
+export function ShareButtons({ shareUrl, shareText, cardId, accentColor = "#F5C518" }: ShareButtonsProps) {
   const [saving, setSaving] = useState(false);
 
   const shareTwitter = () => {
@@ -161,7 +161,7 @@ export function ShareButtons({ shareUrl, shareText, cardId, accentColor = "#facc
   };
 
   const btnClass =
-    "flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-xl border border-white/[0.06] bg-white/[0.03] text-[#a1a1aa] font-['Outfit'] text-[0.72rem] font-medium cursor-pointer transition-all hover:bg-white/[0.08] hover:border-white/[0.12] hover:-translate-y-0.5 active:scale-95";
+    "flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-xl border border-[#3A3555]/50 bg-white/[0.03] text-[#9B95A8] font-['Outfit'] text-[0.72rem] font-medium cursor-pointer transition-all hover:bg-[#2A2640]/60 hover:border-[#3A3555] hover:-translate-y-0.5 active:scale-95";
 
   return (
     <div className="w-full max-w-[480px] flex flex-col items-center gap-5">
@@ -170,7 +170,7 @@ export function ShareButtons({ shareUrl, shareText, cardId, accentColor = "#facc
         <div className="font-bold text-[1.05rem]" style={{ color: accentColor }}>
           ⚠️ Share it or lose it forever
         </div>
-        <div className="font-['JetBrains_Mono'] text-[0.78rem] text-[#71717a]">
+        <div className="font-['JetBrains_Mono'] text-[0.78rem] text-[#6B6580]">
           we don't store any of your data
         </div>
       </div>
@@ -191,7 +191,7 @@ export function ShareButtons({ shareUrl, shareText, cardId, accentColor = "#facc
         <button
           onClick={nativeShare}
           disabled={saving}
-          className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? "..." : "📤 Share"}
         </button>
