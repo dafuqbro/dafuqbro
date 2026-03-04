@@ -95,9 +95,9 @@ export default function ShitcoinTool() {
 
       const pct = pts / 16;
       let grade: string, gradeColor: string, verdictPool: keyof typeof verdicts;
-      if (pct >= 0.7) { grade = pick(["S+", "S", "A+"]); gradeColor = "#facc15"; verdictPool = "high"; }
+      if (pct >= 0.7) { grade = pick(["S+", "S", "A+"]); gradeColor = "#F5C518"; verdictPool = "high"; }
       else if (pct >= 0.4) { grade = pick(["A", "B+", "B"]); gradeColor = "#fb923c"; verdictPool = "mid"; }
-      else { grade = pick(["C", "D", "F"]); gradeColor = "#71717a"; verdictPool = "low"; }
+      else { grade = pick(["C", "D", "F"]); gradeColor = "#6B6580"; verdictPool = "low"; }
 
       const rugRisk = redflag === "all" ? randBetween(85, 99) : redflag === "liquidity" ? randBetween(60, 85) : randBetween(20, 50);
       const holders = community === "criminal" ? randBetween(12, 89) : community === "deranged" ? randBetween(420, 6900) : randBetween(1000, 50000);
@@ -124,13 +124,13 @@ export default function ShitcoinTool() {
 
   return (
     <>
-      <GeneratingOverlay active={generating} messages={genMessages} accentColor="#facc15" />
+      <GeneratingOverlay active={generating} messages={genMessages} accentColor="#F5C518" />
       
       {/* Top bar */}
-      <div className="py-4 px-5 flex items-center gap-3 border-b border-white/[0.06] relative z-10">
-        <Link to="/" className="text-[#71717a] text-[0.85rem] hover:text-white transition-colors">DaFuqBro</Link>
-        <span className="text-[#71717a] text-[0.75rem]">›</span>
-        <span className="text-[#a1a1aa] font-semibold text-[0.85rem]">💩 Shitcoin Pitch Deck</span>
+      <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
+        <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">DaFuqBro</Link>
+        <span className="text-[#6B6580] text-[0.75rem]">›</span>
+        <span className="text-[#9B95A8] font-semibold text-[0.85rem]">💩 Shitcoin Pitch Deck</span>
       </div>
 
       <div className="max-w-[640px] mx-auto px-5 py-10 pb-24 relative z-1">
@@ -138,7 +138,7 @@ export default function ShitcoinTool() {
         <div className="text-center mb-10">
           <span className="text-[3.5rem] mb-4 block">💩</span>
           <h1 className="font-['Outfit'] font-extrabold text-[2rem] tracking-tight mb-2.5">Shitcoin Pitch Deck</h1>
-          <p className="text-[#a1a1aa] text-[0.95rem] leading-relaxed max-w-[420px] mx-auto">
+          <p className="text-[#9B95A8] text-[0.95rem] leading-relaxed max-w-[420px] mx-auto">
             Answer 6 questions. Get a hilariously legit meme coin listing complete with tokenomics and a degen score.
           </p>
         </div>
@@ -147,12 +147,12 @@ export default function ShitcoinTool() {
           <div className="flex flex-col gap-5">
             <div>
               <label className="block font-semibold text-[0.9rem] mb-2">
-                What's your coin about? <span className="font-normal text-[#71717a] text-[0.8rem]">(the dumber the better)</span>
+                What's your coin about? <span className="font-normal text-[#6B6580] text-[0.8rem]">(the dumber the better)</span>
               </label>
               <input
                 type="text" value={theme} onChange={(e) => setTheme(e.target.value)}
                 placeholder="e.g. cats in suits, grandma's recipes, sentient rugs" maxLength={60}
-                className="w-full bg-[#1a1a1f] border border-white/[0.06] rounded-xl py-3.5 px-4 text-[#f4f4f5] font-['Outfit'] text-[0.95rem] outline-none focus:border-[#facc15]/40 placeholder:text-[#71717a]"
+                className="w-full bg-[#2A2640] border border-[#3A3555]/50 rounded-xl py-3.5 px-4 text-[#F5F5F7] font-['Outfit'] text-[0.95rem] outline-none focus:border-[#F5C518]/40 placeholder:text-[#6B6580]"
               />
             </div>
             <div>
@@ -160,41 +160,41 @@ export default function ShitcoinTool() {
               <OptionsGrid options={[
                 { value: "meme", label: "🤡 Pure Meme" }, { value: "fake-utility", label: "🛠️ Fake Utility" },
                 { value: "cult", label: "🕯️ Cult Energy" }, { value: "ai-hype", label: "🤖 AI Buzzwords" },
-              ]} selected={vibe} onSelect={setVibe} accentColor="#facc15" />
+              ]} selected={vibe} onSelect={setVibe} accentColor="#F5C518" />
             </div>
             <div>
               <label className="block font-semibold text-[0.9rem] mb-2">How unhinged is the community?</label>
               <OptionsGrid options={[
                 { value: "mild", label: "😊 Mild" }, { value: "chaotic", label: "😈 Chaotic" },
                 { value: "deranged", label: "🤯 Deranged" }, { value: "criminal", label: "💀 Criminal" },
-              ]} selected={community} onSelect={setCommunity} accentColor="#facc15" />
+              ]} selected={community} onSelect={setCommunity} accentColor="#F5C518" />
             </div>
             <div>
               <label className="block font-semibold text-[0.9rem] mb-2">
-                Pick a blockchain <span className="font-normal text-[#71717a] text-[0.8rem]">(it doesn't matter, obviously)</span>
+                Pick a blockchain <span className="font-normal text-[#6B6580] text-[0.8rem]">(it doesn't matter, obviously)</span>
               </label>
               <OptionsGrid options={[
                 { value: "Solana", label: "Solana" }, { value: "Ethereum", label: "Ethereum" },
                 { value: "Base", label: "Base" }, { value: "BSC", label: "BSC (of course)" },
-              ]} selected={chain} onSelect={setChain} accentColor="#facc15" />
+              ]} selected={chain} onSelect={setChain} accentColor="#F5C518" />
             </div>
             <div>
               <label className="block font-semibold text-[0.9rem] mb-2">What's your exit strategy?</label>
               <OptionsGrid options={[
                 { value: "moon", label: "🚀 Moon or zero" }, { value: "rug", label: "🏃 Rug at ATH" },
                 { value: "hold", label: "💎 Diamond hands" }, { value: "none", label: "🤷 No plan" },
-              ]} selected={exit} onSelect={setExit} accentColor="#facc15" />
+              ]} selected={exit} onSelect={setExit} accentColor="#F5C518" />
             </div>
             <div>
               <label className="block font-semibold text-[0.9rem] mb-2">Biggest red flag you'd ignore for gains?</label>
               <OptionsGrid options={[
                 { value: "anon", label: "👻 Anonymous team" }, { value: "liquidity", label: "🔓 No locked liquidity" },
                 { value: "whitepaper", label: "📄 No whitepaper" }, { value: "all", label: "🤡 All of the above" },
-              ]} selected={redflag} onSelect={setRedflag} accentColor="#facc15" />
+              ]} selected={redflag} onSelect={setRedflag} accentColor="#F5C518" />
             </div>
             <button
               onClick={generate}
-              className="w-full py-4 rounded-[14px] bg-gradient-to-br from-[#facc15] to-[#f59e0b] text-[#09090b] font-['Outfit'] text-[1.05rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(250,204,21,0.3)] mt-3"
+              className="w-full py-4 rounded-[14px] bg-[#F5C518] hover:bg-[#FFD84D] text-[#09090b] font-['Outfit'] text-[1.05rem] font-bold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(245,197,24,0.3)] mt-3"
             >
               Generate My Shitcoin 💩
             </button>
@@ -202,57 +202,57 @@ export default function ShitcoinTool() {
         ) : (
           <div className="flex flex-col items-center gap-5">
             {/* Result card */}
-            <div id="resultCard" className="w-full max-w-[480px] bg-gradient-to-br from-[#1a1a2e] via-[#16162a] to-[#0f0f1a] rounded-[20px] border border-[#facc15]/15 overflow-hidden relative">
-              <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-[radial-gradient(circle,rgba(250,204,21,0.06)_0%,transparent_70%)] pointer-events-none" />
+            <div id="resultCard" className="w-full max-w-[480px] bg-gradient-to-br from-[#1a1a2e] via-[#16162a] to-[#0f0f1a] rounded-[20px] border border-[#F5C518]/15 overflow-hidden relative">
+              <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-[radial-gradient(circle,rgba(245,197,24,0.06)_0%,transparent_70%)] pointer-events-none" />
               <div className="absolute -bottom-[30%] -left-[30%] w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(167,139,250,0.05)_0%,transparent_60%)] pointer-events-none" />
               
               <div className="flex justify-between items-start p-7 pb-0">
-                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#facc15] bg-[#facc15]/10 border border-[#facc15]/20 px-3 py-1 rounded-full font-semibold">{result.ticker}</span>
-                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#71717a]">{result.chain}</span>
+                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#F5C518] bg-[#F5C518]/10 border border-[#F5C518]/20 px-3 py-1 rounded-full font-semibold">{result.ticker}</span>
+                <span className="font-['JetBrains_Mono'] text-[0.72rem] text-[#6B6580]">{result.chain}</span>
               </div>
               
               <div className="px-7 py-5">
                 <div className="text-center mb-3">
-                  <span className="text-[4.5rem] leading-none drop-shadow-[0_0_20px_rgba(250,204,21,0.3)] animate-mascotIn block">{result.mascot}</span>
+                  <span className="text-[4.5rem] leading-none drop-shadow-[0_0_20px_rgba(245,197,24,0.3)] animate-mascotIn block">{result.mascot}</span>
                 </div>
                 <div className="font-['Outfit'] font-extrabold text-[1.8rem] tracking-tight mb-1">{result.coinName}</div>
-                <div className="text-[#a1a1aa] text-[0.88rem] italic mb-5">"{result.tagline}"</div>
+                <div className="text-[#9B95A8] text-[0.88rem] italic mb-5">"{result.tagline}"</div>
                 
                 <div className="grid grid-cols-3 gap-3 mb-5">
                   <div className="bg-white/[0.03] rounded-xl p-3.5 text-center">
-                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-widest mb-1.5">Market Cap</div>
+                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-widest mb-1.5">Market Cap</div>
                     <div className="font-['JetBrains_Mono'] font-bold text-[#4ade80]">{result.mcap}</div>
                   </div>
                   <div className="bg-white/[0.03] rounded-xl p-3.5 text-center">
-                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-widest mb-1.5">Holders</div>
+                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-widest mb-1.5">Holders</div>
                     <div className="font-['JetBrains_Mono'] font-bold text-[#22d3ee]">{result.holders}</div>
                   </div>
                   <div className="bg-white/[0.03] rounded-xl p-3.5 text-center">
-                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] uppercase tracking-widest mb-1.5">Rug Risk</div>
-                    <div className="font-['JetBrains_Mono'] font-bold text-[#f87171]">{result.rugRisk}%</div>
+                    <div className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] uppercase tracking-widest mb-1.5">Rug Risk</div>
+                    <div className="font-['JetBrains_Mono'] font-bold text-[#E05544]">{result.rugRisk}%</div>
                   </div>
                 </div>
                 
                 <div className="mb-5">
-                  <div className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] uppercase tracking-[0.12em] mb-2.5">Roadmap</div>
+                  <div className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] uppercase tracking-[0.12em] mb-2.5">Roadmap</div>
                   {result.roadmap.map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 text-[0.82rem] text-[#a1a1aa] mb-1.5">
-                      <span className="font-['JetBrains_Mono'] text-[0.6rem] text-[#71717a] min-w-[28px]">Q{i + 1}</span>
+                    <div key={i} className="flex items-center gap-2 text-[0.82rem] text-[#9B95A8] mb-1.5">
+                      <span className="font-['JetBrains_Mono'] text-[0.6rem] text-[#6B6580] min-w-[28px]">Q{i + 1}</span>
                       {item}
                     </div>
                   ))}
                 </div>
                 
-                <div className="bg-white/[0.02] rounded-[14px] p-4.5 text-center border border-white/[0.04]">
-                  <div className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] uppercase tracking-[0.12em] mb-1.5">Degen Score</div>
+                <div className="bg-[#2A2640]/30 rounded-[14px] p-4.5 text-center border border-[#3A3555]/30">
+                  <div className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] uppercase tracking-[0.12em] mb-1.5">Degen Score</div>
                   <div className="font-['Outfit'] font-black text-[2.5rem] tracking-tight" style={{ color: result.gradeColor }}>{result.grade}</div>
-                  <div className="text-[0.82rem] text-[#a1a1aa] mt-1">{result.verdict}</div>
+                  <div className="text-[0.82rem] text-[#9B95A8] mt-1">{result.verdict}</div>
                 </div>
               </div>
               
-              <div className="flex justify-between items-center px-7 py-4 border-t border-white/[0.04]">
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">dafuqbro.com</span>
-                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#71717a] opacity-60">
+              <div className="flex justify-between items-center px-7 py-4 border-t border-[#3A3555]/30">
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">dafuqbro.com</span>
+                <span className="font-['JetBrains_Mono'] text-[0.65rem] text-[#6B6580] opacity-60">
                   {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                 </span>
               </div>
@@ -262,19 +262,19 @@ export default function ShitcoinTool() {
               shareUrl="https://dafuqbro.com/shitcoin"
               shareText={`My shitcoin ${result.ticker} just got a Degen Score of ${result.grade} 💩\n\nGenerate yours 👇`}
               cardId="resultCard"
-              accentColor="#facc15"
+              accentColor="#F5C518"
             />
 
             <div className="flex gap-3 w-full max-w-[480px]">
-              <button onClick={() => { /* download handled by ShareButtons */ }} className="flex-1 py-3.5 rounded-xl bg-gradient-to-br from-[#facc15] to-[#f59e0b] text-[#09090b] font-['Outfit'] font-semibold text-[0.92rem] cursor-pointer transition-all hover:shadow-[0_4px_20px_rgba(250,204,21,0.3)] hover:-translate-y-0.5">
+              <button onClick={() => { /* download handled by ShareButtons */ }} className="flex-1 py-3.5 rounded-xl bg-[#F5C518] hover:bg-[#FFD84D] text-[#09090b] font-['Outfit'] font-semibold text-[0.92rem] cursor-pointer transition-all hover:shadow-[0_4px_20px_rgba(245,197,24,0.3)] hover:-translate-y-0.5">
                 📸 Save Card
               </button>
-              <button onClick={retry} className="flex-1 py-3.5 rounded-xl bg-white/[0.06] text-white font-['Outfit'] font-semibold text-[0.92rem] border border-white/[0.06] cursor-pointer hover:bg-white/[0.1]">
+              <button onClick={retry} className="flex-1 py-3.5 rounded-xl bg-[#2A2640]/40 text-[#F5F5F7] font-['Outfit'] font-semibold text-[0.92rem] border border-[#3A3555]/50 cursor-pointer hover:bg-[#2A2640]/60">
                 🔄 Try Again
               </button>
             </div>
 
-            <Link to="/" className="text-[#71717a] text-[0.85rem] hover:text-[#a1a1aa] transition-colors mt-2">
+            <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#9B95A8] transition-colors mt-2">
               ← Back to all tools
             </Link>
           </div>
