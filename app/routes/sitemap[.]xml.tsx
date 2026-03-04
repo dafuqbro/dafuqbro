@@ -1,18 +1,14 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { getDB } from "~/lib/db";
+import { tools } from "~/data/tools";
 import type { Post } from "~/lib/db";
 
 const SITE_URL = "https://dafuqbro.com";
 
-// Static pages with their priority and change frequency
+// Static non-tool pages
 const staticPages = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
   { path: "/blog", priority: "0.8", changefreq: "daily" },
-  { path: "/shitcoin", priority: "0.7", changefreq: "monthly" },
-  { path: "/roast", priority: "0.7", changefreq: "monthly" },
-  { path: "/redflags", priority: "0.7", changefreq: "monthly" },
-  { path: "/food", priority: "0.7", changefreq: "monthly" },
-  { path: "/energy", priority: "0.7", changefreq: "monthly" },
 ];
 
 export async function loader({ context }: LoaderFunctionArgs) {
@@ -20,12 +16,16 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
   // Fetch all published blog posts
   const { results } = await db
-    .prepare("SELECT slug, updated_at, published_at FROM posts WHERE status = 'published' ORDER BY published_at DESC")
+    .prepare(
+      "SELECT slug, updated_at, published_at FROM posts WHERE status = 'published' ORDER BY published_at DESC"
+    )
     .all<Pick<Post, "slug" | "updated_at" | "published_at">>();
 
   const posts = results || [];
-
   const now = new Date().toISOString().split("T")[0];
+
+  // Derive active tool pages from tools.ts — always in sync
+  const activeTools = tools.filter((t) => t.active);
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -38,6 +38,17 @@ export async function loader({ context }: LoaderFunctionArgs) {
     <lastmod>${now}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
+  </url>
+`;
+  }
+
+  // Tool pages — auto-generated from tools.ts
+  for (const tool of activeTools) {
+    xml += `  <url>
+    <loc>${SITE_URL}/${tool.slug}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 `;
   }
