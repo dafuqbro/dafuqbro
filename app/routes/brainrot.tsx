@@ -5,13 +5,13 @@ import { Header } from "~/components/Header";
 import { Footer } from "~/components/Footer";
 import { ShareButtons } from "~/components/ShareButtons";
 
-export const meta: MetaFunction = () => [
-  { title: "Brainrot Pandemic — DaFuqBro" },
-  { name: "description", content: "Your brainrot is spreading. Plague Inc meets internet culture." },
-  { property: "og:title", content: "Brainrot Pandemic — DaFuqBro" },
-  { property: "og:description", content: "Your brainrot is a global pandemic. Watch it spread." },
-  { name: "twitter:card", content: "summary_large_image" },
-];
+import { toolMeta, toolJsonLd } from "~/lib/seo";
+const TOOL_SLUG = "brainrot";
+const TOOL_NAME = "Brainrot Pandemic — How Bad Is Your Brainrot? | DaFuqBro";
+const TOOL_DESC = "Your brainrot is spreading. Mutate it, evolve it, and watch it infect the world. Plague Inc meets chronically online internet culture.";
+const TOOL_OG   = "/og/brainrot.png";
+const _brainrotJsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "Brainrot Pandemic", description: TOOL_DESC, emoji: "🧠" });
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -321,6 +321,7 @@ export default function BrainrotPandemic(){
   /* ── RENDER ── */
   return(
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _brainrotJsonLd }} />
       <Header/>
       <div style={{minHeight:"100vh",background:"#05060f",fontFamily:"'Outfit',sans-serif",position:"relative",overflow:"hidden"}}>
 
