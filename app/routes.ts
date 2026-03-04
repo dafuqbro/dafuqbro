@@ -8,6 +8,7 @@ export default [
   route("food", "routes/food.tsx"),
   route("energy", "routes/energy.tsx"),
   route("brainrot", "routes/brainrot.tsx"),
+  route("memewars", "routes/memewars.tsx"),   // ← NEW
   // Blog
   route("blog", "routes/blog._index.tsx"),
   route("blog/:slug", "routes/blog.$slug.tsx"),
