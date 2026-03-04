@@ -3,17 +3,12 @@ import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
 
-export const meta: MetaFunction = () => [
-  { title: "What's Your Vibe Energy? — DaFuqBro" },
-  {
-    name: "description",
-    content:
-      "Are you kinetic energy, potential energy, or a walking nuclear meltdown? Take the quiz to find your energy type. Physics meets personality.",
-  },
-  { property: "og:title", content: "What's Your Vibe Energy? — DaFuqBro" },
-  { property: "og:description", content: "Physics meets personality. Find your energy type." },
-  { name: "twitter:card", content: "summary_large_image" },
-];
+import { toolMeta, toolJsonLd } from "~/lib/seo";
+const TOOL_SLUG = "energy";
+const TOOL_NAME = "What's Your Vibe Energy? Physics Personality Quiz — DaFuqBro";
+const TOOL_DESC = "Are you kinetic energy, potential energy, or a walking nuclear meltdown? Take the quiz to find your energy type. Physics meets personality.";
+const TOOL_OG   = "/og/energy.png";
+export const meta: MetaFunction = () => toolMeta({ slug: TOOL_SLUG, title: TOOL_NAME, description: TOOL_DESC, ogImage: TOOL_OG });
 
 /* ═══════════════════════════════════════
    DATA
@@ -435,6 +430,8 @@ const calcMessages = [
    MAIN COMPONENT
    ═══════════════════════════════════════ */
 
+const _energyJsonLd = toolJsonLd({ slug: TOOL_SLUG, name: "What's Your Vibe Energy?", description: TOOL_DESC, emoji: "⚡" });
+
 export default function EnergyQuiz() {
   const [phase, setPhase] = useState<"intro" | "quiz" | "calculating" | "result">("intro");
   const [currentQ, setCurrentQ] = useState(0);
@@ -483,6 +480,7 @@ export default function EnergyQuiz() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _energyJsonLd }} />
       <div className="min-h-screen relative overflow-hidden" style={{ background: "#09090b" }}>
         {/* Ambient glow */}
         <div
