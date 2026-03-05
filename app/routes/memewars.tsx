@@ -44,7 +44,7 @@ const T = {
   hoodLight:  "#3A3555",
 };
 
-const W = 760, H = 520;
+const W = 920, H = 620;
 
 const RESOURCES = {
   CLOUT: { name: "Clout", emoji: "✨", color: T.yellow,  dark: "#2a2300" },
@@ -66,14 +66,14 @@ const PORTS = [
 ] as const;
 
 const ZONES = [
-  { id: "tiktok",    name: "TikTok",      emoji: "🎵", resource: "RIZZ"  as const, color: "#ff2d55", x: 130, y: 110, w: 160, h: 110 },
-  { id: "twitter",   name: "X (Twitter)", emoji: "💀", resource: "COPE"  as const, color: T.blue,    x: 340, y: 60,  w: 170, h: 110 },
-  { id: "reddit",    name: "Reddit",      emoji: "🐸", resource: "DEGEN" as const, color: T.orange,  x: 570, y: 110, w: 160, h: 130 },
-  { id: "youtube",   name: "YouTube",     emoji: "📺", resource: "CLOUT" as const, color: T.red,     x: 380, y: 240, w: 160, h: 110 },
-  { id: "discord",   name: "Discord",     emoji: "🗡️", resource: "SIGMA" as const, color: "#5865f2", x: 110, y: 290, w: 160, h: 110 },
-  { id: "instagram", name: "Instagram",   emoji: "✨", resource: "RIZZ"  as const, color: "#e1306c", x: 310, y: 380, w: 160, h: 110 },
-  { id: "linkedin",  name: "LinkedIn",    emoji: "💼", resource: "CLOUT" as const, color: "#0077b5", x: 570, y: 360, w: 150, h: 100 },
-  { id: "4chan",     name: "The Abyss",   emoji: "👁️", resource: "DEGEN" as const, color: T.green,   x: 100, y: 400, w: 130, h: 100 },
+  { id: "tiktok",    name: "TikTok",      emoji: "🎵", resource: "RIZZ"  as const, color: "#ff2d55", x: 100, y: 90,  w: 190, h: 130 },
+  { id: "twitter",   name: "X (Twitter)", emoji: "💀", resource: "COPE"  as const, color: T.blue,    x: 360, y: 45,  w: 210, h: 130 },
+  { id: "reddit",    name: "Reddit",      emoji: "🐸", resource: "DEGEN" as const, color: T.orange,  x: 660, y: 85,  w: 195, h: 155 },
+  { id: "youtube",   name: "YouTube",     emoji: "📺", resource: "CLOUT" as const, color: T.red,     x: 430, y: 260, w: 195, h: 130 },
+  { id: "discord",   name: "Discord",     emoji: "🗡️", resource: "SIGMA" as const, color: "#5865f2", x: 95,  y: 300, w: 195, h: 130 },
+  { id: "instagram", name: "Instagram",   emoji: "✨", resource: "RIZZ"  as const, color: "#e1306c", x: 330, y: 415, w: 200, h: 130 },
+  { id: "linkedin",  name: "LinkedIn",    emoji: "💼", resource: "CLOUT" as const, color: "#0077b5", x: 660, y: 390, w: 185, h: 120 },
+  { id: "4chan",     name: "The Abyss",   emoji: "👁️", resource: "DEGEN" as const, color: T.green,   x: 80,  y: 435, w: 165, h: 120 },
 ];
 
 // Platform logo SVG paths (Simple Icons, viewBox 0 0 24 24)
@@ -89,35 +89,35 @@ const ZONE_LOGOS: Record<string, { path: string; viewBox?: string }> = {
 };
 
 const NODES = [
-  { id: 0,  x: 130, y: 100, zones: ["tiktok"],               roll: 5,  label: "FYP" },
-  { id: 1,  x: 210, y: 75,  zones: ["tiktok","twitter"],     roll: 9,  label: "Crossover" },
-  { id: 2,  x: 310, y: 95,  zones: ["twitter"],              roll: 6,  label: "Quote RT" },
-  { id: 3,  x: 155, y: 175, zones: ["tiktok","discord"],     roll: 8,  label: "Brainrot" },
-  { id: 4,  x: 265, y: 155, zones: ["tiktok","youtube"],     roll: 4,  label: "Repost" },
-  { id: 5,  x: 380, y: 70,  zones: ["twitter"],              roll: 11, label: "Main Char" },
-  { id: 6,  x: 480, y: 65,  zones: ["twitter"],              roll: 3,  label: "Ratio" },
-  { id: 7,  x: 540, y: 110, zones: ["twitter","reddit"],     roll: 9,  label: "Drama" },
-  { id: 8,  x: 430, y: 160, zones: ["twitter","youtube"],    roll: 6,  label: "Viral" },
-  { id: 9,  x: 620, y: 120, zones: ["reddit"],               roll: 5,  label: "Front Pg" },
-  { id: 10, x: 700, y: 185, zones: ["reddit"],               roll: 10, label: "Basement" },
-  { id: 11, x: 660, y: 270, zones: ["reddit","linkedin"],    roll: 8,  label: "AMA" },
-  { id: 12, x: 560, y: 245, zones: ["reddit","youtube"],     roll: 4,  label: "Reposter" },
-  { id: 13, x: 400, y: 250, zones: ["youtube"],              roll: 2,  label: "Algorithm" },
-  { id: 14, x: 490, y: 250, zones: ["youtube"],              roll: 12, label: "Clickbait" },
-  { id: 15, x: 450, y: 345, zones: ["youtube","instagram"],  roll: 9,  label: "Collab" },
-  { id: 16, x: 115, y: 295, zones: ["discord"],              roll: 5,  label: "Server" },
-  { id: 17, x: 245, y: 285, zones: ["discord","youtube"],    roll: 10, label: "Mod Fort" },
-  { id: 18, x: 155, y: 375, zones: ["discord","4chan"],      roll: 6,  label: "Bunker" },
-  { id: 19, x: 265, y: 370, zones: ["discord","instagram"],  roll: 3,  label: "E-boy" },
-  { id: 20, x: 325, y: 400, zones: ["instagram"],            roll: 11, label: "Explore" },
-  { id: 21, x: 445, y: 395, zones: ["instagram","linkedin"], roll: 8,  label: "Collab" },
-  { id: 22, x: 360, y: 470, zones: ["instagram","4chan"],    roll: 5,  label: "Cursed" },
-  { id: 23, x: 585, y: 370, zones: ["linkedin"],             roll: 6,  label: "Hustle" },
-  { id: 24, x: 690, y: 370, zones: ["linkedin"],             roll: 4,  label: "CEO" },
-  { id: 25, x: 635, y: 460, zones: ["linkedin"],             roll: 10, label: "Humble Brg" },
-  { id: 26, x: 105, y: 415, zones: ["4chan"],                roll: 9,  label: "/b/" },
-  { id: 27, x: 185, y: 480, zones: ["4chan"],                roll: 3,  label: "Anon Pit" },
-  { id: 28, x: 215, y: 450, zones: ["4chan","instagram"],    roll: 11, label: "Schizo" },
+  { id: 0,  x: 140, y: 88,  zones: ["tiktok"],               roll: 5,  label: "FYP" },
+  { id: 1,  x: 240, y: 68,  zones: ["tiktok","twitter"],     roll: 9,  label: "Crossover" },
+  { id: 2,  x: 355, y: 88,  zones: ["twitter"],              roll: 6,  label: "Quote RT" },
+  { id: 3,  x: 168, y: 195, zones: ["tiktok","discord"],     roll: 8,  label: "Brainrot" },
+  { id: 4,  x: 305, y: 178, zones: ["tiktok","youtube"],     roll: 4,  label: "Repost" },
+  { id: 5,  x: 455, y: 55,  zones: ["twitter"],              roll: 11, label: "Main Char" },
+  { id: 6,  x: 570, y: 52,  zones: ["twitter"],              roll: 3,  label: "Ratio" },
+  { id: 7,  x: 650, y: 98,  zones: ["twitter","reddit"],     roll: 9,  label: "Drama" },
+  { id: 8,  x: 520, y: 185, zones: ["twitter","youtube"],    roll: 6,  label: "Viral" },
+  { id: 9,  x: 748, y: 112, zones: ["reddit"],               roll: 5,  label: "Front Pg" },
+  { id: 10, x: 855, y: 185, zones: ["reddit"],               roll: 10, label: "Basement" },
+  { id: 11, x: 800, y: 300, zones: ["reddit","linkedin"],    roll: 8,  label: "AMA" },
+  { id: 12, x: 668, y: 275, zones: ["reddit","youtube"],     roll: 4,  label: "Reposter" },
+  { id: 13, x: 452, y: 272, zones: ["youtube"],              roll: 2,  label: "Algorithm" },
+  { id: 14, x: 580, y: 268, zones: ["youtube"],              roll: 12, label: "Clickbait" },
+  { id: 15, x: 540, y: 375, zones: ["youtube","instagram"],  roll: 9,  label: "Collab" },
+  { id: 16, x: 108, y: 315, zones: ["discord"],              roll: 5,  label: "Server" },
+  { id: 17, x: 275, y: 308, zones: ["discord","youtube"],    roll: 10, label: "Mod Fort" },
+  { id: 18, x: 165, y: 425, zones: ["discord","4chan"],      roll: 6,  label: "Bunker" },
+  { id: 19, x: 298, y: 415, zones: ["discord","instagram"],  roll: 3,  label: "E-boy" },
+  { id: 20, x: 378, y: 448, zones: ["instagram"],            roll: 11, label: "Explore" },
+  { id: 21, x: 530, y: 455, zones: ["instagram","linkedin"], roll: 8,  label: "Collab" },
+  { id: 22, x: 415, y: 535, zones: ["instagram","4chan"],    roll: 5,  label: "Cursed" },
+  { id: 23, x: 698, y: 410, zones: ["linkedin"],             roll: 6,  label: "Hustle" },
+  { id: 24, x: 832, y: 408, zones: ["linkedin"],             roll: 4,  label: "CEO" },
+  { id: 25, x: 768, y: 502, zones: ["linkedin"],             roll: 10, label: "Humble Brg" },
+  { id: 26, x: 95,  y: 472, zones: ["4chan"],                roll: 9,  label: "/b/" },
+  { id: 27, x: 192, y: 540, zones: ["4chan"],                roll: 3,  label: "Anon Pit" },
+  { id: 28, x: 265, y: 512, zones: ["4chan","instagram"],    roll: 11, label: "Schizo" },
 ];
 
 const EDGES: [number,number][] = [
@@ -382,6 +382,7 @@ export default function MemeWarsPage() {
   const [diceDisplay, setDiceDisplay] = useState(["🎲", "🎲"]);
   const [diceRolled, setDiceRolled] = useState(false);
   const [ratioNode, setRatioNode] = useState<number|null>(null);
+  const [lastRoll, setLastRoll] = useState<{ total: number; gained: string[]; isRatio: boolean } | null>(null);
   const [log, setLog] = useState(["🌐 Setup mode — drag a 🏠 Base onto any node."]);
   const [winner, setWinner] = useState<{ name: string; points: number; xp: number } | null>(null);
   const [hovNode, setHovNode] = useState<number|null>(null);
@@ -549,6 +550,7 @@ export default function MemeWarsPage() {
     setDiceRolled(true);
     if (total === 7) {
       const rn = NODES[Math.floor(Math.random()*NODES.length)].id; setRatioNode(rn);
+      setLastRoll({ total: 7, gained: [], isRatio: true });
       addLog(`☠️ THE RATIO lands on "${NODES[rn].label}"! Blocked.`); return;
     }
     addLog(`🎲 Rolled ${total}`);
@@ -560,6 +562,7 @@ export default function MemeWarsPage() {
         node.zones.forEach(zid => { const z = ZONES.find(z => z.id === zid); if (!z) return; if (isBase) { res[z.resource] = (res[z.resource]||0)+1; gained.push(RESOURCES[z.resource].emoji); } if (isHub) { res[z.resource] = (res[z.resource]||0)+2; gained.push(RESOURCES[z.resource].emoji+"×2"); } });
       });
       if (gained.length) addLog(`✨ Got: ${gained.join("  ")}`); else addLog("💨 No production this roll.");
+      setLastRoll({ total, gained, isRatio: false });
       return { ...p, resources: res };
     });
   };
@@ -579,7 +582,7 @@ export default function MemeWarsPage() {
   const reset = () => {
     setPhase("SETUP"); setSetupCount(0); setTurn(1); setWinner(null); setRatioNode(null);
     setDice([null, null]); setDiceDisplay(["🎲","🎲"]); setDiceRolled(false); setPipelineStart(null); setSelected(null); selectedRef.current = null;
-    setPlayer(initPlayer());
+    setPlayer(initPlayer()); setLastRoll(null);
     setCpuState([
       { id: 1, name: "CPU Sigma", color: T.green, emoji: "🤖", bases: [], viralHubs: [], glazers: 0, points: 0 },
       { id: 2, name: "CPU Karen", color: T.blue,  emoji: "🤡", bases: [], viralHubs: [], glazers: 0, points: 0 },
@@ -834,6 +837,47 @@ export default function MemeWarsPage() {
 
           {/* CENTRE — map + log */}
           <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+
+            {/* ROLL RESULT BANNER */}
+            <div style={{
+              minHeight: "44px", borderRadius: "14px", padding: "0 18px",
+              display: "flex", alignItems: "center", gap: "14px",
+              background: lastRoll
+                ? (lastRoll.isRatio ? "rgba(180,20,20,0.18)" : lastRoll.gained.length > 0 ? "rgba(40,180,80,0.13)" : "rgba(120,110,160,0.13)")
+                : "rgba(30,24,48,0.6)",
+              border: `1px solid ${lastRoll ? (lastRoll.isRatio ? "rgba(220,50,50,0.4)" : lastRoll.gained.length > 0 ? "rgba(50,200,100,0.35)" : "rgba(120,110,160,0.3)") : "rgba(120,110,160,0.2)"}`,
+              transition: "all 0.4s",
+            }}>
+              {!lastRoll && (
+                <span style={{ fontSize: "13px", color: T.textMut }}>🎲 Roll the dice to see your production here</span>
+              )}
+              {lastRoll && lastRoll.isRatio && (
+                <>
+                  <span style={{ fontSize: "26px", fontWeight: 900, color: "#ff4444", minWidth: "38px", textAlign: "center" }}>7</span>
+                  <div style={{ width: "1px", height: "28px", background: "rgba(255,68,68,0.3)" }}/>
+                  <span style={{ fontSize: "13px", color: "#ff6666", fontWeight: 700 }}>☠️ THE RATIO — a node got blocked!</span>
+                </>
+              )}
+              {lastRoll && !lastRoll.isRatio && (
+                <>
+                  <span style={{
+                    fontSize: "28px", fontWeight: 900, lineHeight: 1, minWidth: "38px", textAlign: "center",
+                    color: (lastRoll.total === 6 || lastRoll.total === 8) ? "#ff6b6b" : T.textPri,
+                  }}>{lastRoll.total}</span>
+                  <div style={{ width: "1px", height: "28px", background: "rgba(160,150,200,0.25)" }}/>
+                  {lastRoll.gained.length > 0 ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                      <span style={{ fontSize: "11px", color: T.textMut, fontWeight: 600, letterSpacing: "1px" }}>GAINED</span>
+                      {lastRoll.gained.map((g, i) => (
+                        <span key={i} style={{ fontSize: "16px", padding: "2px 8px", borderRadius: "8px", background: "rgba(255,255,255,0.07)", fontWeight: 700 }}>{g}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: "13px", color: T.textMut }}>💨 No bases on matching nodes — nothing produced</span>
+                  )}
+                </>
+              )}
+            </div>
 
             {/* SVG MAP */}
             <div style={{ background: "#0d0b1a", border: `1px solid rgba(160,150,200,0.25)`, borderRadius: "18px", overflow: "hidden", boxShadow: `0 0 0 1px rgba(160,150,200,0.1), inset 0 0 80px rgba(0,0,0,0.7), 0 8px 32px rgba(0,0,0,0.5)` }}>
