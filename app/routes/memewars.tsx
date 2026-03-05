@@ -26,13 +26,13 @@ const T = {
   bgCard:     "#1E1A35",
   bgCardHov:  "#2A2640",
   bgInput:    "#2A2640",
-  borderSub:  "rgba(139,126,168,0.15)",
-  borderHov:  "rgba(139,126,168,0.3)",
+  borderSub:  "rgba(139,126,168,0.18)",
+  borderHov:  "rgba(139,126,168,0.4)",
   textPri:    "#F5F5F7",
-  textSec:    "#9B95A8",
-  textMut:    "#6B6580",
+  textSec:    "#B0AAC0",
+  textMut:    "#7B7490",
   yellow:     "#F5C518",
-  pink:       "#8B7EA8",
+  pink:       "#C4A8D8",
   cyan:       "#22d3ee",
   green:      "#4ade80",
   purple:     "#A89BC0",
@@ -206,20 +206,20 @@ function initPlayer(): Player {
 const cs = (extra: React.CSSProperties = {}): React.CSSProperties => ({
   background: T.bgCard,
   border: `1px solid ${T.borderSub}`,
-  borderRadius: "14px",
-  padding: "12px",
+  borderRadius: "16px",
+  padding: "16px",
   ...extra,
 });
 
 // ── COST BADGE ───────────────────────────────────────────────
 function CostBadge({ type, resources }: { type: BuildType; resources: Resources }) {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "3px", marginTop: "5px" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginTop: "6px" }}>
       {Object.entries(BUILD_COSTS[type]).map(([k, v]) => {
         const r = RESOURCES[k as ResKey];
         const has = (resources[k as ResKey] || 0) >= v;
         return (
-          <span key={k} style={{ fontSize: "9px", padding: "1px 6px", borderRadius: "6px", background: has ? r.color + "22" : T.bgPrimary, color: has ? r.color : T.textMut, border: `1px solid ${has ? r.color + "55" : T.borderSub}`, fontWeight: 700 }}>
+          <span key={k} style={{ fontSize: "11px", padding: "2px 8px", borderRadius: "8px", background: has ? r.color + "22" : T.bgPrimary, color: has ? r.color : T.textMut, border: `1px solid ${has ? r.color + "55" : T.borderSub}`, fontWeight: 700 }}>
             {v}{r.emoji}
           </span>
         );
@@ -585,31 +585,31 @@ export default function MemeWarsPage() {
   // Sub-panels defined inside render so they close over state
   const DicePanel = ({ mobile = false }: { mobile?: boolean }) => (
     <div style={cs()}>
-      <div style={{ fontSize: "9px", letterSpacing: "3px", color: T.textMut, marginBottom: "8px", fontWeight: 700 }}>BRAINROT DICE</div>
-      <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginBottom: "10px" }}>
+      <div style={{ fontSize: "11px", letterSpacing: "3px", color: T.textMut, marginBottom: "12px", fontWeight: 700 }}>BRAINROT DICE</div>
+      <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "14px" }}>
         {diceDisplay.map((d, i) => (
-          <div key={i} style={{ width: mobile ? "52px" : "46px", height: mobile ? "52px" : "46px", background: T.bgInput, border: `2px solid ${diceRolled ? T.orange : T.borderSub}`, borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: mobile ? "24px" : "22px", boxShadow: diceRolled ? `0 0 16px ${T.orange}44` : "none", transition: "all 0.3s" }}>{d}</div>
+          <div key={i} style={{ width: "60px", height: "60px", background: T.bgInput, border: `2px solid ${diceRolled ? T.orange : T.borderSub}`, borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", boxShadow: diceRolled ? `0 0 20px ${T.orange}44` : "none", transition: "all 0.3s" }}>{d}</div>
         ))}
       </div>
-      {dice[0] && <div style={{ fontSize: mobile ? "16px" : "13px", color: (dice[0]||0)+(dice[1]||0) === 7 ? T.red : T.yellow, fontWeight: 800, textAlign: "center", marginBottom: "10px" }}>{(dice[0]||0)+(dice[1]||0) === 7 ? "☠️ THE RATIO" : `= ${(dice[0]||0)+(dice[1]||0)}`}</div>}
+      {dice[0] && <div style={{ fontSize: "20px", color: (dice[0]||0)+(dice[1]||0) === 7 ? T.red : T.yellow, fontWeight: 800, textAlign: "center", marginBottom: "14px" }}>{(dice[0]||0)+(dice[1]||0) === 7 ? "☠️ THE RATIO" : `= ${(dice[0]||0)+(dice[1]||0)}`}</div>}
       <button onClick={rollDice} disabled={diceRolled && phase === "PLAY"}
-        style={{ width: "100%", padding: mobile ? "12px" : "9px", borderRadius: "10px", border: "none", cursor: "pointer", background: diceRolled && phase === "PLAY" ? T.bgInput : `linear-gradient(135deg,${T.red},${T.orange})`, color: diceRolled && phase === "PLAY" ? T.textMut : T.textPri, fontWeight: 800, fontSize: mobile ? "14px" : "12px", transition: "all 0.2s" }}>
+        style={{ width: "100%", padding: "13px", borderRadius: "12px", border: "none", cursor: "pointer", background: diceRolled && phase === "PLAY" ? T.bgInput : `linear-gradient(135deg,${T.red},${T.orange})`, color: diceRolled && phase === "PLAY" ? T.textMut : T.textPri, fontWeight: 800, fontSize: "14px", transition: "all 0.2s" }}>
         {phase === "SETUP" ? "📍 Setup Mode" : diceRolled ? "✓ Rolled" : "🎲 Roll Dice"}
       </button>
       {phase === "PLAY" && diceRolled && <>
-        <button onClick={() => setShowTrade(true)} style={{ width: "100%", padding: mobile ? "11px" : "8px", borderRadius: "10px", border: `1px solid ${T.pink}44`, background: T.pink + "11", color: T.pink, fontWeight: 700, fontSize: mobile ? "13px" : "12px", cursor: "pointer", marginTop: "6px" }}>💱 Trade Resources</button>
-        <button onClick={endTurn} style={{ width: "100%", padding: mobile ? "12px" : "9px", borderRadius: "10px", border: "none", cursor: "pointer", background: `linear-gradient(135deg,#5865f2,${T.pink})`, color: T.textPri, fontWeight: 800, fontSize: mobile ? "14px" : "12px", marginTop: "6px" }}>End Turn →</button>
+        <button onClick={() => setShowTrade(true)} style={{ width: "100%", padding: "12px", borderRadius: "12px", border: `1px solid ${T.pink}55`, background: T.pink + "15", color: T.pink, fontWeight: 700, fontSize: "13px", cursor: "pointer", marginTop: "8px" }}>💱 Trade Resources</button>
+        <button onClick={endTurn} style={{ width: "100%", padding: "13px", borderRadius: "12px", border: "none", cursor: "pointer", background: `linear-gradient(135deg,#5865f2,${T.pink})`, color: T.textPri, fontWeight: 800, fontSize: "14px", marginTop: "8px" }}>End Turn →</button>
       </>}
     </div>
   );
 
   const BuildTray = ({ mobile = false }: { mobile?: boolean }) => (
     <div style={cs()}>
-      <div style={{ fontSize: "9px", letterSpacing: "3px", color: T.textMut, marginBottom: "6px", fontWeight: 700 }}>🏗 BUILD TRAY</div>
-      <div style={{ fontSize: "10px", color: T.textMut, marginBottom: "8px" }}>
+      <div style={{ fontSize: "11px", letterSpacing: "3px", color: T.textMut, marginBottom: "8px", fontWeight: 700 }}>🏗 BUILD TRAY</div>
+      <div style={{ fontSize: "12px", color: T.textMut, marginBottom: "12px", lineHeight: 1.4 }}>
         {selected ? `✅ "${PIECES.find(p=>p.type===selected)?.label}" selected — click a node` : "Click a piece, then click a node"}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "1fr", gap: "6px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "1fr", gap: "8px" }}>
         {PIECES.map(piece => {
           const affordable = canAffordCost(player.resources, BUILD_COSTS[piece.type]);
           const isSetupBase = phase === "SETUP" && piece.type === "BASE";
@@ -619,21 +619,21 @@ export default function MemeWarsPage() {
             <div key={piece.type}
               draggable={available} onDragStart={available ? (e) => onPieceDragStart(e, piece.type) : undefined}
               onClick={() => available && selectPiece(piece.type)}
-              style={{ padding: mobile ? "10px" : "8px 10px", borderRadius: "10px",
+              style={{ padding: "12px", borderRadius: "12px",
                 border: `${isSel ? 2 : 1}px solid ${isSel ? piece.color : available ? piece.color + "55" : T.borderSub}`,
                 background: isSel ? piece.color + "33" : available ? piece.color + "12" : T.bgPrimary,
                 cursor: available ? "pointer" : "not-allowed", opacity: available ? 1 : 0.4,
                 transition: "all 0.15s", userSelect: "none",
-                boxShadow: isSel ? `0 0 12px ${piece.color}44` : "none" }}
+                boxShadow: isSel ? `0 0 16px ${piece.color}44` : "none" }}
               onMouseEnter={e => { if (available && !isSel) (e.currentTarget as HTMLElement).style.background = piece.color + "22"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = isSel ? piece.color + "33" : available ? piece.color + "12" : T.bgPrimary; }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ fontSize: mobile ? "20px" : "18px" }}>{piece.emoji}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ fontSize: "22px" }}>{piece.emoji}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "11px", color: isSel ? piece.color : available ? piece.color : T.textMut, fontWeight: 700 }}>
+                  <div style={{ fontSize: "13px", color: isSel ? piece.color : available ? piece.color : T.textMut, fontWeight: 700 }}>
                     {isSel ? `✓ ${piece.label}` : piece.label}
                   </div>
-                  {!mobile && <div style={{ fontSize: "9px", color: T.textMut, lineHeight: "1.4", marginTop: "1px" }}>{piece.desc}</div>}
+                  <div style={{ fontSize: "11px", color: T.textMut, lineHeight: "1.4", marginTop: "2px" }}>{piece.desc}</div>
                 </div>
               </div>
               {!isSetupBase && <CostBadge type={piece.type} resources={player.resources} />}
@@ -642,14 +642,14 @@ export default function MemeWarsPage() {
         })}
       </div>
       {selected && (
-        <button onClick={() => selectPiece(selected)} style={{ width: "100%", marginTop: "6px", padding: "6px", borderRadius: "8px", background: "none", border: `1px solid ${T.borderSub}`, color: T.textMut, cursor: "pointer", fontSize: "10px" }}>
+        <button onClick={() => selectPiece(selected)} style={{ width: "100%", marginTop: "8px", padding: "8px", borderRadius: "10px", background: "none", border: `1px solid ${T.borderSub}`, color: T.textMut, cursor: "pointer", fontSize: "12px" }}>
           ✕ Cancel selection
         </button>
       )}
       {pipelineStart !== null && (
-        <div style={{ padding: "8px 10px", background: T.yellow + "11", border: `1px solid ${T.yellow}44`, borderRadius: "10px", fontSize: "10px", color: T.yellow, marginTop: "6px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ padding: "10px 12px", background: T.yellow + "11", border: `1px solid ${T.yellow}44`, borderRadius: "12px", fontSize: "12px", color: T.yellow, marginTop: "8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span>⚡ From "{NODES[pipelineStart].label}" — click connected node</span>
-          <button onClick={() => setPipelineStart(null)} style={{ background: "none", border: "none", color: T.red, cursor: "pointer", fontSize: "16px", lineHeight: "1", marginLeft: "8px" }}>✕</button>
+          <button onClick={() => setPipelineStart(null)} style={{ background: "none", border: "none", color: T.red, cursor: "pointer", fontSize: "18px", lineHeight: "1", marginLeft: "8px" }}>✕</button>
         </div>
       )}
     </div>
@@ -657,17 +657,17 @@ export default function MemeWarsPage() {
 
   const ResourcePanel = ({ mobile = false }: { mobile?: boolean }) => (
     <div style={cs()}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-        <div style={{ fontSize: "9px", letterSpacing: "3px", color: T.textMut, fontWeight: 700 }}>YOUR STASH</div>
-        {phase === "PLAY" && <button onClick={() => setShowTrade(true)} style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "6px", background: T.pink + "11", border: `1px solid ${T.pink}44`, color: T.pink, cursor: "pointer" }}>💱 trade</button>}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+        <div style={{ fontSize: "11px", letterSpacing: "3px", color: T.textMut, fontWeight: 700 }}>YOUR STASH</div>
+        {phase === "PLAY" && <button onClick={() => setShowTrade(true)} style={{ fontSize: "11px", padding: "4px 10px", borderRadius: "8px", background: T.pink + "15", border: `1px solid ${T.pink}44`, color: T.pink, cursor: "pointer" }}>💱 trade</button>}
       </div>
       {Object.entries(RESOURCES).map(([key, res]) => (
-        <div key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: mobile ? "10px 0" : "5px 0", borderBottom: `1px solid ${T.borderSub}` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: mobile ? "20px" : "14px" }}>{res.emoji}</span>
-            <span style={{ fontSize: mobile ? "13px" : "10px", color: res.color, fontWeight: 600 }}>{res.name}</span>
+        <div key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 0", borderBottom: `1px solid ${T.borderSub}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ fontSize: "20px" }}>{res.emoji}</span>
+            <span style={{ fontSize: "13px", color: res.color, fontWeight: 600 }}>{res.name}</span>
           </div>
-          <span style={{ fontSize: mobile ? "24px" : "15px", fontWeight: 800, color: (player.resources[key as ResKey] || 0) > 0 ? res.color : T.textMut }}>{player.resources[key as ResKey] || 0}</span>
+          <span style={{ fontSize: "22px", fontWeight: 800, color: (player.resources[key as ResKey] || 0) > 0 ? res.color : T.textMut }}>{player.resources[key as ResKey] || 0}</span>
         </div>
       ))}
     </div>
@@ -675,11 +675,11 @@ export default function MemeWarsPage() {
 
   const GlazerPanel = ({ mobile = false }: { mobile?: boolean }) => (
     <div style={cs()}>
-      <div style={{ fontSize: "9px", letterSpacing: "3px", color: T.textMut, marginBottom: "8px", fontWeight: 700 }}>GLAZER ARMY</div>
-      <div style={{ display: "flex", gap: mobile ? "8px" : "5px", justifyContent: "center", marginBottom: mobile ? "10px" : "7px" }}>
-        {[0,1,2].map(i => (<div key={i} style={{ width: mobile ? "56px" : "38px", height: mobile ? "56px" : "38px", borderRadius: "10px", border: `2px solid ${player.glazers > i ? T.pink : T.borderSub}`, background: player.glazers > i ? T.pink + "18" : T.bgPrimary, display: "flex", alignItems: "center", justifyContent: "center", fontSize: mobile ? "28px" : "20px", transition: "all 0.3s" }}>{player.glazers > i ? "💪" : "·"}</div>))}
+      <div style={{ fontSize: "11px", letterSpacing: "3px", color: T.textMut, marginBottom: "12px", fontWeight: 700 }}>GLAZER ARMY</div>
+      <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "12px" }}>
+        {[0,1,2].map(i => (<div key={i} style={{ width: "52px", height: "52px", borderRadius: "12px", border: `2px solid ${player.glazers > i ? T.pink : T.borderSub}`, background: player.glazers > i ? T.pink + "18" : T.bgPrimary, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "26px", transition: "all 0.3s" }}>{player.glazers > i ? "💪" : "·"}</div>))}
       </div>
-      <div style={{ fontSize: mobile ? "13px" : "10px", color: player.glazers >= 3 ? T.pink : T.textMut, textAlign: "center", fontWeight: player.glazers >= 3 ? 700 : 400 }}>
+      <div style={{ fontSize: "13px", color: player.glazers >= 3 ? T.pink : T.textMut, textAlign: "center", fontWeight: player.glazers >= 3 ? 700 : 400 }}>
         {player.glazers >= 3 ? "🏆 LARGEST ARMY +2 VP!" : `${3 - player.glazers} more → +2 VP`}
       </div>
     </div>
@@ -687,18 +687,18 @@ export default function MemeWarsPage() {
 
   const LeaguePanel = () => (
     <div style={cs()}>
-      <div style={{ fontSize: "9px", letterSpacing: "2px", color: T.textMut, marginBottom: "8px", fontWeight: 700 }}>LEAGUES</div>
+      <div style={{ fontSize: "11px", letterSpacing: "2px", color: T.textMut, marginBottom: "12px", fontWeight: 700 }}>LEAGUES</div>
       {LEAGUES.map(l => (
-        <div key={l.name} style={{ display: "flex", alignItems: "center", gap: "7px", padding: "4px 7px", borderRadius: "8px", marginBottom: "2px", background: league.name === l.name ? l.color + "22" : "transparent", border: league.name === l.name ? `1px solid ${l.color}44` : "1px solid transparent" }}>
-          <span style={{ fontSize: "12px" }}>{l.emoji}</span>
-          <span style={{ flex: 1, fontSize: "10px", color: league.name === l.name ? l.color : T.textMut, fontWeight: league.name === l.name ? 700 : 400 }}>{l.name}</span>
-          <span style={{ fontSize: "9px", color: T.textMut }}>{l.min}+</span>
+        <div key={l.name} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "6px 8px", borderRadius: "10px", marginBottom: "3px", background: league.name === l.name ? l.color + "22" : "transparent", border: league.name === l.name ? `1px solid ${l.color}44` : "1px solid transparent" }}>
+          <span style={{ fontSize: "14px" }}>{l.emoji}</span>
+          <span style={{ flex: 1, fontSize: "12px", color: league.name === l.name ? l.color : T.textMut, fontWeight: league.name === l.name ? 700 : 400 }}>{l.name}</span>
+          <span style={{ fontSize: "11px", color: T.textMut }}>{l.min}+</span>
         </div>
       ))}
-      <div style={{ marginTop: "10px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: T.textMut, marginBottom: "4px" }}><span>XP</span><span>{player.xp}/500</span></div>
-        <div style={{ background: T.bgPrimary, borderRadius: "4px", height: "5px", overflow: "hidden" }}>
-          <div style={{ width: `${Math.min(player.xp/5, 100)}%`, height: "100%", background: `linear-gradient(90deg,${T.orange},${T.yellow})`, transition: "width 0.5s", borderRadius: "4px" }} />
+      <div style={{ marginTop: "12px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: T.textMut, marginBottom: "5px" }}><span>XP</span><span>{player.xp}/500</span></div>
+        <div style={{ background: T.bgPrimary, borderRadius: "6px", height: "7px", overflow: "hidden" }}>
+          <div style={{ width: `${Math.min(player.xp/5, 100)}%`, height: "100%", background: `linear-gradient(90deg,${T.orange},${T.yellow})`, transition: "width 0.5s", borderRadius: "6px" }} />
         </div>
       </div>
     </div>
@@ -706,20 +706,20 @@ export default function MemeWarsPage() {
 
   const PortPanel = () => (
     <div style={cs()}>
-      <div style={{ fontSize: "9px", letterSpacing: "2px", color: T.textMut, marginBottom: "8px", fontWeight: 700 }}>TRADE PORTS</div>
+      <div style={{ fontSize: "11px", letterSpacing: "2px", color: T.textMut, marginBottom: "12px", fontWeight: 700 }}>TRADE PORTS</div>
       {PORTS.map(port => {
         const has = player.portAccess.includes(port.nodeId);
         return (
-          <div key={port.nodeId} style={{ display: "flex", alignItems: "center", gap: "6px", padding: "4px 6px", borderRadius: "8px", marginBottom: "3px", background: has ? T.green + "11" : "transparent", border: has ? `1px solid ${T.green}33` : "1px solid transparent" }}>
-            <span style={{ fontSize: "12px" }}>{port.emoji}</span>
+          <div key={port.nodeId} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "6px 8px", borderRadius: "10px", marginBottom: "4px", background: has ? T.green + "11" : "transparent", border: has ? `1px solid ${T.green}33` : "1px solid transparent" }}>
+            <span style={{ fontSize: "16px" }}>{port.emoji}</span>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: "10px", color: has ? T.green : T.textMut, fontWeight: has ? 700 : 400 }}>{port.label}</div>
-              <div style={{ fontSize: "9px", color: has ? T.green : T.textMut }}>{port.ratio}:1{has ? " ✓" : " locked"}</div>
+              <div style={{ fontSize: "12px", color: has ? T.green : T.textMut, fontWeight: has ? 700 : 400 }}>{port.label}</div>
+              <div style={{ fontSize: "11px", color: has ? T.green : T.textMut }}>{port.ratio}:1{has ? " ✓" : " locked"}</div>
             </div>
           </div>
         );
       })}
-      <div style={{ fontSize: "9px", color: T.textMut, marginTop: "8px", lineHeight: "1.5" }}>Build ⚡ Pipelines to port nodes to unlock better trade rates</div>
+      <div style={{ fontSize: "11px", color: T.textMut, marginTop: "10px", lineHeight: "1.5" }}>Build ⚡ Pipelines to port nodes to unlock better trade rates</div>
     </div>
   );
 
@@ -731,80 +731,89 @@ export default function MemeWarsPage() {
       <main style={{ background: T.bgPrimary, color: T.textPri, fontFamily: "'DM Sans','Outfit',sans-serif", minHeight: "100vh" }}>
         <style>{`
           *{box-sizing:border-box}
-          @media(max-width:768px){.dfb-desktop{display:none!important}}
-          @media(min-width:769px){.dfb-mobile{display:none!important}}
+          .mw-sidebar{display:flex;flex-direction:column;gap:12px;width:260px;flex-shrink:0;overflow-y:auto;max-height:calc(100vh - 120px)}
+          .mw-sidebar-right{width:220px}
+          @media(max-width:900px){.mw-sidebar,.mw-sidebar-right{display:none!important}}
+          @media(min-width:901px){.mw-mobile-tabs,.mw-mobile-panels{display:none!important}}
           button:focus-visible{outline:2px solid ${T.yellow};outline-offset:2px}
-          .dfb-tab:hover{border-color:${T.borderHov}!important;background:${T.hoodMid}!important}
+          .mw-tab:hover{border-color:${T.borderHov}!important;background:${T.hoodMid}!important}
+          ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:${T.borderSub};border-radius:4px}
         `}</style>
 
         <RulesPanel />
         {showTrade && <TradePanel player={player} onTrade={handleTrade} onClose={() => setShowTrade(false)} />}
         {tradeFlash && (
-          <div style={{ position: "fixed", top: "70px", left: "50%", transform: "translateX(-50%)", background: T.bgCard, border: `1px solid ${tradeFlash.color}`, color: tradeFlash.color, padding: "8px 22px", borderRadius: "20px", fontSize: "13px", fontWeight: 700, zIndex: 400, pointerEvents: "none", whiteSpace: "nowrap" }}>{tradeFlash.msg}</div>
+          <div style={{ position: "fixed", top: "70px", left: "50%", transform: "translateX(-50%)", background: T.bgCard, border: `1px solid ${tradeFlash.color}`, color: tradeFlash.color, padding: "10px 24px", borderRadius: "24px", fontSize: "14px", fontWeight: 700, zIndex: 400, pointerEvents: "none", whiteSpace: "nowrap" }}>{tradeFlash.msg}</div>
         )}
 
         {/* GAME HEADER */}
-        <div style={{ background: `${T.hoodDeep}cc`, borderBottom: `1px solid ${T.borderSub}`, backdropFilter: "blur(20px)", padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "center", position: "sticky", top: 0, zIndex: 100 }}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "8px", letterSpacing: "6px", color: T.textMut, marginBottom: "1px" }}>⚔ SEASON 1 · SOLO LEADERBOARD ⚔</div>
-            <h1 style={{ fontSize: "clamp(20px,4vw,30px)", fontWeight: 900, margin: 0, letterSpacing: "4px", background: `linear-gradient(90deg,${T.red},${T.orange},${T.yellow},${T.green},${T.blue},#c13584)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.1 }}>MEME WARS</h1>
-            <div style={{ fontSize: "8px", color: T.textMut, letterSpacing: "5px", marginTop: "1px" }}>SETTLE THE INTERNET</div>
+        <div style={{ background: `${T.hoodDeep}ee`, borderBottom: `1px solid ${T.borderSub}`, backdropFilter: "blur(20px)", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
+          <div>
+            <div style={{ fontSize: "10px", letterSpacing: "5px", color: T.textMut }}>⚔ SEASON 1 · SOLO</div>
+            <h1 style={{ fontSize: "clamp(18px,3.5vw,26px)", fontWeight: 900, margin: 0, letterSpacing: "4px", background: `linear-gradient(90deg,${T.red},${T.orange},${T.yellow},${T.green},${T.blue},#c13584)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.1 }}>MEME WARS</h1>
+          </div>
+          {/* Stat bar */}
+          <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "10px", color: T.textMut, letterSpacing: "1px" }}>VP</div>
+              <div style={{ fontSize: "22px", fontWeight: 900, color: T.yellow, lineHeight: 1 }}>{player.points}</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "10px", color: T.textMut, letterSpacing: "1px" }}>LEAGUE</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: league.color }}>{league.emoji} {league.name}</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "10px", color: T.textMut, letterSpacing: "1px" }}>TURN</div>
+              <div style={{ fontSize: "22px", fontWeight: 900, color: T.textSec, lineHeight: 1 }}>{turn}</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "10px", color: T.textMut, letterSpacing: "1px" }}>XP</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.purple }}>{player.xp}</div>
+            </div>
+            <button onClick={reset} style={{ fontSize: "12px", padding: "6px 14px", borderRadius: "10px", background: T.bgCard, border: `1px solid ${T.borderSub}`, color: T.textSec, cursor: "pointer", fontWeight: 600 }}>🔄 Reset</button>
           </div>
         </div>
 
-        {/* LEAGUE BAR */}
-        <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", flexWrap: "wrap", padding: "7px 16px", borderBottom: `1px solid ${T.borderSub}`, background: `${T.bgCard}88`, fontSize: "11px" }}>
-          <span>{league.emoji}</span>
-          <span style={{ color: league.color, fontWeight: 800 }}>{league.name}</span>
-          <span style={{ color: T.borderHov }}>·</span>
-          <span style={{ color: T.yellow, fontWeight: 700 }}>{player.points} VP</span>
-          {nextLeague && <><span style={{ color: T.borderHov }}>·</span><span style={{ color: T.textMut }}>{nextLeague.min - player.points} to {nextLeague.emoji}</span></>}
-          <span style={{ color: T.borderHov }}>·</span>
-          <span style={{ color: T.textMut }}>Turn {turn}</span>
-          <span style={{ color: T.borderHov }}>·</span>
-          <span style={{ color: T.purple, fontWeight: 700 }}>⚡{player.xp} XP</span>
-          <button onClick={reset} style={{ marginLeft: "auto", fontSize: "10px", padding: "3px 10px", borderRadius: "8px", background: T.bgCard, border: `1px solid ${T.borderSub}`, color: T.textSec, cursor: "pointer", fontWeight: 600 }}>🔄 Reset</button>
+        {/* SCOREBOARD */}
+        <div style={{ display: "flex", gap: "8px", padding: "10px 16px", background: `${T.bgCard}88`, borderBottom: `1px solid ${T.borderSub}`, flexWrap: "wrap" }}>
+          <div style={{ flex: "2 1 160px", background: T.red + "18", border: `2px solid ${T.red}`, borderRadius: "14px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ fontSize: "20px" }}>😤</span>
+            <div>
+              <div style={{ fontSize: "14px", color: T.red, fontWeight: 800 }}>You</div>
+              <div style={{ fontSize: "11px", color: T.textMut }}>{league.emoji}{league.name} · 🏠{player.bases.length} 🔥{player.viralHubs.length} ⚡{player.pipelines.length} 💪{player.glazers}</div>
+            </div>
+            <span style={{ marginLeft: "auto", fontSize: "24px", color: T.yellow, fontWeight: 900 }}>{player.points}<span style={{ fontSize: "13px" }}>VP</span></span>
+          </div>
+          {cpuState.map((cpu, i) => (
+            <div key={cpu.id} style={{ flex: "1 1 120px", background: cpuMeta[i].color + "11", border: `1px solid ${cpuMeta[i].color}44`, borderRadius: "14px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "18px" }}>{cpuMeta[i].emoji}</span>
+              <div>
+                <div style={{ fontSize: "13px", color: cpuMeta[i].color, fontWeight: 700 }}>{cpuMeta[i].name}</div>
+                <div style={{ fontSize: "11px", color: T.textMut }}>🏠{cpu.bases.length}</div>
+              </div>
+              <span style={{ marginLeft: "auto", fontSize: "20px", color: T.yellow, fontWeight: 800 }}>{cpu.points}<span style={{ fontSize: "12px" }}>VP</span></span>
+            </div>
+          ))}
         </div>
 
         {/* MAIN LAYOUT */}
-        <div style={{ display: "flex", gap: "10px", padding: "10px 12px", maxWidth: "1160px", margin: "0 auto", alignItems: "flex-start" }}>
+        <div style={{ display: "flex", gap: "12px", padding: "12px 16px", maxWidth: "1400px", margin: "0 auto", alignItems: "flex-start" }}>
 
-          {/* LEFT — desktop */}
-          <div className="dfb-desktop" style={{ width: "196px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* LEFT SIDEBAR — desktop only */}
+          <div className="mw-sidebar">
             <DicePanel />
             <BuildTray />
             <ResourcePanel />
             <GlazerPanel />
           </div>
 
-          {/* CENTRE */}
-          <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
-
-            {/* Scoreboard */}
-            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-              <div style={{ flex: "2 1 110px", background: T.red + "18", border: `2px solid ${T.red}`, borderRadius: "12px", padding: "8px 12px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span style={{ fontSize: "14px" }}>😤</span>
-                  <span style={{ fontSize: "12px", color: T.red, fontWeight: 800 }}>You</span>
-                  <span style={{ fontSize: "11px", color: T.yellow, marginLeft: "auto", fontWeight: 700 }}>{player.points} VP</span>
-                </div>
-                <div style={{ fontSize: "10px", color: T.textMut, marginTop: "2px" }}>{league.emoji}{league.name} · 🏠{player.bases.length} 🔥{player.viralHubs.length} ⚡{player.pipelines.length} 💪{player.glazers}</div>
-              </div>
-              {cpuState.map((cpu, i) => (
-                <div key={cpu.id} style={{ flex: "1 1 80px", background: cpuMeta[i].color + "11", border: `1px solid ${cpuMeta[i].color}44`, borderRadius: "12px", padding: "8px 10px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                    <span style={{ fontSize: "13px" }}>{cpuMeta[i].emoji}</span>
-                    <span style={{ fontSize: "10px", color: cpuMeta[i].color, fontWeight: 700 }}>{cpuMeta[i].name}</span>
-                  </div>
-                  <div style={{ fontSize: "10px", color: T.textMut }}>{cpu.points}VP · 🏠{cpu.bases.length}</div>
-                </div>
-              ))}
-            </div>
+          {/* CENTRE — map + log */}
+          <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
 
             {/* SVG MAP */}
-            <div style={{ background: T.bgPrimary, border: `1px solid ${T.borderSub}`, borderRadius: "16px", overflow: "hidden", boxShadow: `inset 0 0 60px rgba(0,0,0,0.5)` }}>
-              <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`}
-                style={{ display: "block", cursor: selected ? "crosshair" : "default" }}
+            <div style={{ background: T.bgPrimary, border: `1px solid ${T.borderSub}`, borderRadius: "18px", overflow: "hidden", boxShadow: `inset 0 0 80px rgba(0,0,0,0.6)` }}>
+              <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet"
+                style={{ display: "block", cursor: selected ? "crosshair" : "default", minHeight: "280px" }}
                 onMouseMove={onSVGMouseMove} onClick={onSVGClick}
                 onDragOver={onSVGDragOver} onDrop={onSVGDrop} onDragLeave={() => setDropTarget(null)}
                 role="application" aria-label="Meme Wars game map">
@@ -915,54 +924,54 @@ export default function MemeWarsPage() {
               </svg>
 
               {/* Zone legend */}
-              <div style={{ padding: "8px 14px", borderTop: `1px solid ${T.borderSub}`, display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center", background: T.bgPrimary }}>
+              <div style={{ padding: "10px 16px", borderTop: `1px solid ${T.borderSub}`, display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center", background: T.bgPrimary }}>
                 {ZONES.map(z => (
-                  <div key={z.id} style={{ display: "flex", alignItems: "center", gap: "3px", fontSize: "9px" }}>
+                  <div key={z.id} style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px" }}>
                     <span>{z.emoji}</span>
                     <span style={{ color: z.color }}>{z.name.split(" ")[0]}</span>
                     <span style={{ color: T.textMut }}>→</span>
                     <span style={{ color: RESOURCES[z.resource].color }}>{RESOURCES[z.resource].emoji}</span>
                   </div>
                 ))}
-                <div style={{ marginLeft: "auto", fontSize: "9px", color: T.textMut }}><span style={{ color: T.green }}>🔀</span>=port · <span style={{ color: T.yellow }}>━</span>=pipeline</div>
+                <div style={{ marginLeft: "auto", fontSize: "11px", color: T.textMut }}><span style={{ color: T.green }}>🔀</span>=port · <span style={{ color: T.yellow }}>━</span>=pipeline</div>
               </div>
             </div>
 
             {/* LOG */}
             <div ref={logRef} role="log" aria-live="polite" aria-label="Game log"
-              style={cs({ height: "80px", overflowY: "auto", fontSize: "11px", lineHeight: "1.7", padding: "8px 14px" })}>
+              style={cs({ height: "96px", overflowY: "auto", fontSize: "12px", lineHeight: "1.8", padding: "12px 16px" })}>
               {log.map((l, i) => <div key={i} style={{ color: i === log.length-1 ? T.textPri : T.textMut }}>{l}</div>)}
             </div>
 
             {/* MOBILE TABS */}
-            <div className="dfb-mobile" style={{ display: "flex", gap: "4px" }}>
+            <div className="mw-mobile-tabs" style={{ display: "flex", gap: "6px" }}>
               {(["build","resources","army","scores"] as const).map(tab => (
-                <button key={tab} className="dfb-tab" onClick={() => setMobileTab(tab)}
-                  style={{ flex: 1, padding: "8px 4px", borderRadius: "10px", border: `1px solid ${mobileTab===tab ? T.borderHov : T.borderSub}`, background: mobileTab===tab ? T.hoodLight : T.bgCard, color: mobileTab===tab ? T.textPri : T.textSec, fontWeight: mobileTab===tab ? 700 : 400, fontSize: "10px", cursor: "pointer", transition: "all 0.15s" }}>
+                <button key={tab} className="mw-tab" onClick={() => setMobileTab(tab)}
+                  style={{ flex: 1, padding: "11px 4px", borderRadius: "12px", border: `1px solid ${mobileTab===tab ? T.borderHov : T.borderSub}`, background: mobileTab===tab ? T.hoodLight : T.bgCard, color: mobileTab===tab ? T.textPri : T.textSec, fontWeight: mobileTab===tab ? 700 : 400, fontSize: "12px", cursor: "pointer", transition: "all 0.15s" }}>
                   {tab==="build" ? "🏗 Build" : tab==="resources" ? "✨ Stash" : tab==="army" ? "💪 Army" : "🏆 Scores"}
                 </button>
               ))}
             </div>
 
             {/* MOBILE CONTENT */}
-            <div className="dfb-mobile" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {mobileTab === "build"     && <><DicePanel mobile={true}/><BuildTray mobile={true}/></>}
-              {mobileTab === "resources" && <ResourcePanel mobile={true}/>}
-              {mobileTab === "army"      && <><GlazerPanel mobile={true}/><LeaguePanel/><PortPanel/></>}
+            <div className="mw-mobile-panels" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {mobileTab === "build"     && <><DicePanel /><BuildTray /></>}
+              {mobileTab === "resources" && <ResourcePanel />}
+              {mobileTab === "army"      && <><GlazerPanel /><LeaguePanel /><PortPanel /></>}
               {mobileTab === "scores"    && (
                 <div style={cs()}>
-                  <div style={{ fontSize: "11px", letterSpacing: "2px", color: T.textMut, marginBottom: "12px", fontWeight: 700 }}>SCOREBOARD</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <div style={{ background: T.red+"18", border: `2px solid ${T.red}`, borderRadius: "12px", padding: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
-                      <span style={{ fontSize: "20px" }}>😤</span>
-                      <div><div style={{ color: T.red, fontWeight: 800, fontSize: "14px" }}>You</div><div style={{ color: T.textMut, fontSize: "11px" }}>{league.emoji}{league.name}</div></div>
-                      <span style={{ marginLeft: "auto", color: T.yellow, fontWeight: 900, fontSize: "22px" }}>{player.points}VP</span>
+                  <div style={{ fontSize: "12px", letterSpacing: "2px", color: T.textMut, marginBottom: "14px", fontWeight: 700 }}>SCOREBOARD</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ background: T.red+"18", border: `2px solid ${T.red}`, borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px" }}>
+                      <span style={{ fontSize: "22px" }}>😤</span>
+                      <div><div style={{ color: T.red, fontWeight: 800, fontSize: "16px" }}>You</div><div style={{ color: T.textMut, fontSize: "12px" }}>{league.emoji}{league.name}</div></div>
+                      <span style={{ marginLeft: "auto", color: T.yellow, fontWeight: 900, fontSize: "26px" }}>{player.points}VP</span>
                     </div>
                     {cpuState.map((cpu, i) => (
-                      <div key={cpu.id} style={{ background: cpuMeta[i].color+"11", border: `1px solid ${cpuMeta[i].color}44`, borderRadius: "12px", padding: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
-                        <span style={{ fontSize: "20px" }}>{cpuMeta[i].emoji}</span>
-                        <div style={{ color: cpuMeta[i].color, fontWeight: 700, fontSize: "13px" }}>{cpuMeta[i].name}</div>
-                        <span style={{ marginLeft: "auto", color: T.yellow, fontWeight: 800, fontSize: "18px" }}>{cpu.points}VP</span>
+                      <div key={cpu.id} style={{ background: cpuMeta[i].color+"11", border: `1px solid ${cpuMeta[i].color}44`, borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px" }}>
+                        <span style={{ fontSize: "22px" }}>{cpuMeta[i].emoji}</span>
+                        <div style={{ color: cpuMeta[i].color, fontWeight: 700, fontSize: "15px" }}>{cpuMeta[i].name}</div>
+                        <span style={{ marginLeft: "auto", color: T.yellow, fontWeight: 800, fontSize: "22px" }}>{cpu.points}VP</span>
                       </div>
                     ))}
                   </div>
@@ -971,8 +980,8 @@ export default function MemeWarsPage() {
             </div>
           </div>
 
-          {/* RIGHT — desktop */}
-          <div className="dfb-desktop" style={{ width: "156px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* RIGHT SIDEBAR — desktop only */}
+          <div className="mw-sidebar mw-sidebar-right">
             <LeaguePanel />
             <PortPanel />
           </div>
@@ -982,12 +991,12 @@ export default function MemeWarsPage() {
         {winner && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999 }}
             role="dialog" aria-modal={true} aria-label="Victory screen">
-            <div style={cs({ padding: "40px 32px", textAlign: "center", maxWidth: "380px", width: "92vw", boxShadow: `0 0 100px ${T.orange}22,0 0 0 1px ${T.borderHov}` })}>
-              <div style={{ fontSize: "60px", marginBottom: "12px" }}>👑</div>
-              <h2 style={{ fontSize: "28px", fontWeight: 900, margin: "0 0 8px", letterSpacing: "2px", background: `linear-gradient(90deg,${T.red},${T.yellow})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>YOU WIN</h2>
-              <div style={{ color: T.textSec, fontSize: "13px", marginBottom: "6px" }}>{winner.points} VP · {winner.xp} XP earned</div>
-              <div style={{ color: T.orange, fontSize: "14px", marginBottom: "28px", fontWeight: 700 }}>🏆 {getLeague(winner.points).emoji} {getLeague(winner.points).name} tier reached</div>
-              <button onClick={reset} style={{ padding: "13px 36px", borderRadius: "12px", border: "none", cursor: "pointer", background: `linear-gradient(135deg,${T.red},${T.orange})`, color: T.textPri, fontWeight: 800, fontSize: "15px", boxShadow: `0 4px 30px ${T.red}44` }}>🔄 Play Again</button>
+            <div style={cs({ padding: "48px 36px", textAlign: "center", maxWidth: "400px", width: "92vw", boxShadow: `0 0 100px ${T.orange}22,0 0 0 1px ${T.borderHov}` })}>
+              <div style={{ fontSize: "64px", marginBottom: "14px" }}>👑</div>
+              <h2 style={{ fontSize: "32px", fontWeight: 900, margin: "0 0 10px", letterSpacing: "2px", background: `linear-gradient(90deg,${T.red},${T.yellow})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>YOU WIN</h2>
+              <div style={{ color: T.textSec, fontSize: "14px", marginBottom: "8px" }}>{winner.points} VP · {winner.xp} XP earned</div>
+              <div style={{ color: T.orange, fontSize: "15px", marginBottom: "30px", fontWeight: 700 }}>🏆 {getLeague(winner.points).emoji} {getLeague(winner.points).name} tier reached</div>
+              <button onClick={reset} style={{ padding: "14px 40px", borderRadius: "14px", border: "none", cursor: "pointer", background: `linear-gradient(135deg,${T.red},${T.orange})`, color: T.textPri, fontWeight: 800, fontSize: "16px", boxShadow: `0 4px 30px ${T.red}44` }}>🔄 Play Again</button>
             </div>
           </div>
         )}
