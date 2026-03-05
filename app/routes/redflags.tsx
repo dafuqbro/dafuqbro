@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
 import { toolMeta, toolJsonLd } from "~/lib/seo";
+import { Header } from "~/components/Header";
+import { Footer } from "~/components/Footer";
 
 const TOOL_SLUG = "redflags";
 const TOOL_NAME = "Rate My Red Flags Quiz — What's Your Dateability Score? | DaFuqBro";
@@ -497,14 +499,7 @@ export default function RedFlagsTool() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _jsonLd }} />
-      {/* Top bar */}
-      <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
-        <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">
-          DaFuqBro
-        </Link>
-        <span className="text-[#6B6580] text-[0.75rem]">›</span>
-        <span className="text-[#9B95A8] font-semibold text-[0.85rem]">🚨 Rate My Red Flags</span>
-      </div>
+      <Header />
 
       <div className="max-w-[640px] mx-auto px-5 py-10 pb-24 relative z-1">
         {/* ════ INTRO ════ */}
@@ -785,6 +780,7 @@ export default function RedFlagsTool() {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 }
