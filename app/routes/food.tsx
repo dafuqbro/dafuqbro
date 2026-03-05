@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
+import { Header } from "~/components/Header";
+import { Footer } from "~/components/Footer";
 
 import { toolMeta, toolJsonLd } from "~/lib/seo";
 const TOOL_SLUG = "food";
@@ -527,18 +529,7 @@ export default function FoodQuiz() {
           }}
         />
 
-        {/* Header */}
-        <header className="relative z-10 flex items-center justify-between px-5 py-4 max-w-3xl mx-auto">
-          <Link to="/" className="font-['Outfit'] font-extrabold text-[1.1rem] tracking-tight text-[#F5F5F7]">
-            DaFuqBro<span className="text-[#fbbf24]">.</span>
-          </Link>
-          <Link
-            to="/"
-            className="text-[#6B6580] text-[0.78rem] font-medium hover:text-[#9B95A8] transition-colors"
-          >
-            ← All Tools
-          </Link>
-        </header>
+        <Header />
 
         <main className="relative z-10 max-w-2xl mx-auto px-5 pb-16">
           {/* ─── INTRO ─── */}
@@ -754,6 +745,7 @@ export default function FoodQuiz() {
           )}
         </main>
       </div>
+      <Footer />
     </>
   );
 }
