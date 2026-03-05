@@ -76,6 +76,18 @@ const ZONES = [
   { id: "4chan",     name: "The Abyss",   emoji: "👁️", resource: "DEGEN" as const, color: T.green,   x: 100, y: 400, w: 130, h: 100 },
 ];
 
+// Platform logo SVG paths (Simple Icons, viewBox 0 0 24 24)
+const ZONE_LOGOS: Record<string, { path: string; viewBox?: string }> = {
+  tiktok: { path: "M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" },
+  twitter: { path: "M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" },
+  reddit: { path: "M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z" },
+  youtube: { path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
+  discord: { path: "M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" },
+  instagram: { path: "M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8504.6151 19.0872.32 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0001 8.718.0052 8.31.0206 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.059 1.6447-.072 4.8479-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1018.39 4.144a1.44 1.44 0 00-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 014.008-3.9997A3.9996 3.9996 0 0115.992 12a4 4 0 01-4.008 4.0003A3.9996 3.9996 0 018 12.0077" },
+  linkedin: { path: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" },
+  "4chan": { path: "" }, // clover rendered manually
+};
+
 const NODES = [
   { id: 0,  x: 130, y: 100, zones: ["tiktok"],               roll: 5,  label: "FYP" },
   { id: 1,  x: 210, y: 75,  zones: ["tiktok","twitter"],     roll: 9,  label: "Crossover" },
@@ -844,19 +856,50 @@ export default function MemeWarsPage() {
 
                 {/* ZONES — rich filled territories like Catan hexes */}
                 {ZONES.map(zone => {
-                  const {x,y,w,h,color} = zone, r = 24;
-                  const path = `M${x+r} ${y} Q${x+w/2} ${y-5} ${x+w-r} ${y} Q${x+w+4} ${y+h/3} ${x+w} ${y+r} Q${x+w+3} ${y+h/2} ${x+w} ${y+h-r} Q${x+w/2} ${y+h+4} ${x+r} ${y+h} Q${x-3} ${y+2*h/3} ${x} ${y+h-r} Q${x-4} ${y+h/3} ${x} ${y+r} Q${x} ${y} ${x+r} ${y} Z`;
+                  const {x,y,w,h,color,id} = zone, r = 24;
+                  const shapePath = `M${x+r} ${y} Q${x+w/2} ${y-5} ${x+w-r} ${y} Q${x+w+4} ${y+h/3} ${x+w} ${y+r} Q${x+w+3} ${y+h/2} ${x+w} ${y+h-r} Q${x+w/2} ${y+h+4} ${x+r} ${y+h} Q${x-3} ${y+2*h/3} ${x} ${y+h-r} Q${x-4} ${y+h/3} ${x} ${y+r} Q${x} ${y} ${x+r} ${y} Z`;
                   const hov = hovZone === zone.id;
+                  const res = RESOURCES[zone.resource];
+                  const logo = ZONE_LOGOS[id];
+                  // center of chip area
+                  const cx = x + w/2, chipY = y + 8;
+                  const chipW = 68, chipH = 44;
                   return (
                     <g key={zone.id} onMouseEnter={() => setHovZone(zone.id)} onMouseLeave={() => setHovZone(null)}>
-                      {/* Zone fill — much more visible like Catan tiles */}
-                      <path d={path} fill={color+"2a"} stroke={color} strokeWidth={hov?2.5:1.5} opacity={hov?1:0.85} style={{transition:"all 0.25s"}}/>
-                      {/* Inner glow on hover */}
-                      {hov && <path d={path} fill={color+"15"} stroke="none"/>}
-                      {/* Zone label chip */}
-                      <rect x={x+w/2-28} y={y+8} width={56} height={34} rx={8} fill="rgba(0,0,0,0.55)" style={{userSelect:"none"}}/>
-                      <text x={x+w/2} y={y+22} textAnchor="middle" fontSize="14" style={{userSelect:"none"}}>{zone.emoji}</text>
-                      <text x={x+w/2} y={y+35} textAnchor="middle" fontSize="7.5" fill={color} fontWeight="800" letterSpacing="0.5" style={{userSelect:"none"}}>{zone.name.toUpperCase().split(" ")[0]}</text>
+                      <path d={shapePath} fill={color+"2a"} stroke={color} strokeWidth={hov?2.5:1.5} opacity={hov?1:0.85} style={{transition:"all 0.25s"}}/>
+                      {hov && <path d={shapePath} fill={color+"15"} stroke="none"/>}
+
+                      {/* Dark chip background */}
+                      <rect x={cx - chipW/2} y={chipY} width={chipW} height={chipH} rx={9} fill="rgba(0,0,0,0.68)" style={{userSelect:"none"}}/>
+
+                      {/* Brand logo — scaled SVG path rendered via foreignObject substitute: use nested SVG */}
+                      {id !== "4chan" && logo?.path ? (
+                        <g transform={`translate(${cx - 10}, ${chipY + 4})`}>
+                          <svg viewBox="0 0 24 24" width={20} height={20} overflow="visible">
+                            <path d={logo.path} fill={color}/>
+                          </svg>
+                        </g>
+                      ) : (
+                        /* 4chan clover logo */
+                        <g transform={`translate(${cx}, ${chipY + 14})`}>
+                          <circle cx={0}  cy={-5} r={4} fill={color}/>
+                          <circle cx={0}  cy={5}  r={4} fill={color}/>
+                          <circle cx={-5} cy={0}  r={4} fill={color}/>
+                          <circle cx={5}  cy={0}  r={4} fill={color}/>
+                          <rect x={-1.5} y={5} width={3} height={5} rx={1} fill={color}/>
+                        </g>
+                      )}
+
+                      {/* Platform name */}
+                      <text x={cx} y={chipY + 30} textAnchor="middle" fontSize="7" fill={color} fontWeight="800" letterSpacing="0.8" style={{userSelect:"none"}}>
+                        {zone.name.toUpperCase().replace("X (TWITTER)","X").replace("THE ABYSS","ABYSS")}
+                      </text>
+
+                      {/* Resource output pill — bottom of zone */}
+                      <rect x={cx - 24} y={y + h - 18} width={48} height={14} rx={7} fill={res.color+"33"} stroke={res.color+"88"} strokeWidth={0.8}/>
+                      <text x={cx} y={y + h - 9} textAnchor="middle" fontSize="8" fontWeight="700" fill={res.color} style={{userSelect:"none"}}>
+                        +{res.emoji} {res.name.toUpperCase()}
+                      </text>
                     </g>
                   );
                 })}
@@ -964,7 +1007,7 @@ export default function MemeWarsPage() {
                       {isMyHub && !isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="13">🔥</text>}
                       {isMyBase && !isMyHub && !isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="11">🏠</text>}
 
-                      {/* Roll number — shown below emoji for buildings, centered for empties */}
+                      {/* Roll number — shown for empty nodes */}
                       {!isCpu && node.roll && !isRatio && !isMyHub && !isMyBase && (
                         <text x={node.x} y={node.y+1}
                           textAnchor="middle" dominantBaseline="middle"
@@ -973,6 +1016,34 @@ export default function MemeWarsPage() {
                           {node.roll}
                         </text>
                       )}
+
+                      {/* Resource output label — what this node yields, shown below token */}
+                      {!isCpu && !isRatio && !isMyBase && !isMyHub && (() => {
+                        const nodeResources = node.zones
+                          .map(zid => ZONES.find(z => z.id === zid))
+                          .filter(Boolean)
+                          .map(z => RESOURCES[z!.resource]);
+                        // deduplicate by name
+                        const unique = nodeResources.filter((r, i, arr) => arr.findIndex(x => x.name === r.name) === i);
+                        if (unique.length === 0) return null;
+                        const labelY = node.y + tokenR + 10;
+                        const totalW = unique.length === 1 ? 30 : unique.length === 2 ? 50 : 68;
+                        return (
+                          <g>
+                            <rect x={node.x - totalW/2} y={labelY - 5} width={totalW} height={11} rx={5}
+                              fill="rgba(0,0,0,0.75)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.5}/>
+                            {unique.map((res, ri) => (
+                              <text key={ri}
+                                x={unique.length === 1 ? node.x : node.x - (unique.length-1)*10 + ri*20}
+                                y={labelY + 3}
+                                textAnchor="middle" dominantBaseline="middle"
+                                fontSize="8" fontWeight="700" fill={res.color}>
+                                {res.emoji}{res.name.slice(0,3).toUpperCase()}
+                              </text>
+                            ))}
+                          </g>
+                        );
+                      })()}
                       {/* Roll number badge below building */}
                       {!isCpu && node.roll && !isRatio && (isMyHub || isMyBase) && (
                         <g>
@@ -996,11 +1067,16 @@ export default function MemeWarsPage() {
                       {/* Hover tooltip */}
                       {isHov && !isMyBase && !isMyHub && (
                         <g>
-                          <rect x={node.x+tokenR+4} y={node.y-28} width={118} height={isPort?52:44} rx={8} fill="#0d0b1a" stroke="rgba(160,150,200,0.4)" strokeWidth="1" style={{filter:"url(#mw-shadow)"}}/>
-                          <text x={node.x+tokenR+10} y={node.y-14} fontSize="10" fill="#e8e4f8" fontWeight="800">{node.label}</text>
-                          <text x={node.x+tokenR+10} y={node.y-3} fontSize="9" fill="#9890b8">Roll #{node.roll} · {node.zones.map(z => ZONES.find(zo => zo.id===z)?.emoji).join(" ")}</text>
-                          <text x={node.x+tokenR+10} y={node.y+8} fontSize="9" fill="#6860a0">{node.zones.map(z => RESOURCES[ZONES.find(zo => zo.id===z)?.resource as ResKey]?.emoji).filter(Boolean).join(" + ")}</text>
-                          {isPort && <text x={node.x+tokenR+10} y={node.y+20} fontSize="9" fill={hasPortAccess?T.green:T.yellow}>{isPort.emoji} {isPort.label}{hasPortAccess?" ✓":""}</text>}
+                          <rect x={node.x+tokenR+4} y={node.y-28} width={130} height={isPort?54:46} rx={8} fill="#0d0b1a" stroke="rgba(160,150,200,0.4)" strokeWidth="1" style={{filter:"url(#mw-shadow)"}}/>
+                          <text x={node.x+tokenR+10} y={node.y-14} fontSize="10" fill="#e8e4f8" fontWeight="800">{node.label} · Roll {node.roll}</text>
+                          <text x={node.x+tokenR+10} y={node.y-3} fontSize="8.5" fill="#9890b8">{node.zones.map(z => ZONES.find(zo => zo.id===z)?.name).join(" + ")}</text>
+                          <text x={node.x+tokenR+10} y={node.y+9} fontSize="8.5" fill="#c0b8e8">
+                            {node.zones.map(z => {
+                              const res = RESOURCES[ZONES.find(zo => zo.id===z)?.resource as ResKey];
+                              return res ? `+${res.emoji}${res.name}` : "";
+                            }).filter(Boolean).join("  ")}
+                          </text>
+                          {isPort && <text x={node.x+tokenR+10} y={node.y+22} fontSize="8.5" fill={hasPortAccess?T.green:T.yellow}>{isPort.emoji} {isPort.label}{hasPortAccess?" ✓":""}</text>}
                         </g>
                       )}
                     </g>
@@ -1012,14 +1088,24 @@ export default function MemeWarsPage() {
 
               {/* Zone legend */}
               <div style={{ padding: "10px 16px", borderTop: `1px solid ${T.borderSub}`, display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center", background: T.bgPrimary }}>
-                {ZONES.map(z => (
-                  <div key={z.id} style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px" }}>
-                    <span>{z.emoji}</span>
-                    <span style={{ color: z.color }}>{z.name.split(" ")[0]}</span>
-                    <span style={{ color: T.textMut }}>→</span>
-                    <span style={{ color: RESOURCES[z.resource].color }}>{RESOURCES[z.resource].emoji}</span>
-                  </div>
-                ))}
+                {ZONES.map(z => {
+                  const logo = ZONE_LOGOS[z.id];
+                  return (
+                    <div key={z.id} style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "11px" }}>
+                      {z.id !== "4chan" && logo?.path ? (
+                        <svg viewBox="0 0 24 24" width={13} height={13} fill={z.color}><path d={logo.path}/></svg>
+                      ) : (
+                        <svg viewBox="-10 -10 20 20" width={13} height={13} fill={z.color}>
+                          <circle cx={0} cy={-4.5} r={3.5}/><circle cx={0} cy={4.5} r={3.5}/>
+                          <circle cx={-4.5} cy={0} r={3.5}/><circle cx={4.5} cy={0} r={3.5}/>
+                        </svg>
+                      )}
+                      <span style={{ color: z.color, fontWeight: 600 }}>{z.name.replace("X (Twitter)","X")}</span>
+                      <span style={{ color: T.textMut }}>→</span>
+                      <span style={{ color: RESOURCES[z.resource].color, fontWeight: 700 }}>{RESOURCES[z.resource].emoji} {RESOURCES[z.resource].name}</span>
+                    </div>
+                  );
+                })}
                 <div style={{ marginLeft: "auto", fontSize: "11px", color: T.textMut }}><span style={{ color: T.green }}>🔀</span>=port · <span style={{ color: T.yellow }}>━</span>=pipeline</div>
               </div>
             </div>
