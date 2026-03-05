@@ -811,7 +811,7 @@ export default function MemeWarsPage() {
           <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
 
             {/* SVG MAP */}
-            <div style={{ background: T.bgPrimary, border: `1px solid ${T.borderSub}`, borderRadius: "18px", overflow: "hidden", boxShadow: `inset 0 0 80px rgba(0,0,0,0.6)` }}>
+            <div style={{ background: "#0d0b1a", border: `1px solid rgba(160,150,200,0.25)`, borderRadius: "18px", overflow: "hidden", boxShadow: `0 0 0 1px rgba(160,150,200,0.1), inset 0 0 80px rgba(0,0,0,0.7), 0 8px 32px rgba(0,0,0,0.5)` }}>
               <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet"
                 style={{ display: "block", cursor: selected ? "crosshair" : "default", minHeight: "280px" }}
                 onMouseMove={onSVGMouseMove} onClick={onSVGClick}
@@ -819,47 +819,75 @@ export default function MemeWarsPage() {
                 role="application" aria-label="Meme Wars game map">
                 <defs>
                   <filter id="mw-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="mw-glowS"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="mw-glowS"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                  <filter id="mw-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.5)"/>
+                  </filter>
                 </defs>
 
-                {Array.from({length:18},(_,i) => <line key={`h${i}`} x1="0" y1={i*30} x2={W} y2={i*30} stroke="rgba(139,126,168,0.07)" strokeWidth="0.5"/>)}
-                {Array.from({length:26},(_,i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2={H} stroke="rgba(139,126,168,0.07)" strokeWidth="0.5"/>)}
+                {/* Subtle grid */}
+                {Array.from({length:18},(_,i) => <line key={`h${i}`} x1="0" y1={i*30} x2={W} y2={i*30} stroke="rgba(139,126,168,0.05)" strokeWidth="0.5"/>)}
+                {Array.from({length:26},(_,i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2={H} stroke="rgba(139,126,168,0.05)" strokeWidth="0.5"/>)}
 
+                {/* ZONES — rich filled territories like Catan hexes */}
                 {ZONES.map(zone => {
                   const {x,y,w,h,color} = zone, r = 24;
                   const path = `M${x+r} ${y} Q${x+w/2} ${y-5} ${x+w-r} ${y} Q${x+w+4} ${y+h/3} ${x+w} ${y+r} Q${x+w+3} ${y+h/2} ${x+w} ${y+h-r} Q${x+w/2} ${y+h+4} ${x+r} ${y+h} Q${x-3} ${y+2*h/3} ${x} ${y+h-r} Q${x-4} ${y+h/3} ${x} ${y+r} Q${x} ${y} ${x+r} ${y} Z`;
                   const hov = hovZone === zone.id;
                   return (
                     <g key={zone.id} onMouseEnter={() => setHovZone(zone.id)} onMouseLeave={() => setHovZone(null)}>
-                      <path d={path} fill={color+"0d"} stroke={color} strokeWidth={hov?2:0.9} opacity={hov?1:0.7} style={{transition:"all 0.3s"}}/>
-                      <text x={x+w/2} y={y+20} textAnchor="middle" fontSize="13" style={{userSelect:"none"}}>{zone.emoji}</text>
-                      <text x={x+w/2} y={y+33} textAnchor="middle" fontSize="8" fill={color} fontWeight="bold" style={{userSelect:"none"}}>{zone.name}</text>
-                      <text x={x+w/2} y={y+44} textAnchor="middle" fontSize="7" fill={RESOURCES[zone.resource].color} opacity="0.7" style={{userSelect:"none"}}>→{RESOURCES[zone.resource].emoji}</text>
+                      {/* Zone fill — much more visible like Catan tiles */}
+                      <path d={path} fill={color+"2a"} stroke={color} strokeWidth={hov?2.5:1.5} opacity={hov?1:0.85} style={{transition:"all 0.25s"}}/>
+                      {/* Inner glow on hover */}
+                      {hov && <path d={path} fill={color+"15"} stroke="none"/>}
+                      {/* Zone label chip */}
+                      <rect x={x+w/2-28} y={y+8} width={56} height={34} rx={8} fill="rgba(0,0,0,0.55)" style={{userSelect:"none"}}/>
+                      <text x={x+w/2} y={y+22} textAnchor="middle" fontSize="14" style={{userSelect:"none"}}>{zone.emoji}</text>
+                      <text x={x+w/2} y={y+35} textAnchor="middle" fontSize="7.5" fill={color} fontWeight="800" letterSpacing="0.5" style={{userSelect:"none"}}>{zone.name.toUpperCase().split(" ")[0]}</text>
                     </g>
                   );
                 })}
 
+                {/* EDGES — roads on the board */}
                 {EDGES.map(([a,b], i) => {
                   const na = NODES[a], nb = NODES[b]; if (!na||!nb) return null;
                   const built = player.pipelines.some(([x,y]) => (x===a&&y===b)||(x===b&&y===a));
-                  return <line key={i} x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} stroke={built?T.yellow:"rgba(139,126,168,0.2)"} strokeWidth={built?2.5:1} strokeDasharray={built?"none":"5 5"} opacity={built?0.9:1} style={{filter:built?"url(#mw-glow)":"none"}}/>;
+                  return <line key={i} x1={na.x} y1={na.y} x2={nb.x} y2={nb.y}
+                    stroke={built?T.yellow:"rgba(180,170,210,0.3)"}
+                    strokeWidth={built?3:1.5}
+                    strokeDasharray={built?"none":"6 4"}
+                    opacity={built?1:1}
+                    style={{filter:built?"url(#mw-glow)":"none"}}/>;
                 })}
 
+                {/* PIPELINE PREVIEW */}
                 {pipelineStart !== null && EDGES.filter(([a,b]) => a===pipelineStart||b===pipelineStart).map(([a,b], i) => {
                   const other = a===pipelineStart ? b : a;
                   const na = NODES[pipelineStart], nb = NODES[other];
-                  return <line key={`ps${i}`} x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} stroke={T.yellow} strokeWidth="2.5" strokeDasharray="4 3" opacity="0.8"/>;
+                  return <line key={`ps${i}`} x1={na.x} y1={na.y} x2={nb.x} y2={nb.y} stroke={T.yellow} strokeWidth="3" strokeDasharray="4 3" opacity="0.9" style={{filter:"url(#mw-glow)"}}/>;
                 })}
 
+                {/* PORT INDICATORS */}
                 {PORTS.map(port => { const n = NODES[port.nodeId]; if (!n) return null; const has = player.portAccess.includes(port.nodeId); return (
                   <g key={`port${port.nodeId}`}>
-                    <circle cx={n.x-13} cy={n.y-13} r={8} fill={has?T.green+"22":T.bgCard} stroke={has?T.green:T.borderHov} strokeWidth={has?1.5:1}/>
-                    <text x={n.x-13} y={n.y-13} textAnchor="middle" dominantBaseline="middle" fontSize="7">{port.emoji}</text>
+                    <circle cx={n.x-14} cy={n.y-14} r={9} fill={has?"#0a2a14":T.bgCard} stroke={has?T.green:"rgba(180,170,210,0.4)"} strokeWidth={has?2:1}/>
+                    <text x={n.x-14} y={n.y-14} textAnchor="middle" dominantBaseline="middle" fontSize="8">{port.emoji}</text>
                   </g>
                 );})}
 
-                {cpuState.flatMap((cpu, ci) => [...cpu.bases.map(id => ({id,ci,emoji:"🏠"})), ...cpu.viralHubs.map(id => ({id,ci,emoji:"🔥"}))]).map(({id,emoji}) => { const n = NODES[id]; if (!n) return null; return <text key={`cpu${id}${emoji}`} x={n.x-7} y={n.y+5} fontSize="14" style={{userSelect:"none"}} opacity="0.8">{emoji}</text>; })}
+                {/* CPU BUILDINGS */}
+                {cpuState.flatMap((cpu, ci) => [...cpu.bases.map(id => ({id,ci,type:"base"})), ...cpu.viralHubs.map(id => ({id,ci,type:"hub"}))]).map(({id,ci,type}) => {
+                  const n = NODES[id]; if (!n) return null;
+                  const meta = cpuMeta[ci];
+                  return (
+                    <g key={`cpu${id}`}>
+                      <circle cx={n.x} cy={n.y} r={type==="hub"?14:11} fill={meta.color+"22"} stroke={meta.color} strokeWidth="2"/>
+                      <text x={n.x} y={n.y} textAnchor="middle" dominantBaseline="middle" fontSize={type==="hub"?"13":"11"}>{type==="hub"?"🔥":"🏠"}</text>
+                    </g>
+                  );
+                })}
 
+                {/* NODES — Catan-style number tokens */}
                 {NODES.map(node => {
                   const isMyBase = player.bases.includes(node.id);
                   const isMyHub  = player.viralHubs.includes(node.id);
@@ -871,56 +899,103 @@ export default function MemeWarsPage() {
                   const isPipeDest = pipelineStart !== null && EDGES.some(([a,b]) => (a===pipelineStart&&b===node.id)||(b===pipelineStart&&a===node.id));
                   const isPort = PORTS.find(p => p.nodeId === node.id);
                   const hasPortAccess = !!(isPort && player.portAccess.includes(node.id));
+                  const isHotRoll = node.roll === 6 || node.roll === 8;
 
-                  const r      = isMyHub ? 13 : isMyBase||isCpu ? 10 : isTarget ? 9 : 6;
-                  const fill   = isRatio ? "#2d0000" : isMyHub ? T.orange+"44" : isMyBase ? T.red+"44" : isCpu ? T.hoodMid : isTarget ? T.green+"22" : T.bgCard;
-                  const stroke = isRatio ? T.red : isPipeS ? T.yellow : isPipeDest ? T.yellow+"99" : isTarget ? T.green : isMyHub ? T.orange : isMyBase ? T.red : isCpu ? "#3A3555" : isHov ? T.borderHov : "rgba(139,126,168,0.25)";
-                  const sw     = isMyBase||isMyHub||isTarget||isPipeS ? 2.5 : 1;
+                  // Catan-style: bigger tokens for placed buildings
+                  const tokenR  = isMyHub ? 15 : isMyBase ? 13 : isCpu ? 0 : isTarget ? 12 : 10;
+                  const dotR    = isMyHub ? 5 : isMyBase ? 4 : 3; // dot indicator radius
+
+                  // Token background — cream/white like real Catan tokens
+                  const tokenFill = isRatio ? "#3a0808"
+                    : isMyHub  ? T.orange
+                    : isMyBase ? T.red
+                    : isPipeS  ? T.yellow+"33"
+                    : isTarget ? "#0a3020"
+                    : "#1c1830"; // dark indigo for unoccupied
+
+                  const tokenStroke = isRatio ? T.red
+                    : isPipeS  ? T.yellow
+                    : isPipeDest ? T.yellow
+                    : isTarget ? T.green
+                    : isMyHub  ? T.orange
+                    : isMyBase ? T.red
+                    : isHov    ? "rgba(200,190,230,0.8)"
+                    : "rgba(160,150,200,0.5)";
+                  const strokeW = isMyBase||isMyHub||isTarget||isPipeS||isPipeDest ? 2.5 : 1.5;
 
                   return (
                     <g key={node.id}
                       onMouseEnter={() => setHovNode(node.id)} onMouseLeave={() => setHovNode(null)}
                       onClick={(e) => {
-                        if (isPipeDest) {
-                          e.stopPropagation();
-                          handleBuild("PIPELINE", node.id);
-                        } else if (selected) {
-                          // let onSVGClick handle it
-                        } else if (isMyBase && !isMyHub) {
-                          addLog(`💡 Select 🔥 Viral Hub from the tray to upgrade "${node.label}".`);
-                        }
+                        if (isPipeDest) { e.stopPropagation(); handleBuild("PIPELINE", node.id); }
+                        else if (selected) { /* onSVGClick handles */ }
+                        else if (isMyBase && !isMyHub) { addLog(`💡 Select 🔥 Viral Hub from the tray to upgrade "${node.label}".`); }
                       }}
-                      style={{ cursor: (isPipeDest||isMyBase) ? "pointer" : "default" }}
+                      style={{ cursor: (isPipeDest||isMyBase||isTarget||selected) ? "pointer" : "default" }}
                       role="button" aria-label={`${node.label}, roll ${node.roll}`}>
-                      {(isMyBase||isMyHub) && <circle cx={node.x} cy={node.y} r={r+8} fill={T.red} opacity="0.07"/>}
-                      {isTarget && <circle cx={node.x} cy={node.y} r={r+10} fill={T.green} opacity="0.1"/>}
-                      {hasPortAccess && <circle cx={node.x} cy={node.y} r={r+6} fill="none" stroke={T.green} strokeWidth="1" strokeDasharray="3 2" opacity="0.5"/>}
-                      <circle cx={node.x} cy={node.y} r={r} fill={fill} stroke={stroke} strokeWidth={sw} style={{transition:"all 0.15s",filter:isMyHub?"url(#mw-glowS)":"none"}}/>
-                      {isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="10">☠️</text>}
-                      {isMyHub && !isRatio && <text x={node.x} y={node.y-3} textAnchor="middle" dominantBaseline="middle" fontSize="12">🔥</text>}
-                      {isMyBase && !isMyHub && !isRatio && <text x={node.x} y={node.y-3} textAnchor="middle" dominantBaseline="middle" fontSize="10">🏠</text>}
-                      {node.roll && !isRatio && (
-                        <text x={node.x} y={(isMyBase||isMyHub||isCpu) ? node.y+10 : node.y}
+
+                      {/* Pulse ring for targets */}
+                      {isTarget && <circle cx={node.x} cy={node.y} r={tokenR+7} fill="none" stroke={T.green} strokeWidth="1.5" opacity="0.5" strokeDasharray="3 3"/>}
+                      {isPipeS && <circle cx={node.x} cy={node.y} r={tokenR+7} fill="none" stroke={T.yellow} strokeWidth="1.5" opacity="0.6" strokeDasharray="3 3"/>}
+                      {hasPortAccess && <circle cx={node.x} cy={node.y} r={tokenR+5} fill="none" stroke={T.green} strokeWidth="1" strokeDasharray="3 2" opacity="0.4"/>}
+
+                      {/* Main token — skip for CPU (they render above) */}
+                      {!isCpu && (
+                        <circle cx={node.x} cy={node.y} r={tokenR} fill={tokenFill} stroke={tokenStroke} strokeWidth={strokeW}
+                          style={{transition:"all 0.15s", filter:isMyHub?"url(#mw-glowS)":isHov?"url(#mw-shadow)":"none"}}/>
+                      )}
+
+                      {/* Ratio skull */}
+                      {isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="11">☠️</text>}
+
+                      {/* Building emoji — centered in token */}
+                      {isMyHub && !isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="13">🔥</text>}
+                      {isMyBase && !isMyHub && !isRatio && <text x={node.x} y={node.y} textAnchor="middle" dominantBaseline="middle" fontSize="11">🏠</text>}
+
+                      {/* Roll number — shown below emoji for buildings, centered for empties */}
+                      {!isCpu && node.roll && !isRatio && !isMyHub && !isMyBase && (
+                        <text x={node.x} y={node.y+1}
                           textAnchor="middle" dominantBaseline="middle"
-                          fontSize="10" fontWeight="bold"
-                          fill={node.roll===6||node.roll===8 ? T.red : (isMyBase||isMyHub||isCpu) ? T.textPri : T.textSec}>
+                          fontSize={isHotRoll?"12":"11"} fontWeight="900"
+                          fill={isHotRoll ? "#ff6b6b" : "#c8c0e0"}>
                           {node.roll}
                         </text>
                       )}
-                      {isHov && (
+                      {/* Roll number badge below building */}
+                      {!isCpu && node.roll && !isRatio && (isMyHub || isMyBase) && (
                         <g>
-                          <rect x={node.x+14} y={node.y-38} width={112} height={isPort?50:42} rx={7} fill={T.bgCard} stroke={T.borderHov} strokeWidth="1"/>
-                          <text x={node.x+19} y={node.y-22} fontSize="9" fill={T.textPri} fontWeight="bold">{node.label}</text>
-                          <text x={node.x+19} y={node.y-11} fontSize="8" fill={T.textSec}>Roll #{node.roll} · {node.zones.map(z => ZONES.find(zo => zo.id===z)?.emoji).join("")}</text>
-                          <text x={node.x+19} y={node.y-1}  fontSize="8" fill={T.textMut}>{node.zones.map(z => RESOURCES[ZONES.find(zo => zo.id===z)?.resource as ResKey]?.emoji).filter(Boolean).join("+")}</text>
-                          {isPort && <text x={node.x+19} y={node.y+10} fontSize="8" fill={hasPortAccess?T.green:T.yellow}>{isPort.emoji} {isPort.label}{hasPortAccess?" ✓":""}</text>}
+                          <circle cx={node.x} cy={node.y+tokenR+7} r={6} fill="#0d0b1a" stroke={isHotRoll?"#ff6b6b":"rgba(160,150,200,0.5)"} strokeWidth="1"/>
+                          <text x={node.x} y={node.y+tokenR+7} textAnchor="middle" dominantBaseline="middle" fontSize="7" fontWeight="900" fill={isHotRoll?"#ff6b6b":"#c8c0e0"}>{node.roll}</text>
+                        </g>
+                      )}
+
+                      {/* Probability dots like Catan (more dots = higher probability) */}
+                      {!isCpu && !isMyBase && !isMyHub && !isRatio && (() => {
+                        const dots = node.roll <= 7 ? node.roll - 1 : 13 - node.roll; // 1-6 for 2-12
+                        const dotCount = Math.min(dots, 5);
+                        const spacing = 3.5;
+                        const startX = node.x - (dotCount-1)*spacing/2;
+                        return Array.from({length:dotCount},(_,di) => (
+                          <circle key={di} cx={startX + di*spacing} cy={node.y + tokenR - 3} r={1.2}
+                            fill={isHotRoll?"#ff6b6b":"rgba(180,170,210,0.7)"}/>
+                        ));
+                      })()}
+
+                      {/* Hover tooltip */}
+                      {isHov && !isMyBase && !isMyHub && (
+                        <g>
+                          <rect x={node.x+tokenR+4} y={node.y-28} width={118} height={isPort?52:44} rx={8} fill="#0d0b1a" stroke="rgba(160,150,200,0.4)" strokeWidth="1" style={{filter:"url(#mw-shadow)"}}/>
+                          <text x={node.x+tokenR+10} y={node.y-14} fontSize="10" fill="#e8e4f8" fontWeight="800">{node.label}</text>
+                          <text x={node.x+tokenR+10} y={node.y-3} fontSize="9" fill="#9890b8">Roll #{node.roll} · {node.zones.map(z => ZONES.find(zo => zo.id===z)?.emoji).join(" ")}</text>
+                          <text x={node.x+tokenR+10} y={node.y+8} fontSize="9" fill="#6860a0">{node.zones.map(z => RESOURCES[ZONES.find(zo => zo.id===z)?.resource as ResKey]?.emoji).filter(Boolean).join(" + ")}</text>
+                          {isPort && <text x={node.x+tokenR+10} y={node.y+20} fontSize="9" fill={hasPortAccess?T.green:T.yellow}>{isPort.emoji} {isPort.label}{hasPortAccess?" ✓":""}</text>}
                         </g>
                       )}
                     </g>
                   );
                 })}
 
-                {dragging && dropTarget !== null && (() => { const n = NODES[dropTarget]; if (!n) return null; const p = PIECES.find(p => p.type===dragging.type); return <text x={n.x} y={n.y-18} textAnchor="middle" fontSize="20" opacity="0.7">{p?.emoji}</text>; })()}
+                {dragging && dropTarget !== null && (() => { const n = NODES[dropTarget]; if (!n) return null; const p = PIECES.find(p => p.type===dragging.type); return <text x={n.x} y={n.y-22} textAnchor="middle" fontSize="22" opacity="0.85">{p?.emoji}</text>; })()}
               </svg>
 
               {/* Zone legend */}
