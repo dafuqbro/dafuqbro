@@ -815,9 +815,9 @@ export default function MemeWarsPage() {
           {/* LEFT SIDEBAR — desktop only */}
           <div className="mw-sidebar">
             <DicePanel />
-            <BuildTray />
             <ResourcePanel />
             <GlazerPanel />
+            <LeaguePanel />
           </div>
 
           {/* CENTRE — map + log */}
@@ -1069,7 +1069,7 @@ export default function MemeWarsPage() {
 
           {/* RIGHT SIDEBAR — desktop only */}
           <div className="mw-sidebar mw-sidebar-right">
-            <LeaguePanel />
+            <BuildTray />
             <PortPanel />
           </div>
         </div>
