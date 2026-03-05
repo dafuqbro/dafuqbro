@@ -776,13 +776,26 @@ export default function MemeWarsPage() {
 
         {/* SCOREBOARD */}
         <div style={{ display: "flex", gap: "8px", padding: "10px 16px", background: `${T.bgCard}88`, borderBottom: `1px solid ${T.borderSub}`, flexWrap: "wrap" }}>
-          <div style={{ flex: "2 1 160px", background: T.red + "18", border: `2px solid ${T.red}`, borderRadius: "14px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* Player card — includes resource stash */}
+          <div style={{ flex: "3 1 220px", background: T.red + "18", border: `2px solid ${T.red}`, borderRadius: "14px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
             <span style={{ fontSize: "20px" }}>😤</span>
-            <div>
+            <div style={{ minWidth: "80px" }}>
               <div style={{ fontSize: "14px", color: T.red, fontWeight: 800 }}>You</div>
               <div style={{ fontSize: "11px", color: T.textMut }}>{league.emoji}{league.name} · 🏠{player.bases.length} 🔥{player.viralHubs.length} ⚡{player.pipelines.length} 💪{player.glazers}</div>
             </div>
-            <span style={{ marginLeft: "auto", fontSize: "24px", color: T.yellow, fontWeight: 900 }}>{player.points}<span style={{ fontSize: "13px" }}>VP</span></span>
+            {/* Resource chips — inline stash */}
+            <div style={{ display: "flex", gap: "5px", flexWrap: "wrap", flex: 1 }}>
+              {Object.entries(RESOURCES).map(([key, res]) => {
+                const amt = player.resources[key as ResKey] || 0;
+                return (
+                  <div key={key} style={{ display: "flex", alignItems: "center", gap: "3px", padding: "4px 8px", borderRadius: "20px", background: amt > 0 ? res.color + "22" : "rgba(255,255,255,0.04)", border: `1px solid ${amt > 0 ? res.color + "55" : "rgba(255,255,255,0.08)"}`, transition: "all 0.2s" }}>
+                    <span style={{ fontSize: "13px" }}>{res.emoji}</span>
+                    <span style={{ fontSize: "14px", fontWeight: 800, color: amt > 0 ? res.color : T.textMut, minWidth: "10px", textAlign: "center" }}>{amt}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <span style={{ fontSize: "24px", color: T.yellow, fontWeight: 900, whiteSpace: "nowrap" }}>{player.points}<span style={{ fontSize: "13px" }}>VP</span></span>
           </div>
           {cpuState.map((cpu, i) => (
             <div key={cpu.id} style={{ flex: "1 1 120px", background: cpuMeta[i].color + "11", border: `1px solid ${cpuMeta[i].color}44`, borderRadius: "14px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px" }}>
@@ -902,16 +915,15 @@ export default function MemeWarsPage() {
                   const isHotRoll = node.roll === 6 || node.roll === 8;
 
                   // Catan-style: bigger tokens for placed buildings
-                  const tokenR  = isMyHub ? 15 : isMyBase ? 13 : isCpu ? 0 : isTarget ? 12 : 10;
-                  const dotR    = isMyHub ? 5 : isMyBase ? 4 : 3; // dot indicator radius
+                  const tokenR  = isMyHub ? 17 : isMyBase ? 15 : isCpu ? 0 : isTarget ? 14 : 13;
 
-                  // Token background — cream/white like real Catan tokens
+                  // Token background — cream/light like real Catan tokens
                   const tokenFill = isRatio ? "#3a0808"
                     : isMyHub  ? T.orange
                     : isMyBase ? T.red
                     : isPipeS  ? T.yellow+"33"
                     : isTarget ? "#0a3020"
-                    : "#1c1830"; // dark indigo for unoccupied
+                    : "#2e2850"; // lighter indigo — much more visible
 
                   const tokenStroke = isRatio ? T.red
                     : isPipeS  ? T.yellow
@@ -919,9 +931,9 @@ export default function MemeWarsPage() {
                     : isTarget ? T.green
                     : isMyHub  ? T.orange
                     : isMyBase ? T.red
-                    : isHov    ? "rgba(200,190,230,0.8)"
-                    : "rgba(160,150,200,0.5)";
-                  const strokeW = isMyBase||isMyHub||isTarget||isPipeS||isPipeDest ? 2.5 : 1.5;
+                    : isHov    ? "rgba(220,210,255,0.9)"
+                    : "rgba(180,170,220,0.65)";
+                  const strokeW = isMyBase||isMyHub||isTarget||isPipeS||isPipeDest ? 2.5 : 2;
 
                   return (
                     <g key={node.id}
@@ -956,28 +968,28 @@ export default function MemeWarsPage() {
                       {!isCpu && node.roll && !isRatio && !isMyHub && !isMyBase && (
                         <text x={node.x} y={node.y+1}
                           textAnchor="middle" dominantBaseline="middle"
-                          fontSize={isHotRoll?"12":"11"} fontWeight="900"
-                          fill={isHotRoll ? "#ff6b6b" : "#c8c0e0"}>
+                          fontSize={isHotRoll?"14":"13"} fontWeight="900"
+                          fill={isHotRoll ? "#ff6b6b" : "#e8e0ff"}>
                           {node.roll}
                         </text>
                       )}
                       {/* Roll number badge below building */}
                       {!isCpu && node.roll && !isRatio && (isMyHub || isMyBase) && (
                         <g>
-                          <circle cx={node.x} cy={node.y+tokenR+7} r={6} fill="#0d0b1a" stroke={isHotRoll?"#ff6b6b":"rgba(160,150,200,0.5)"} strokeWidth="1"/>
-                          <text x={node.x} y={node.y+tokenR+7} textAnchor="middle" dominantBaseline="middle" fontSize="7" fontWeight="900" fill={isHotRoll?"#ff6b6b":"#c8c0e0"}>{node.roll}</text>
+                          <circle cx={node.x} cy={node.y+tokenR+8} r={8} fill="#1a1530" stroke={isHotRoll?"#ff6b6b":"rgba(200,190,230,0.6)"} strokeWidth="1.5"/>
+                          <text x={node.x} y={node.y+tokenR+8} textAnchor="middle" dominantBaseline="middle" fontSize="9" fontWeight="900" fill={isHotRoll?"#ff6b6b":"#e8e0ff"}>{node.roll}</text>
                         </g>
                       )}
 
                       {/* Probability dots like Catan (more dots = higher probability) */}
                       {!isCpu && !isMyBase && !isMyHub && !isRatio && (() => {
-                        const dots = node.roll <= 7 ? node.roll - 1 : 13 - node.roll; // 1-6 for 2-12
+                        const dots = node.roll <= 7 ? node.roll - 1 : 13 - node.roll;
                         const dotCount = Math.min(dots, 5);
-                        const spacing = 3.5;
+                        const spacing = 4;
                         const startX = node.x - (dotCount-1)*spacing/2;
                         return Array.from({length:dotCount},(_,di) => (
-                          <circle key={di} cx={startX + di*spacing} cy={node.y + tokenR - 3} r={1.2}
-                            fill={isHotRoll?"#ff6b6b":"rgba(180,170,210,0.7)"}/>
+                          <circle key={di} cx={startX + di*spacing} cy={node.y + tokenR - 4} r={1.6}
+                            fill={isHotRoll?"#ff6b6b":"rgba(220,210,255,0.8)"}/>
                         ));
                       })()}
 
