@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router";
 import type { MetaFunction } from "react-router";
 import { ShareButtons } from "~/components/ShareButtons";
+import { Header } from "~/components/Header";
+import { Footer } from "~/components/Footer";
 
 import { toolMeta, toolJsonLd } from "~/lib/seo";
 const TOOL_SLUG = "roast";
@@ -314,11 +316,7 @@ export default function RoastTool() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: _roastJsonLd }} />
-      <div className="py-4 px-5 flex items-center gap-3 border-b border-[#3A3555]/50 relative z-10">
-        <Link to="/" className="text-[#6B6580] text-[0.85rem] hover:text-[#F5F5F7] transition-colors">DaFuqBro</Link>
-        <span className="text-[#6B6580] text-[0.75rem]">›</span>
-        <span className="text-[#9B95A8] font-semibold text-[0.85rem]">🔥 Roast My Year</span>
-      </div>
+      <Header />
 
       <div className="max-w-[640px] mx-auto px-5 py-10 pb-24 relative z-1">
 
@@ -480,6 +478,7 @@ export default function RoastTool() {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 }
